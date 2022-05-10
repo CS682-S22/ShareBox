@@ -10,10 +10,11 @@ import models.Torrent;
 public class Codec {
     private static Bencode bencode = new Bencode();
 
-    public static void encode(Torrent torrent) {
-
+    public static byte[] encode(Torrent torrent) {
+        return bencode.encode(torrent);
     }
 
-    public static void decode(byte[] encoded) {
+    public static Torrent decode(byte[] encoded) {
+        return bencode.decode(encoded, null);
     }
 }
