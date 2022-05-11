@@ -6,6 +6,9 @@ import java.net.Socket;
 public class Helper {
 
     public static String getIpFromSocket(Socket socket) {
-        return (((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
+        return (((InetSocketAddress) socket.getRemoteSocketAddress())
+                .getAddress())
+                .toString()
+                .replace("/", "");
     }
 }
