@@ -1,17 +1,20 @@
 package utils;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 public class Node {
     private final String hostname;
     private final String ip;
     private final int port;
+    protected ServerSocket serverSocket;
     private Thread serverThread;
-    private boolean isServerRunning;
+    protected boolean isServerRunning;
 
     public Node(String hostname, String ip, int port) {
         this.hostname = hostname;
         this.ip = ip;
         this.port = port;
-        this.isServerRunning = false;
     }
 
     public String getHostname() {
@@ -26,8 +29,10 @@ public class Node {
         return port;
     }
 
-    protected void initializeServer(Runnable serverObj) {
-        this.serverThread = new Thread (serverObj);
+    protected void initializeServer(Runnable serverObj) throws IOException {
+        this.serverSocket = new ServerSocket(this.port);
+        this.isServerRunning = false;
+        this.serverThread = new Thread (serverObj, "Server");
     }
 
     public void startServer() {
