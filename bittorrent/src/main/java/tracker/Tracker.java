@@ -20,7 +20,6 @@ public class Tracker extends Node {
     }
 
     private class TrackerServer implements Runnable {
-        
         private final ExecutorService connectionPool;
 
         public TrackerServer() {
@@ -38,7 +37,6 @@ public class Tracker extends Node {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }
