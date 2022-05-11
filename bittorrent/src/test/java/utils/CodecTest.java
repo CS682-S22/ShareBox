@@ -1,13 +1,9 @@
 package utils;
 
+import models.MockTorrent;
 import models.Torrent;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,40 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @project dsd-final-project-anchitbhatia
  */
 class CodecTest {
-    private static final String announce = "https://test-announce.com";
-    private static final String name = "skyrim.iso";
-    private static final Long pieceLength = 10000L;
-    private static final byte[] piecesBlob = new byte[10];
-    private static final List<String> pieces = new ArrayList<>();
-    private static final boolean singleFileTorrent = true;
-    private static final Long totalSize = 13123123123L;
-    private static final List<Torrent.TorrentFile> fileList = null;
-    private static final String comment = "this is a comment";
-    private static final String createdBy = "turutupa";
-    private static final Date creationDate = new Date(System.currentTimeMillis());
-    private static final List<String> announceList = null;
-    private static final String infoHash = "hash";
-    private static final Torrent torrent = new Torrent(
-            announce,
-            name,
-            pieceLength,
-            piecesBlob,
-            pieces,
-            singleFileTorrent,
-            totalSize,
-            fileList,
-            comment,
-            createdBy,
-            creationDate,
-            announceList,
-            infoHash
-    );
-
-    @BeforeAll
-    static void setup() {
-        for (int i = 0; i < 10; i++) piecesBlob[i] = (byte) i;
-        for (int i = 0; i < 10; i++) pieces.add(String.valueOf(i));
-    }
+    static final Torrent torrent = MockTorrent.get();
 
     @Test
     void encode() {
