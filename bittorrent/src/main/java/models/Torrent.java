@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * <p>
  * Basic torrent data structure.
  * <p>
- * Used this as a template: https://github.com/m1dnight/torrent-parser/blob/master/src/main/java/be/christophedetroyer/torrent/Torrent.java
+ * Used this as a template: <a href="https://github.com/m1dnight/torrent-parser/blob/master/src/main/java/be/christophedetroyer/torrent/Torrent.java">https://github.com/m1dnight/torrent-parser/blob/master/src/main/java/be/christophedetroyer/torrent/Torrent.java</a>
  */
 public class Torrent {
     public final String announce;
@@ -64,5 +65,24 @@ public class Torrent {
             this.fileLength = fileLength;
             this.fileDirs = fileDirs;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Torrent{" + '\n' +
+                "    announce=" + announce + '\n' +
+                "    name=" + name + '\n' +
+                "    pieceLength=" + pieceLength + '\n' +
+                "    piecesBlob=" + Arrays.toString(piecesBlob) + '\n' +
+                "    pieces=" + pieces + '\n' +
+                "    singleFileTorrent=" + singleFileTorrent + '\n' +
+                "    totalSize=" + totalSize + '\n' +
+                "    fileList=" + fileList + '\n' +
+                "    comment=" + comment + '\n' +
+                "    createdBy='" + createdBy + '\n' +
+                "    creationDate=" + creationDate + '\n' +
+                "    announceList=" + announceList + '\n' +
+                "    infoHash='" + infoHash + '\n' +
+                '}';
     }
 }
