@@ -22,7 +22,7 @@ public class Connection {
      * Method to receive bytes
      * @return bytes read
      */
-    public byte[] receive(){
+    public byte[] receive() {
         byte[] buffer = null;
         try {
             int length = this.inputStream.readInt();
