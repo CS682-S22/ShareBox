@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "protos/node.proto";
+
+option java_package = "protos";
+option java_outer_classname = "Response";
+
+message PeersList{
+  repeated NodeDetails nodes = 1;
+}
+
+message FileInfo{
+  map<uint64, PeersList> piecesInfo = 1;
+}

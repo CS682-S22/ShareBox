@@ -1,16 +1,12 @@
 syntax = "proto3";
 
+import "protos/node.proto";
+
 option java_package = "protos";
 option java_outer_classname = "Proto";
 
-message NodeInfo{
-  string hostname = 1;
-  string ip = 2;
-  int32 port = 3;
-}
-
 message Request {
-  NodeInfo node = 1;
+  NodeDetails node = 1;
   enum RequestType {
     PEER_MEMBERSHIP = 0;
     REQUEST_PEERS = 1;

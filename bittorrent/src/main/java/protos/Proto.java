@@ -14,812 +14,24 @@ public final class Proto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface NodeInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:NodeInfo)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string hostname = 1;</code>
-     * @return The hostname.
-     */
-    java.lang.String getHostname();
-    /**
-     * <code>string hostname = 1;</code>
-     * @return The bytes for hostname.
-     */
-    com.google.protobuf.ByteString
-        getHostnameBytes();
-
-    /**
-     * <code>string ip = 2;</code>
-     * @return The ip.
-     */
-    java.lang.String getIp();
-    /**
-     * <code>string ip = 2;</code>
-     * @return The bytes for ip.
-     */
-    com.google.protobuf.ByteString
-        getIpBytes();
-
-    /**
-     * <code>int32 port = 3;</code>
-     * @return The port.
-     */
-    int getPort();
-  }
-  /**
-   * Protobuf type {@code NodeInfo}
-   */
-  public static final class NodeInfo extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:NodeInfo)
-      NodeInfoOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use NodeInfo.newBuilder() to construct.
-    private NodeInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private NodeInfo() {
-      hostname_ = "";
-      ip_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new NodeInfo();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private NodeInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              hostname_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              ip_ = s;
-              break;
-            }
-            case 24: {
-
-              port_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return protos.Proto.internal_static_NodeInfo_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return protos.Proto.internal_static_NodeInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              protos.Proto.NodeInfo.class, protos.Proto.NodeInfo.Builder.class);
-    }
-
-    public static final int HOSTNAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object hostname_;
-    /**
-     * <code>string hostname = 1;</code>
-     * @return The hostname.
-     */
-    @java.lang.Override
-    public java.lang.String getHostname() {
-      java.lang.Object ref = hostname_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        hostname_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string hostname = 1;</code>
-     * @return The bytes for hostname.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getHostnameBytes() {
-      java.lang.Object ref = hostname_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        hostname_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int IP_FIELD_NUMBER = 2;
-    private volatile java.lang.Object ip_;
-    /**
-     * <code>string ip = 2;</code>
-     * @return The ip.
-     */
-    @java.lang.Override
-    public java.lang.String getIp() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        ip_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string ip = 2;</code>
-     * @return The bytes for ip.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getIpBytes() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        ip_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PORT_FIELD_NUMBER = 3;
-    private int port_;
-    /**
-     * <code>int32 port = 3;</code>
-     * @return The port.
-     */
-    @java.lang.Override
-    public int getPort() {
-      return port_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(hostname_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, hostname_);
-      }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(ip_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ip_);
-      }
-      if (port_ != 0) {
-        output.writeInt32(3, port_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(hostname_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, hostname_);
-      }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(ip_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ip_);
-      }
-      if (port_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, port_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof protos.Proto.NodeInfo)) {
-        return super.equals(obj);
-      }
-      protos.Proto.NodeInfo other = (protos.Proto.NodeInfo) obj;
-
-      if (!getHostname()
-          .equals(other.getHostname())) return false;
-      if (!getIp()
-          .equals(other.getIp())) return false;
-      if (getPort()
-          != other.getPort()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
-      hash = (53 * hash) + getHostname().hashCode();
-      hash = (37 * hash) + IP_FIELD_NUMBER;
-      hash = (53 * hash) + getIp().hashCode();
-      hash = (37 * hash) + PORT_FIELD_NUMBER;
-      hash = (53 * hash) + getPort();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static protos.Proto.NodeInfo parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.Proto.NodeInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static protos.Proto.NodeInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static protos.Proto.NodeInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static protos.Proto.NodeInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static protos.Proto.NodeInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(protos.Proto.NodeInfo prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code NodeInfo}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:NodeInfo)
-        protos.Proto.NodeInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return protos.Proto.internal_static_NodeInfo_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return protos.Proto.internal_static_NodeInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                protos.Proto.NodeInfo.class, protos.Proto.NodeInfo.Builder.class);
-      }
-
-      // Construct using protos.Proto.NodeInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        hostname_ = "";
-
-        ip_ = "";
-
-        port_ = 0;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return protos.Proto.internal_static_NodeInfo_descriptor;
-      }
-
-      @java.lang.Override
-      public protos.Proto.NodeInfo getDefaultInstanceForType() {
-        return protos.Proto.NodeInfo.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public protos.Proto.NodeInfo build() {
-        protos.Proto.NodeInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public protos.Proto.NodeInfo buildPartial() {
-        protos.Proto.NodeInfo result = new protos.Proto.NodeInfo(this);
-        result.hostname_ = hostname_;
-        result.ip_ = ip_;
-        result.port_ = port_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof protos.Proto.NodeInfo) {
-          return mergeFrom((protos.Proto.NodeInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(protos.Proto.NodeInfo other) {
-        if (other == protos.Proto.NodeInfo.getDefaultInstance()) return this;
-        if (!other.getHostname().isEmpty()) {
-          hostname_ = other.hostname_;
-          onChanged();
-        }
-        if (!other.getIp().isEmpty()) {
-          ip_ = other.ip_;
-          onChanged();
-        }
-        if (other.getPort() != 0) {
-          setPort(other.getPort());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        protos.Proto.NodeInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (protos.Proto.NodeInfo) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object hostname_ = "";
-      /**
-       * <code>string hostname = 1;</code>
-       * @return The hostname.
-       */
-      public java.lang.String getHostname() {
-        java.lang.Object ref = hostname_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          hostname_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string hostname = 1;</code>
-       * @return The bytes for hostname.
-       */
-      public com.google.protobuf.ByteString
-          getHostnameBytes() {
-        java.lang.Object ref = hostname_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          hostname_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string hostname = 1;</code>
-       * @param value The hostname to set.
-       * @return This builder for chaining.
-       */
-      public Builder setHostname(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        hostname_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string hostname = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearHostname() {
-        
-        hostname_ = getDefaultInstance().getHostname();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string hostname = 1;</code>
-       * @param value The bytes for hostname to set.
-       * @return This builder for chaining.
-       */
-      public Builder setHostnameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        hostname_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object ip_ = "";
-      /**
-       * <code>string ip = 2;</code>
-       * @return The ip.
-       */
-      public java.lang.String getIp() {
-        java.lang.Object ref = ip_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          ip_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string ip = 2;</code>
-       * @return The bytes for ip.
-       */
-      public com.google.protobuf.ByteString
-          getIpBytes() {
-        java.lang.Object ref = ip_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          ip_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string ip = 2;</code>
-       * @param value The ip to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearIp() {
-        
-        ip_ = getDefaultInstance().getIp();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 2;</code>
-       * @param value The bytes for ip to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIpBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int port_ ;
-      /**
-       * <code>int32 port = 3;</code>
-       * @return The port.
-       */
-      @java.lang.Override
-      public int getPort() {
-        return port_;
-      }
-      /**
-       * <code>int32 port = 3;</code>
-       * @param value The port to set.
-       * @return This builder for chaining.
-       */
-      public Builder setPort(int value) {
-        
-        port_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 port = 3;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearPort() {
-        
-        port_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:NodeInfo)
-    }
-
-    // @@protoc_insertion_point(class_scope:NodeInfo)
-    private static final protos.Proto.NodeInfo DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new protos.Proto.NodeInfo();
-    }
-
-    public static protos.Proto.NodeInfo getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<NodeInfo>
-        PARSER = new com.google.protobuf.AbstractParser<NodeInfo>() {
-      @java.lang.Override
-      public NodeInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new NodeInfo(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<NodeInfo> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<NodeInfo> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public protos.Proto.NodeInfo getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface RequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Request)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      * @return Whether the node field is set.
      */
     boolean hasNode();
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      * @return The node.
      */
-    protos.Proto.NodeInfo getNode();
+    protos.Node.NodeDetails getNode();
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      */
-    protos.Proto.NodeInfoOrBuilder getNodeOrBuilder();
+    protos.Node.NodeDetailsOrBuilder getNodeOrBuilder();
 
     /**
      * <code>.Request.RequestType requestType = 2;</code>
@@ -918,11 +130,11 @@ public final class Proto {
               done = true;
               break;
             case 10: {
-              protos.Proto.NodeInfo.Builder subBuilder = null;
+              protos.Node.NodeDetails.Builder subBuilder = null;
               if (node_ != null) {
                 subBuilder = node_.toBuilder();
               }
-              node_ = input.readMessage(protos.Proto.NodeInfo.parser(), extensionRegistry);
+              node_ = input.readMessage(protos.Node.NodeDetails.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(node_);
                 node_ = subBuilder.buildPartial();
@@ -1095,9 +307,9 @@ public final class Proto {
     }
 
     public static final int NODE_FIELD_NUMBER = 1;
-    private protos.Proto.NodeInfo node_;
+    private protos.Node.NodeDetails node_;
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      * @return Whether the node field is set.
      */
     @java.lang.Override
@@ -1105,18 +317,18 @@ public final class Proto {
       return node_ != null;
     }
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      * @return The node.
      */
     @java.lang.Override
-    public protos.Proto.NodeInfo getNode() {
-      return node_ == null ? protos.Proto.NodeInfo.getDefaultInstance() : node_;
+    public protos.Node.NodeDetails getNode() {
+      return node_ == null ? protos.Node.NodeDetails.getDefaultInstance() : node_;
     }
     /**
-     * <code>.NodeInfo node = 1;</code>
+     * <code>.NodeDetails node = 1;</code>
      */
     @java.lang.Override
-    public protos.Proto.NodeInfoOrBuilder getNodeOrBuilder() {
+    public protos.Node.NodeDetailsOrBuilder getNodeOrBuilder() {
       return getNode();
     }
 
@@ -1622,31 +834,31 @@ public final class Proto {
       }
       private int bitField0_;
 
-      private protos.Proto.NodeInfo node_;
+      private protos.Node.NodeDetails node_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          protos.Proto.NodeInfo, protos.Proto.NodeInfo.Builder, protos.Proto.NodeInfoOrBuilder> nodeBuilder_;
+          protos.Node.NodeDetails, protos.Node.NodeDetails.Builder, protos.Node.NodeDetailsOrBuilder> nodeBuilder_;
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        * @return Whether the node field is set.
        */
       public boolean hasNode() {
         return nodeBuilder_ != null || node_ != null;
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        * @return The node.
        */
-      public protos.Proto.NodeInfo getNode() {
+      public protos.Node.NodeDetails getNode() {
         if (nodeBuilder_ == null) {
-          return node_ == null ? protos.Proto.NodeInfo.getDefaultInstance() : node_;
+          return node_ == null ? protos.Node.NodeDetails.getDefaultInstance() : node_;
         } else {
           return nodeBuilder_.getMessage();
         }
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
-      public Builder setNode(protos.Proto.NodeInfo value) {
+      public Builder setNode(protos.Node.NodeDetails value) {
         if (nodeBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1660,10 +872,10 @@ public final class Proto {
         return this;
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
       public Builder setNode(
-          protos.Proto.NodeInfo.Builder builderForValue) {
+          protos.Node.NodeDetails.Builder builderForValue) {
         if (nodeBuilder_ == null) {
           node_ = builderForValue.build();
           onChanged();
@@ -1674,13 +886,13 @@ public final class Proto {
         return this;
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
-      public Builder mergeNode(protos.Proto.NodeInfo value) {
+      public Builder mergeNode(protos.Node.NodeDetails value) {
         if (nodeBuilder_ == null) {
           if (node_ != null) {
             node_ =
-              protos.Proto.NodeInfo.newBuilder(node_).mergeFrom(value).buildPartial();
+              protos.Node.NodeDetails.newBuilder(node_).mergeFrom(value).buildPartial();
           } else {
             node_ = value;
           }
@@ -1692,7 +904,7 @@ public final class Proto {
         return this;
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
       public Builder clearNode() {
         if (nodeBuilder_ == null) {
@@ -1706,33 +918,33 @@ public final class Proto {
         return this;
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
-      public protos.Proto.NodeInfo.Builder getNodeBuilder() {
+      public protos.Node.NodeDetails.Builder getNodeBuilder() {
         
         onChanged();
         return getNodeFieldBuilder().getBuilder();
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
-      public protos.Proto.NodeInfoOrBuilder getNodeOrBuilder() {
+      public protos.Node.NodeDetailsOrBuilder getNodeOrBuilder() {
         if (nodeBuilder_ != null) {
           return nodeBuilder_.getMessageOrBuilder();
         } else {
           return node_ == null ?
-              protos.Proto.NodeInfo.getDefaultInstance() : node_;
+              protos.Node.NodeDetails.getDefaultInstance() : node_;
         }
       }
       /**
-       * <code>.NodeInfo node = 1;</code>
+       * <code>.NodeDetails node = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          protos.Proto.NodeInfo, protos.Proto.NodeInfo.Builder, protos.Proto.NodeInfoOrBuilder> 
+          protos.Node.NodeDetails, protos.Node.NodeDetails.Builder, protos.Node.NodeDetailsOrBuilder> 
           getNodeFieldBuilder() {
         if (nodeBuilder_ == null) {
           nodeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              protos.Proto.NodeInfo, protos.Proto.NodeInfo.Builder, protos.Proto.NodeInfoOrBuilder>(
+              protos.Node.NodeDetails, protos.Node.NodeDetails.Builder, protos.Node.NodeDetailsOrBuilder>(
                   getNode(),
                   getParentForChildren(),
                   isClean());
@@ -3686,11 +2898,6 @@ public final class Proto {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_NodeInfo_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_NodeInfo_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Request_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3709,41 +2916,36 @@ public final class Proto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024protos/request.proto\"6\n\010NodeInfo\022\020\n\010ho" +
-      "stname\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"\262" +
-      "\001\n\007Request\022\027\n\004node\030\001 \001(\0132\t.NodeInfo\022)\n\013r" +
-      "equestType\030\002 \001(\0162\024.Request.RequestType\022\032" +
-      "\n\010torrents\030\003 \003(\0132\010.Torrent\022\020\n\010fileName\030\004" +
-      " \001(\t\"5\n\013RequestType\022\023\n\017PEER_MEMBERSHIP\020\000" +
-      "\022\021\n\rREQUEST_PEERS\020\001\"\272\001\n\007Torrent\022\020\n\010filen" +
-      "ame\030\001 \001(\t\022\023\n\013pieceLength\030\002 \001(\003\022\016\n\006pieces" +
-      "\030\003 \003(\t\022\031\n\021singleFileTorrent\030\004 \001(\010\022\021\n\ttot" +
-      "alSize\030\005 \001(\003\022\017\n\007comment\030\006 \001(\t\022\021\n\tcreated" +
-      "By\030\007 \001(\t\022\024\n\014creationDate\030\010 \001(\003\022\020\n\010infoHa" +
-      "sh\030\t \001(\tB\017\n\006protosB\005Protob\006proto3"
+      "\n\024protos/request.proto\032\021protos/node.prot" +
+      "o\"\265\001\n\007Request\022\032\n\004node\030\001 \001(\0132\014.NodeDetail" +
+      "s\022)\n\013requestType\030\002 \001(\0162\024.Request.Request" +
+      "Type\022\032\n\010torrents\030\003 \003(\0132\010.Torrent\022\020\n\010file" +
+      "Name\030\004 \001(\t\"5\n\013RequestType\022\023\n\017PEER_MEMBER" +
+      "SHIP\020\000\022\021\n\rREQUEST_PEERS\020\001\"\272\001\n\007Torrent\022\020\n" +
+      "\010filename\030\001 \001(\t\022\023\n\013pieceLength\030\002 \001(\003\022\016\n\006" +
+      "pieces\030\003 \003(\t\022\031\n\021singleFileTorrent\030\004 \001(\010\022" +
+      "\021\n\ttotalSize\030\005 \001(\003\022\017\n\007comment\030\006 \001(\t\022\021\n\tc" +
+      "reatedBy\030\007 \001(\t\022\024\n\014creationDate\030\010 \001(\003\022\020\n\010" +
+      "infoHash\030\t \001(\tB\017\n\006protosB\005Protob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          protos.Node.getDescriptor(),
         });
-    internal_static_NodeInfo_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_NodeInfo_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_NodeInfo_descriptor,
-        new java.lang.String[] { "Hostname", "Ip", "Port", });
     internal_static_Request_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Request_descriptor,
         new java.lang.String[] { "Node", "RequestType", "Torrents", "FileName", });
     internal_static_Torrent_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_Torrent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Torrent_descriptor,
         new java.lang.String[] { "Filename", "PieceLength", "Pieces", "SingleFileTorrent", "TotalSize", "Comment", "CreatedBy", "CreationDate", "InfoHash", });
+    protos.Node.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
