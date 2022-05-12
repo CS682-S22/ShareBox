@@ -15,14 +15,18 @@ import java.util.Objects;
  * @project bittorrent
  */
 public class FileIO {
-    private static final String TORRENTS_DIR = "./torrents/";
+    private static final String TEST_DIR = "./src/test/java/utils";
+    private static final String TORRENTS_FINAL_DIR = "./torrents/";
+    private static final String TORRENTS_TEST_DIR = TEST_DIR + "/tests_torrents/";
     private static final String LIBRARY_DIR = "./library/";
-    private static final String TEST_DIR = "./tests/";
+    private static final String LIBRARY_TEST_DIR = TEST_DIR + "/tests_library/";
     private static String DIR = LIBRARY_DIR;
+    private static String TORRENTS_DIR = TORRENTS_FINAL_DIR;
     private static File folderDir;
     private static File libraryDir;
     private static File testingDir;
     private static File torrentsDir;
+    private static File torrentsTestingDir;
 
     private FileIO() {
     }
@@ -93,13 +97,19 @@ public class FileIO {
     }
 
     public FileIO testing() {
-        DIR = TEST_DIR;
-        testingDir = new File(TEST_DIR);
+        DIR = LIBRARY_TEST_DIR;
+        TORRENTS_DIR = TORRENTS_TEST_DIR;
+        testingDir = new File(LIBRARY_TEST_DIR);
+        torrentsTestingDir = new File(TORRENTS_TEST_DIR);
 
         if (!testingDir.exists())
             testingDir.mkdir();
 
+        if (!torrentsTestingDir.exists())
+            torrentsTestingDir.mkdir();
+
         folderDir = testingDir;
+        torrentsDir = torrentsTestingDir;
         return this;
     }
 

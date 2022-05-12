@@ -1,6 +1,8 @@
 .idea/
 
 ./bittorrent/.idea/
-./bittorrent/tests/*
+./bittorrent/torrents/*
 ./bittorrent/library/*
 ./bittorrent/torrents/*
+./bittorrent/src/test/java/utils/tests_library/*
+./bittorrent/src/test/java/utils/tests_torrents/*
