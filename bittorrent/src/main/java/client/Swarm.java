@@ -24,7 +24,7 @@ public class Swarm {
         trackerConn.send(createRequest(torrents).toByteArray());
     }
 
-    static List<Torrent> getTorrents() {
+    private static List<Torrent> getTorrents() {
         try {
             List<byte[]> files = FileIO.getInstance().readTorrents();
             return files.stream()
@@ -35,7 +35,7 @@ public class Swarm {
         }
     }
 
-    static Connection getTrackerConnection() {
+    private static Connection getTrackerConnection() {
         try {
             return new Connection(new Socket(Globals.trackerIP, Globals.trackerPort));
         } catch (IOException e) {
@@ -43,7 +43,7 @@ public class Swarm {
         }
     }
 
-    static Proto.Request createRequest(List<Torrent> torrents) {
+    private static Proto.Request createRequest(List<Torrent> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
                 .addAllTorrents(torrents.stream()
