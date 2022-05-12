@@ -47,4 +47,12 @@ class FileIOTest {
         for (int i = 0; i < encoded.length; i++)
             assertEquals(encoded[i], readFile[i]);
     }
+
+    @Test
+    void writeEmpty() throws IOException {
+        fileIO.saveFile("EmptyFile.txt", new byte[10]);
+        byte[] b = fileIO.readFile("EmptyFile.txt");
+        for (int i = 0; i < b.length; i++)
+            assertEquals(0, b[i]);
+    }
 }
