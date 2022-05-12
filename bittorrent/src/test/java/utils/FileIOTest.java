@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FileIOTest {
     private static final Torrent torrent = MockTorrent.get();
     private static final FileIO fileIO = FileIO.getInstance().testing();
-    private static final byte[] encoded = Codec.encode(torrent);
+    private static final byte[] encoded = TCodec.encode(torrent);
 
     @Test
     void write() throws IOException {

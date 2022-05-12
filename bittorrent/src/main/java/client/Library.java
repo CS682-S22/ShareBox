@@ -57,7 +57,6 @@ public class Library {
             super(t.announce,
                     t.name,
                     t.pieceLength,
-                    t.piecesBlob,
                     t.pieces,
                     t.singleFileTorrent,
                     t.totalSize,

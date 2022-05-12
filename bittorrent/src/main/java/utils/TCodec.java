@@ -4,7 +4,6 @@ import com.dampcake.bencode.Bencode;
 import com.dampcake.bencode.Type;
 import models.Torrent;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.Map;
  * @author Alberto Delgado on 5/9/22
  * @project dsd-final-project-anchitbhatia
  */
-public class Codec {
+public class TCodec {
     private static Bencode bencode = new Bencode();
 
     public static byte[] encode(Torrent torrent) {
@@ -22,7 +21,6 @@ public class Codec {
             put("announce", torrent.announce);
             put("name", torrent.name);
             put("pieceLength", torrent.pieceLength);
-            put("piecesBlob", new String(torrent.piecesBlob, StandardCharsets.UTF_8));
             put("pieces", torrent.pieces);
             put("singleFileTorrent", torrent.singleFileTorrent);
             put("totalSize", torrent.totalSize);
@@ -47,7 +45,6 @@ public class Codec {
         String announce = (String) decoded.get("announce");
         String name = (String) decoded.get("name");
         long pieceLength = (Long) decoded.get("pieceLength");
-        byte[] piecesBlob = ((String) decoded.get("piecesBlob")).getBytes();
         List<String> pieces = (List<String>) decoded.get("pieces");
         boolean singleFileTorrent = Boolean.valueOf((String) decoded.get("singleFileTorrent"));
         long totalSize = (Long) decoded.get("totalSize");
@@ -62,7 +59,6 @@ public class Codec {
                 announce,
                 name,
                 pieceLength,
-                piecesBlob,
                 pieces,
                 singleFileTorrent,
                 totalSize,

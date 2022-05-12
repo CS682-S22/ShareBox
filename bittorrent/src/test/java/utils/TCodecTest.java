@@ -11,23 +11,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Alberto Delgado on 5/9/22
  * @project dsd-final-project-anchitbhatia
  */
-class CodecTest {
+class TCodecTest {
     static final Torrent torrent = MockTorrent.get();
 
     @Test
     void encode() {
-        assertDoesNotThrow(() -> Codec.encode(torrent));
+        assertDoesNotThrow(() -> TCodec.encode(torrent));
     }
 
     @Test
     void decode() {
-        Torrent copy = Codec.decode(Codec.encode(torrent));
+        Torrent copy = TCodec.decode(TCodec.encode(torrent));
 
         assertEquals(torrent.announce, copy.announce);
         assertEquals(torrent.name, copy.name);
         assertEquals(torrent.pieceLength, copy.pieceLength);
-        for (int i = 0; i < 10; i++)
-            assertEquals(torrent.piecesBlob[i], copy.piecesBlob[i]);
         for (int i = 0; i < 10; i++)
             assertEquals(torrent.pieces, copy.pieces);
         assertEquals(torrent.singleFileTorrent, copy.singleFileTorrent);

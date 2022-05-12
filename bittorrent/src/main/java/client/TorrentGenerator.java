@@ -1,0 +1,81 @@
+package client;
+
+import models.Torrent;
+import utils.Encryption;
+import utils.FileIO;
+import utils.Globals;
+import utils.TCodec;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @author Alberto Delgado on 5/11/22
+ * @project bittorrent
+ */
+public class TorrentGenerator {
+    public static void fromFile(String filename,
+                                String comment,
+                                String createdBy,
+                                byte[] data) {
+        // try to make each piece %5  of the file
+        // or a max size defined in globals.
+        long totalSize = data.length;
+        long pieceLength = getPieceLength(data);
+        String hash = Arrays.toString(Encryption.encodeSHA256(data));
+        List<String> pieces = getPieces(data, totalSize, pieceLength);
+        boolean singleFileTorrent = true;
+        List<Torrent.TorrentFile> fileList = null;
+        Date creationDate = new Date(System.currentTimeMillis());
+        List<String> announceList = null;
+
+        Torrent torrent = new Torrent(
+                Globals.announcer,
+                filename,
+                pieceLength,
+                pieces,
+                singleFileTorrent,
+                totalSize,
+                fileList,
+                comment,
+                createdBy,
+                creationDate,
+                announceList,
+                hash
+        );
+
+        FileIO.getInstance()
+                .saveTorrent(getTorrentName(filename), TCodec.encode(torrent));
+    }
+
+    static String getTorrentName(String filename) {
+        int i = filename.indexOf('.');
+        if (i > 0)
+            filename = filename.substring(0, i);
+
+        return filename + ".torrent";
+    }
+
+    static Long getPieceLength(byte[] data) {
+        Long pieceLength = (long) (data.length * 0.05);
+        return Math.min(pieceLength, Globals.PIECE_LENGTH_MAX);
+    }
+
+    static List<String> getPieces(byte[] data, long totalSize, long pieceLength) {
+        List<String> pieces = new ArrayList<>();
+        for (int i = 0; i < totalSize; i += pieceLength) {
+            int z = 0;
+            byte[] piece = new byte[(int) pieceLength];
+            for (int j = i; j < i + pieceLength; j++) {
+                if (i + z == totalSize) break;
+                piece[z++] = data[j];
+            }
+
+            byte[] sha = Encryption.encodeSHA1(piece);
+            pieces.add(Arrays.toString(sha));
+        }
+        return pieces;
+    }
+}

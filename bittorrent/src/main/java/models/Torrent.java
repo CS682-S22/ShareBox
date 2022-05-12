@@ -1,6 +1,5 @@
 package models;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,6 @@ public class Torrent {
     public final String announce;
     public final String name;
     public final Long pieceLength;
-    public final byte[] piecesBlob;
     public final List<String> pieces;
     public final boolean singleFileTorrent;
     public final Long totalSize;
@@ -31,7 +29,6 @@ public class Torrent {
             String announce,
             String name,
             Long pieceLength,
-            byte[] piecesBlob,
             List<String> pieces,
             boolean singleFileTorrent,
             Long totalSize,
@@ -45,7 +42,6 @@ public class Torrent {
         this.announce = announce;
         this.name = name;
         this.pieceLength = pieceLength;
-        this.piecesBlob = piecesBlob;
         this.pieces = pieces;
         this.singleFileTorrent = singleFileTorrent;
         this.totalSize = totalSize;
@@ -78,7 +74,6 @@ public class Torrent {
                 "    announce=" + announce + '\n' +
                 "    name=" + name + '\n' +
                 "    pieceLength=" + pieceLength + '\n' +
-                "    piecesBlob=" + Arrays.toString(piecesBlob) + '\n' +
                 "    pieces=" + pieces + '\n' +
                 "    singleFileTorrent=" + singleFileTorrent + '\n' +
                 "    totalSize=" + totalSize + '\n' +
