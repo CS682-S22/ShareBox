@@ -1,6 +1,7 @@
 package client;
 
 import utils.Connection;
+import utils.ConnectionException;
 import utils.Node;
 
 import java.io.IOException;
@@ -14,9 +15,10 @@ import java.util.concurrent.Executors;
  */
 public class Client extends Node {
 
-    public Client(String hostname, String ip, int port) throws IOException {
+    public Client(String hostname, String ip, int port) throws IOException, ConnectionException {
         super(hostname, ip, port);
         this.initializeServer(new PeerServer());
+        BootUp.start();
     }
 
     private class PeerServer implements Runnable {

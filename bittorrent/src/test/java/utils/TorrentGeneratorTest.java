@@ -1,18 +1,16 @@
-package client;
+package utils;
 
 import models.Torrent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import utils.FileIO;
-import utils.TCodec;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import static client.TorrentGenerator.getPieceLength;
-import static client.TorrentGenerator.getPieces;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.TorrentGenerator.getPieceLength;
+import static utils.TorrentGenerator.getPieces;
 
 /**
  * @author Alberto Delgado on 5/11/22

@@ -1,10 +1,6 @@
-package client;
+package utils;
 
 import models.Torrent;
-import utils.Encryption;
-import utils.FileIO;
-import utils.Globals;
-import utils.TCodec;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +47,7 @@ public class TorrentGenerator {
         List<String> announceList = null;
 
         return new Torrent(
-                Globals.announcer,
+                Globals.trackerIP + Globals.trackerPort,
                 filename,
                 pieceLength,
                 pieces,

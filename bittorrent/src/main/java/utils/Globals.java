@@ -5,6 +5,7 @@ package utils;
  * @project bittorrent
  */
 public class Globals {
-    public static String announcer = "localhost:5000";
+    public static String trackerIP = "localhost";
+    public static String trackerPort = "localhost";
     public static Long PIECE_LENGTH_MAX = (long) Math.pow(2, 10);
 }
