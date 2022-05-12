@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "protos/node.proto";
+
+option java_package = "models";
+option java_outer_classname = "Request";
+
+message RequestPacket{
+  NodeInfo node = 1;
+  enum RequestType {
+    REQUEST_PEERS = 0;
+    REQUEST_CLIENT = 1;
+  }
+  RequestType type = 2;
+  string fileName = 3;
+}

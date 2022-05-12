@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "models";
+option java_outer_classname = "NodeDetails";
+
+message NodeInfo{
+  string hostname = 1;
+  string ip = 2;
+  int32 port = 3;
+}
