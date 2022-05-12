@@ -1,13 +1,18 @@
 package client;
 
+import models.Torrent;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import utils.FileIO;
+import utils.TCodec;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
 import static client.TorrentGenerator.getPieceLength;
 import static client.TorrentGenerator.getPieces;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alberto Delgado on 5/11/22
@@ -15,6 +20,7 @@ import static client.TorrentGenerator.getPieces;
  */
 class TorrentGeneratorTest {
     private static byte[] data;
+    private static final String filename = "cyberpunk.iso";
 
     @BeforeAll
     static void data() {
@@ -24,12 +30,16 @@ class TorrentGeneratorTest {
     }
 
     @Test
-    void fromFile() {
-        TorrentGenerator.fromFile("cyberpunk.iso",
+    void fromFile() throws IOException {
+        TorrentGenerator.fromFile(filename,
                 "this is an example torrent",
                 "turutupa",
                 data
         );
+
+        byte[] encoded = FileIO.getInstance().readTorrent("cyberpunk.torrent");
+        Torrent t = TCodec.decode(encoded);
+        assertEquals(filename, t.name);
     }
 
     @Test
@@ -37,7 +47,6 @@ class TorrentGeneratorTest {
         long totalSize = data.length;
         long pieceLength = getPieceLength(data);
         List<String> pieces = getPieces(data, totalSize, pieceLength);
-        for (String piece : pieces)
-            System.out.println(piece);
+        assertEquals((totalSize / pieceLength) + 1, pieces.size());
     }
 }

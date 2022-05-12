@@ -16,10 +16,29 @@ import java.util.List;
  * @project bittorrent
  */
 public class TorrentGenerator {
-    public static void fromFile(String filename,
-                                String comment,
-                                String createdBy,
-                                byte[] data) {
+    public static void fromFile(
+            String filename,
+            String comment,
+            String createdBy,
+            byte[] data) {
+        Torrent torrent = createTorrent(filename, comment, createdBy, data);
+        String torrentName = getTorrentName(filename);
+        FileIO.getInstance().saveTorrent(torrentName, TCodec.encode(torrent));
+    }
+
+    static String getTorrentName(String filename) {
+        int i = filename.indexOf('.');
+        if (i > 0)
+            filename = filename.substring(0, i);
+
+        return filename + ".torrent";
+    }
+
+    static Torrent createTorrent(
+            String filename,
+            String comment,
+            String createdBy,
+            byte[] data) {
         // try to make each piece %5  of the file
         // or a max size defined in globals.
         long totalSize = data.length;
@@ -31,7 +50,7 @@ public class TorrentGenerator {
         Date creationDate = new Date(System.currentTimeMillis());
         List<String> announceList = null;
 
-        Torrent torrent = new Torrent(
+        return new Torrent(
                 Globals.announcer,
                 filename,
                 pieceLength,
@@ -45,21 +64,10 @@ public class TorrentGenerator {
                 announceList,
                 hash
         );
-
-        FileIO.getInstance()
-                .saveTorrent(getTorrentName(filename), TCodec.encode(torrent));
-    }
-
-    static String getTorrentName(String filename) {
-        int i = filename.indexOf('.');
-        if (i > 0)
-            filename = filename.substring(0, i);
-
-        return filename + ".torrent";
     }
 
     static Long getPieceLength(byte[] data) {
-        Long pieceLength = (long) (data.length * 0.05);
+        long pieceLength = (long) (data.length * 0.05);
         return Math.min(pieceLength, Globals.PIECE_LENGTH_MAX);
     }
 
