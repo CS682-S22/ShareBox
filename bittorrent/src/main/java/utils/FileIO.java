@@ -30,9 +30,9 @@ public class FileIO {
         library = new File(LIBRARY_DIR);
         if (!library.exists()) {
             library.mkdir();
-            folder = library;
         }
 
+        folder = library;
         return Holder.INSTANCE;
     }
 
@@ -68,6 +68,7 @@ public class FileIO {
         if (!testing.exists())
             testing.mkdir();
 
+        folder = testing;
         return this;
     }
 

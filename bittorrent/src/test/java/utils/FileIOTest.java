@@ -30,11 +30,15 @@ class FileIOTest {
     @Test
     void readFilesInLibrary() throws IOException {
         byte[] encoded = Codec.encode(torrent);
+
+        fileIO.write(torrent.getName(), encoded);
         List<byte[]> files = fileIO.readFilesInLibrary();
 
         assertEquals(1, files.size());
+
         byte[] mock = files.get(0);
-        assertEquals(List.of(mock), List.of(encoded));
+        for (int i = 0; i < encoded.length; i++)
+            assertEquals(encoded[i], mock[i]);
     }
 
     @Test
