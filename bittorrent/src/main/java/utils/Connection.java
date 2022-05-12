@@ -56,4 +56,21 @@ public class Connection {
             System.out.println("IO exception while sending message");
         }
     }
+
+    /***
+     * Method to check if connection is closed
+     * @return true if connection is closed else false
+     */
+    public boolean isClosed(){
+        return this.socket.isClosed();
+    }
+
+    /***
+     * Method to close connection
+     */
+    public void close() throws IOException {
+        this.inputStream.close();
+        this.outputStream.close();
+        this.socket.close();
+    }
 }
