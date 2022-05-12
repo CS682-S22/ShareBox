@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "protos";
+option java_outer_classname = "Proto";
+
+message Request {
+  enum RequestType {
+    PEER_MEMBERSHIP = 0;
+    REQUEST_PEERS = 1;
+  }
+  RequestType requestType = 1;
+  string filename = 2;
+}

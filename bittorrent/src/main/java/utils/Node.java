@@ -3,7 +3,7 @@ package utils;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class Node {
+public abstract class Node {
     private final String hostname;
     private final String ip;
     private final int port;
@@ -32,7 +32,7 @@ public class Node {
     protected void initializeServer(Runnable serverObj) throws IOException {
         this.serverSocket = new ServerSocket(this.port);
         this.isServerRunning = false;
-        this.serverThread = new Thread (serverObj, "Server");
+        this.serverThread = new Thread(serverObj, "Server");
     }
 
     public void startServer() {

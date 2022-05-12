@@ -1,7 +1,9 @@
 package client;
 
 import org.junit.jupiter.api.Test;
+import tracker.Tracker;
 import utils.ConnectionException;
+import utils.Globals;
 
 import java.io.IOException;
 
@@ -12,14 +14,10 @@ import java.io.IOException;
 class ClientTest {
 
     @Test
-    void start() {
-        Client peer;
-        try {
-            peer = new Client("Peer1", "127.0.0.1", 5000);
-        } catch (IOException | ConnectionException e) {
-            peer = null;
-        }
-
-        if (peer == null) return;
+    void start() throws IOException, ConnectionException {
+        Tracker tracker = new Tracker("Tracker", Globals.trackerIP, Globals.trackerPort);
+        tracker.startServer();
+        Client peer = new Client("Peer1", "127.0.0.1", 5001);
+        peer.startServer();
     }
 }

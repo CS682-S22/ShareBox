@@ -15,10 +15,9 @@ import java.util.concurrent.Executors;
  */
 public class Client extends Node {
 
-    public Client(String hostname, String ip, int port) throws IOException, ConnectionException {
+    public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
-        this.initializeServer(new PeerServer());
-        BootUp.start();
+        initializeServer(new PeerServer());
     }
 
     private class PeerServer implements Runnable {
@@ -30,6 +29,12 @@ public class Client extends Node {
 
         @Override
         public void run() {
+            try {
+                Swarm.join();
+            } catch (ConnectionException ignored) {
+                // ignore for the time being
+            }
+
             try {
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();

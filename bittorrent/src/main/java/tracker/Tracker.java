@@ -16,7 +16,7 @@ public class Tracker extends Node {
 
     public Tracker(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
-        this.initializeServer(new TrackerServer());
+        initializeServer(new TrackerServer());
     }
 
     private class TrackerServer implements Runnable {
