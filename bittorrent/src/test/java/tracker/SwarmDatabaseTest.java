@@ -167,4 +167,26 @@ class SwarmDatabaseTest {
         Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
         assertEquals(expectedOutput, fileInfo);
     }
+
+    @Test
+    @Order(12)
+    void getFileInfo3() {
+        String fileName = "third";
+        Node node4 = new Node("localhost", "1.1.1.4", 4);
+        Node node5 = new Node("localhost", "1.1.1.5", 5);
+        databaseObj.changePeerStatus(node4, Constants.status.OFFLINE);
+        Map<Long, List<protos.Node.NodeDetails>> expectedOutput = new HashMap<>();
+        ArrayList<protos.Node.NodeDetails> nodeList1 = new ArrayList<>();
+        ArrayList<protos.Node.NodeDetails> nodeList2 = new ArrayList<>();
+        nodeList1.add(Helper.getNodeDetailsObject(node5));
+        expectedOutput.put(1L, nodeList1);
+        expectedOutput.put(2L, nodeList2);
+        Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
+        assertEquals(expectedOutput, fileInfo);
+
+        databaseObj.changePeerStatus(node5, Constants.status.OFFLINE);
+        nodeList1.clear();
+        fileInfo = databaseObj.getFileInfo(fileName);
+        assertEquals(expectedOutput, fileInfo);
+    }
 }
