@@ -9,5 +9,17 @@ message Request {
     REQUEST_PEERS = 1;
   }
   RequestType requestType = 1;
-  string filename = 2;
+  repeated Torrent torrents = 2;
+}
+
+message Torrent {
+  string filename = 1;
+  int64 pieceLength = 2;
+  repeated string pieces = 3;
+  bool singleFileTorrent = 4;
+  int64 totalSize = 5;
+  string comment = 6;
+  string createdBy = 7;
+  int64 creationDate = 8;
+  string infoHash = 9;
 }

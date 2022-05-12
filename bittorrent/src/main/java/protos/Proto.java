@@ -28,14 +28,28 @@ public final class Proto {
     protos.Proto.Request.RequestType getRequestType();
 
     /**
-     * <code>string filename = 2;</code>
+     * <code>repeated .Torrent torrents = 2;</code>
      */
-    java.lang.String getFilename();
+    java.util.List<protos.Proto.Torrent> 
+        getTorrentsList();
     /**
-     * <code>string filename = 2;</code>
+     * <code>repeated .Torrent torrents = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getFilenameBytes();
+    protos.Proto.Torrent getTorrents(int index);
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    int getTorrentsCount();
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    java.util.List<? extends protos.Proto.TorrentOrBuilder> 
+        getTorrentsOrBuilderList();
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    protos.Proto.TorrentOrBuilder getTorrentsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Request}
@@ -50,7 +64,7 @@ public final class Proto {
     }
     private Request() {
       requestType_ = 0;
-      filename_ = "";
+      torrents_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -85,9 +99,12 @@ public final class Proto {
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              filename_ = s;
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                torrents_ = new java.util.ArrayList<protos.Proto.Torrent>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              torrents_.add(
+                  input.readMessage(protos.Proto.Torrent.parser(), extensionRegistry));
               break;
             }
           }
@@ -98,6 +115,9 @@ public final class Proto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          torrents_ = java.util.Collections.unmodifiableList(torrents_);
+        }
         makeExtensionsImmutable();
       }
     }
@@ -211,6 +231,7 @@ public final class Proto {
       // @@protoc_insertion_point(enum_scope:Request.RequestType)
     }
 
+    private int bitField0_;
     public static final int REQUESTTYPE_FIELD_NUMBER = 1;
     private int requestType_;
     /**
@@ -227,38 +248,39 @@ public final class Proto {
       return result == null ? protos.Proto.Request.RequestType.UNRECOGNIZED : result;
     }
 
-    public static final int FILENAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object filename_;
+    public static final int TORRENTS_FIELD_NUMBER = 2;
+    private java.util.List<protos.Proto.Torrent> torrents_;
     /**
-     * <code>string filename = 2;</code>
+     * <code>repeated .Torrent torrents = 2;</code>
      */
-    public java.lang.String getFilename() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        filename_ = s;
-        return s;
-      }
+    public java.util.List<protos.Proto.Torrent> getTorrentsList() {
+      return torrents_;
     }
     /**
-     * <code>string filename = 2;</code>
+     * <code>repeated .Torrent torrents = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getFilenameBytes() {
-      java.lang.Object ref = filename_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        filename_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public java.util.List<? extends protos.Proto.TorrentOrBuilder> 
+        getTorrentsOrBuilderList() {
+      return torrents_;
+    }
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    public int getTorrentsCount() {
+      return torrents_.size();
+    }
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    public protos.Proto.Torrent getTorrents(int index) {
+      return torrents_.get(index);
+    }
+    /**
+     * <code>repeated .Torrent torrents = 2;</code>
+     */
+    public protos.Proto.TorrentOrBuilder getTorrentsOrBuilder(
+        int index) {
+      return torrents_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -276,8 +298,8 @@ public final class Proto {
       if (requestType_ != protos.Proto.Request.RequestType.PEER_MEMBERSHIP.getNumber()) {
         output.writeEnum(1, requestType_);
       }
-      if (!getFilenameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, filename_);
+      for (int i = 0; i < torrents_.size(); i++) {
+        output.writeMessage(2, torrents_.get(i));
       }
     }
 
@@ -290,8 +312,9 @@ public final class Proto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, requestType_);
       }
-      if (!getFilenameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, filename_);
+      for (int i = 0; i < torrents_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, torrents_.get(i));
       }
       memoizedSize = size;
       return size;
@@ -310,8 +333,8 @@ public final class Proto {
 
       boolean result = true;
       result = result && requestType_ == other.requestType_;
-      result = result && getFilename()
-          .equals(other.getFilename());
+      result = result && getTorrentsList()
+          .equals(other.getTorrentsList());
       return result;
     }
 
@@ -324,8 +347,10 @@ public final class Proto {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + REQUESTTYPE_FIELD_NUMBER;
       hash = (53 * hash) + requestType_;
-      hash = (37 * hash) + FILENAME_FIELD_NUMBER;
-      hash = (53 * hash) + getFilename().hashCode();
+      if (getTorrentsCount() > 0) {
+        hash = (37 * hash) + TORRENTS_FIELD_NUMBER;
+        hash = (53 * hash) + getTorrentsList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -440,14 +465,19 @@ public final class Proto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getTorrentsFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         requestType_ = 0;
 
-        filename_ = "";
-
+        if (torrentsBuilder_ == null) {
+          torrents_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          torrentsBuilder_.clear();
+        }
         return this;
       }
 
@@ -470,8 +500,19 @@ public final class Proto {
 
       public protos.Proto.Request buildPartial() {
         protos.Proto.Request result = new protos.Proto.Request(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.requestType_ = requestType_;
-        result.filename_ = filename_;
+        if (torrentsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            torrents_ = java.util.Collections.unmodifiableList(torrents_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.torrents_ = torrents_;
+        } else {
+          result.torrents_ = torrentsBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -516,9 +557,31 @@ public final class Proto {
         if (other.requestType_ != 0) {
           setRequestTypeValue(other.getRequestTypeValue());
         }
-        if (!other.getFilename().isEmpty()) {
-          filename_ = other.filename_;
-          onChanged();
+        if (torrentsBuilder_ == null) {
+          if (!other.torrents_.isEmpty()) {
+            if (torrents_.isEmpty()) {
+              torrents_ = other.torrents_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTorrentsIsMutable();
+              torrents_.addAll(other.torrents_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.torrents_.isEmpty()) {
+            if (torrentsBuilder_.isEmpty()) {
+              torrentsBuilder_.dispose();
+              torrentsBuilder_ = null;
+              torrents_ = other.torrents_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              torrentsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTorrentsFieldBuilder() : null;
+            } else {
+              torrentsBuilder_.addAllMessages(other.torrents_);
+            }
+          }
         }
         onChanged();
         return this;
@@ -545,6 +608,7 @@ public final class Proto {
         }
         return this;
       }
+      private int bitField0_;
 
       private int requestType_ = 0;
       /**
@@ -590,73 +654,244 @@ public final class Proto {
         return this;
       }
 
-      private java.lang.Object filename_ = "";
+      private java.util.List<protos.Proto.Torrent> torrents_ =
+        java.util.Collections.emptyList();
+      private void ensureTorrentsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          torrents_ = new java.util.ArrayList<protos.Proto.Torrent>(torrents_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          protos.Proto.Torrent, protos.Proto.Torrent.Builder, protos.Proto.TorrentOrBuilder> torrentsBuilder_;
+
       /**
-       * <code>string filename = 2;</code>
+       * <code>repeated .Torrent torrents = 2;</code>
        */
-      public java.lang.String getFilename() {
-        java.lang.Object ref = filename_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          filename_ = s;
-          return s;
+      public java.util.List<protos.Proto.Torrent> getTorrentsList() {
+        if (torrentsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(torrents_);
         } else {
-          return (java.lang.String) ref;
+          return torrentsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>string filename = 2;</code>
+       * <code>repeated .Torrent torrents = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getFilenameBytes() {
-        java.lang.Object ref = filename_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          filename_ = b;
-          return b;
+      public int getTorrentsCount() {
+        if (torrentsBuilder_ == null) {
+          return torrents_.size();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          return torrentsBuilder_.getCount();
         }
       }
       /**
-       * <code>string filename = 2;</code>
+       * <code>repeated .Torrent torrents = 2;</code>
        */
-      public Builder setFilename(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        filename_ = value;
-        onChanged();
+      public protos.Proto.Torrent getTorrents(int index) {
+        if (torrentsBuilder_ == null) {
+          return torrents_.get(index);
+        } else {
+          return torrentsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder setTorrents(
+          int index, protos.Proto.Torrent value) {
+        if (torrentsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTorrentsIsMutable();
+          torrents_.set(index, value);
+          onChanged();
+        } else {
+          torrentsBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>string filename = 2;</code>
+       * <code>repeated .Torrent torrents = 2;</code>
        */
-      public Builder clearFilename() {
-        
-        filename_ = getDefaultInstance().getFilename();
-        onChanged();
+      public Builder setTorrents(
+          int index, protos.Proto.Torrent.Builder builderForValue) {
+        if (torrentsBuilder_ == null) {
+          ensureTorrentsIsMutable();
+          torrents_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          torrentsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>string filename = 2;</code>
+       * <code>repeated .Torrent torrents = 2;</code>
        */
-      public Builder setFilenameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        filename_ = value;
-        onChanged();
+      public Builder addTorrents(protos.Proto.Torrent value) {
+        if (torrentsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTorrentsIsMutable();
+          torrents_.add(value);
+          onChanged();
+        } else {
+          torrentsBuilder_.addMessage(value);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder addTorrents(
+          int index, protos.Proto.Torrent value) {
+        if (torrentsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTorrentsIsMutable();
+          torrents_.add(index, value);
+          onChanged();
+        } else {
+          torrentsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder addTorrents(
+          protos.Proto.Torrent.Builder builderForValue) {
+        if (torrentsBuilder_ == null) {
+          ensureTorrentsIsMutable();
+          torrents_.add(builderForValue.build());
+          onChanged();
+        } else {
+          torrentsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder addTorrents(
+          int index, protos.Proto.Torrent.Builder builderForValue) {
+        if (torrentsBuilder_ == null) {
+          ensureTorrentsIsMutable();
+          torrents_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          torrentsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder addAllTorrents(
+          java.lang.Iterable<? extends protos.Proto.Torrent> values) {
+        if (torrentsBuilder_ == null) {
+          ensureTorrentsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, torrents_);
+          onChanged();
+        } else {
+          torrentsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder clearTorrents() {
+        if (torrentsBuilder_ == null) {
+          torrents_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          torrentsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public Builder removeTorrents(int index) {
+        if (torrentsBuilder_ == null) {
+          ensureTorrentsIsMutable();
+          torrents_.remove(index);
+          onChanged();
+        } else {
+          torrentsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public protos.Proto.Torrent.Builder getTorrentsBuilder(
+          int index) {
+        return getTorrentsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public protos.Proto.TorrentOrBuilder getTorrentsOrBuilder(
+          int index) {
+        if (torrentsBuilder_ == null) {
+          return torrents_.get(index);  } else {
+          return torrentsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public java.util.List<? extends protos.Proto.TorrentOrBuilder> 
+           getTorrentsOrBuilderList() {
+        if (torrentsBuilder_ != null) {
+          return torrentsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(torrents_);
+        }
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public protos.Proto.Torrent.Builder addTorrentsBuilder() {
+        return getTorrentsFieldBuilder().addBuilder(
+            protos.Proto.Torrent.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public protos.Proto.Torrent.Builder addTorrentsBuilder(
+          int index) {
+        return getTorrentsFieldBuilder().addBuilder(
+            index, protos.Proto.Torrent.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Torrent torrents = 2;</code>
+       */
+      public java.util.List<protos.Proto.Torrent.Builder> 
+           getTorrentsBuilderList() {
+        return getTorrentsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          protos.Proto.Torrent, protos.Proto.Torrent.Builder, protos.Proto.TorrentOrBuilder> 
+          getTorrentsFieldBuilder() {
+        if (torrentsBuilder_ == null) {
+          torrentsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              protos.Proto.Torrent, protos.Proto.Torrent.Builder, protos.Proto.TorrentOrBuilder>(
+                  torrents_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          torrents_ = null;
+        }
+        return torrentsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -707,11 +942,1380 @@ public final class Proto {
 
   }
 
+  public interface TorrentOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Torrent)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string filename = 1;</code>
+     */
+    java.lang.String getFilename();
+    /**
+     * <code>string filename = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
+
+    /**
+     * <code>int64 pieceLength = 2;</code>
+     */
+    long getPieceLength();
+
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    java.util.List<java.lang.String>
+        getPiecesList();
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    int getPiecesCount();
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    java.lang.String getPieces(int index);
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getPiecesBytes(int index);
+
+    /**
+     * <code>bool singleFileTorrent = 4;</code>
+     */
+    boolean getSingleFileTorrent();
+
+    /**
+     * <code>int64 totalSize = 5;</code>
+     */
+    long getTotalSize();
+
+    /**
+     * <code>string comment = 6;</code>
+     */
+    java.lang.String getComment();
+    /**
+     * <code>string comment = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getCommentBytes();
+
+    /**
+     * <code>string createdBy = 7;</code>
+     */
+    java.lang.String getCreatedBy();
+    /**
+     * <code>string createdBy = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getCreatedByBytes();
+
+    /**
+     * <code>int64 creationDate = 8;</code>
+     */
+    long getCreationDate();
+
+    /**
+     * <code>string infoHash = 9;</code>
+     */
+    java.lang.String getInfoHash();
+    /**
+     * <code>string infoHash = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getInfoHashBytes();
+  }
+  /**
+   * Protobuf type {@code Torrent}
+   */
+  public  static final class Torrent extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Torrent)
+      TorrentOrBuilder {
+    // Use Torrent.newBuilder() to construct.
+    private Torrent(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Torrent() {
+      filename_ = "";
+      pieceLength_ = 0L;
+      pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      singleFileTorrent_ = false;
+      totalSize_ = 0L;
+      comment_ = "";
+      createdBy_ = "";
+      creationDate_ = 0L;
+      infoHash_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private Torrent(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              filename_ = s;
+              break;
+            }
+            case 16: {
+
+              pieceLength_ = input.readInt64();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                pieces_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              pieces_.add(s);
+              break;
+            }
+            case 32: {
+
+              singleFileTorrent_ = input.readBool();
+              break;
+            }
+            case 40: {
+
+              totalSize_ = input.readInt64();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              comment_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              createdBy_ = s;
+              break;
+            }
+            case 64: {
+
+              creationDate_ = input.readInt64();
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              infoHash_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          pieces_ = pieces_.getUnmodifiableView();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return protos.Proto.internal_static_Torrent_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return protos.Proto.internal_static_Torrent_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              protos.Proto.Torrent.class, protos.Proto.Torrent.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int FILENAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object filename_;
+    /**
+     * <code>string filename = 1;</code>
+     */
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        filename_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string filename = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PIECELENGTH_FIELD_NUMBER = 2;
+    private long pieceLength_;
+    /**
+     * <code>int64 pieceLength = 2;</code>
+     */
+    public long getPieceLength() {
+      return pieceLength_;
+    }
+
+    public static final int PIECES_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList pieces_;
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPiecesList() {
+      return pieces_;
+    }
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    public int getPiecesCount() {
+      return pieces_.size();
+    }
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    public java.lang.String getPieces(int index) {
+      return pieces_.get(index);
+    }
+    /**
+     * <code>repeated string pieces = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPiecesBytes(int index) {
+      return pieces_.getByteString(index);
+    }
+
+    public static final int SINGLEFILETORRENT_FIELD_NUMBER = 4;
+    private boolean singleFileTorrent_;
+    /**
+     * <code>bool singleFileTorrent = 4;</code>
+     */
+    public boolean getSingleFileTorrent() {
+      return singleFileTorrent_;
+    }
+
+    public static final int TOTALSIZE_FIELD_NUMBER = 5;
+    private long totalSize_;
+    /**
+     * <code>int64 totalSize = 5;</code>
+     */
+    public long getTotalSize() {
+      return totalSize_;
+    }
+
+    public static final int COMMENT_FIELD_NUMBER = 6;
+    private volatile java.lang.Object comment_;
+    /**
+     * <code>string comment = 6;</code>
+     */
+    public java.lang.String getComment() {
+      java.lang.Object ref = comment_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        comment_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string comment = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCommentBytes() {
+      java.lang.Object ref = comment_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        comment_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CREATEDBY_FIELD_NUMBER = 7;
+    private volatile java.lang.Object createdBy_;
+    /**
+     * <code>string createdBy = 7;</code>
+     */
+    public java.lang.String getCreatedBy() {
+      java.lang.Object ref = createdBy_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        createdBy_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string createdBy = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCreatedByBytes() {
+      java.lang.Object ref = createdBy_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        createdBy_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CREATIONDATE_FIELD_NUMBER = 8;
+    private long creationDate_;
+    /**
+     * <code>int64 creationDate = 8;</code>
+     */
+    public long getCreationDate() {
+      return creationDate_;
+    }
+
+    public static final int INFOHASH_FIELD_NUMBER = 9;
+    private volatile java.lang.Object infoHash_;
+    /**
+     * <code>string infoHash = 9;</code>
+     */
+    public java.lang.String getInfoHash() {
+      java.lang.Object ref = infoHash_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        infoHash_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string infoHash = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getInfoHashBytes() {
+      java.lang.Object ref = infoHash_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        infoHash_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getFilenameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, filename_);
+      }
+      if (pieceLength_ != 0L) {
+        output.writeInt64(2, pieceLength_);
+      }
+      for (int i = 0; i < pieces_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, pieces_.getRaw(i));
+      }
+      if (singleFileTorrent_ != false) {
+        output.writeBool(4, singleFileTorrent_);
+      }
+      if (totalSize_ != 0L) {
+        output.writeInt64(5, totalSize_);
+      }
+      if (!getCommentBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, comment_);
+      }
+      if (!getCreatedByBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, createdBy_);
+      }
+      if (creationDate_ != 0L) {
+        output.writeInt64(8, creationDate_);
+      }
+      if (!getInfoHashBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, infoHash_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getFilenameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, filename_);
+      }
+      if (pieceLength_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, pieceLength_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < pieces_.size(); i++) {
+          dataSize += computeStringSizeNoTag(pieces_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPiecesList().size();
+      }
+      if (singleFileTorrent_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, singleFileTorrent_);
+      }
+      if (totalSize_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, totalSize_);
+      }
+      if (!getCommentBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, comment_);
+      }
+      if (!getCreatedByBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, createdBy_);
+      }
+      if (creationDate_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(8, creationDate_);
+      }
+      if (!getInfoHashBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, infoHash_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof protos.Proto.Torrent)) {
+        return super.equals(obj);
+      }
+      protos.Proto.Torrent other = (protos.Proto.Torrent) obj;
+
+      boolean result = true;
+      result = result && getFilename()
+          .equals(other.getFilename());
+      result = result && (getPieceLength()
+          == other.getPieceLength());
+      result = result && getPiecesList()
+          .equals(other.getPiecesList());
+      result = result && (getSingleFileTorrent()
+          == other.getSingleFileTorrent());
+      result = result && (getTotalSize()
+          == other.getTotalSize());
+      result = result && getComment()
+          .equals(other.getComment());
+      result = result && getCreatedBy()
+          .equals(other.getCreatedBy());
+      result = result && (getCreationDate()
+          == other.getCreationDate());
+      result = result && getInfoHash()
+          .equals(other.getInfoHash());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+      hash = (53 * hash) + getFilename().hashCode();
+      hash = (37 * hash) + PIECELENGTH_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPieceLength());
+      if (getPiecesCount() > 0) {
+        hash = (37 * hash) + PIECES_FIELD_NUMBER;
+        hash = (53 * hash) + getPiecesList().hashCode();
+      }
+      hash = (37 * hash) + SINGLEFILETORRENT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSingleFileTorrent());
+      hash = (37 * hash) + TOTALSIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTotalSize());
+      hash = (37 * hash) + COMMENT_FIELD_NUMBER;
+      hash = (53 * hash) + getComment().hashCode();
+      hash = (37 * hash) + CREATEDBY_FIELD_NUMBER;
+      hash = (53 * hash) + getCreatedBy().hashCode();
+      hash = (37 * hash) + CREATIONDATE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCreationDate());
+      hash = (37 * hash) + INFOHASH_FIELD_NUMBER;
+      hash = (53 * hash) + getInfoHash().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static protos.Proto.Torrent parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.Proto.Torrent parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.Proto.Torrent parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static protos.Proto.Torrent parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static protos.Proto.Torrent parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.Proto.Torrent parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.Proto.Torrent parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static protos.Proto.Torrent parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static protos.Proto.Torrent parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static protos.Proto.Torrent parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(protos.Proto.Torrent prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Torrent}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Torrent)
+        protos.Proto.TorrentOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return protos.Proto.internal_static_Torrent_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return protos.Proto.internal_static_Torrent_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                protos.Proto.Torrent.class, protos.Proto.Torrent.Builder.class);
+      }
+
+      // Construct using protos.Proto.Torrent.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        filename_ = "";
+
+        pieceLength_ = 0L;
+
+        pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        singleFileTorrent_ = false;
+
+        totalSize_ = 0L;
+
+        comment_ = "";
+
+        createdBy_ = "";
+
+        creationDate_ = 0L;
+
+        infoHash_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return protos.Proto.internal_static_Torrent_descriptor;
+      }
+
+      public protos.Proto.Torrent getDefaultInstanceForType() {
+        return protos.Proto.Torrent.getDefaultInstance();
+      }
+
+      public protos.Proto.Torrent build() {
+        protos.Proto.Torrent result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public protos.Proto.Torrent buildPartial() {
+        protos.Proto.Torrent result = new protos.Proto.Torrent(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.filename_ = filename_;
+        result.pieceLength_ = pieceLength_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          pieces_ = pieces_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.pieces_ = pieces_;
+        result.singleFileTorrent_ = singleFileTorrent_;
+        result.totalSize_ = totalSize_;
+        result.comment_ = comment_;
+        result.createdBy_ = createdBy_;
+        result.creationDate_ = creationDate_;
+        result.infoHash_ = infoHash_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof protos.Proto.Torrent) {
+          return mergeFrom((protos.Proto.Torrent)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(protos.Proto.Torrent other) {
+        if (other == protos.Proto.Torrent.getDefaultInstance()) return this;
+        if (!other.getFilename().isEmpty()) {
+          filename_ = other.filename_;
+          onChanged();
+        }
+        if (other.getPieceLength() != 0L) {
+          setPieceLength(other.getPieceLength());
+        }
+        if (!other.pieces_.isEmpty()) {
+          if (pieces_.isEmpty()) {
+            pieces_ = other.pieces_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensurePiecesIsMutable();
+            pieces_.addAll(other.pieces_);
+          }
+          onChanged();
+        }
+        if (other.getSingleFileTorrent() != false) {
+          setSingleFileTorrent(other.getSingleFileTorrent());
+        }
+        if (other.getTotalSize() != 0L) {
+          setTotalSize(other.getTotalSize());
+        }
+        if (!other.getComment().isEmpty()) {
+          comment_ = other.comment_;
+          onChanged();
+        }
+        if (!other.getCreatedBy().isEmpty()) {
+          createdBy_ = other.createdBy_;
+          onChanged();
+        }
+        if (other.getCreationDate() != 0L) {
+          setCreationDate(other.getCreationDate());
+        }
+        if (!other.getInfoHash().isEmpty()) {
+          infoHash_ = other.infoHash_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        protos.Proto.Torrent parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (protos.Proto.Torrent) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object filename_ = "";
+      /**
+       * <code>string filename = 1;</code>
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          filename_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string filename = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string filename = 1;</code>
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string filename = 1;</code>
+       */
+      public Builder clearFilename() {
+        
+        filename_ = getDefaultInstance().getFilename();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string filename = 1;</code>
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long pieceLength_ ;
+      /**
+       * <code>int64 pieceLength = 2;</code>
+       */
+      public long getPieceLength() {
+        return pieceLength_;
+      }
+      /**
+       * <code>int64 pieceLength = 2;</code>
+       */
+      public Builder setPieceLength(long value) {
+        
+        pieceLength_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 pieceLength = 2;</code>
+       */
+      public Builder clearPieceLength() {
+        
+        pieceLength_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePiecesIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          pieces_ = new com.google.protobuf.LazyStringArrayList(pieces_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPiecesList() {
+        return pieces_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public int getPiecesCount() {
+        return pieces_.size();
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public java.lang.String getPieces(int index) {
+        return pieces_.get(index);
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPiecesBytes(int index) {
+        return pieces_.getByteString(index);
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public Builder setPieces(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePiecesIsMutable();
+        pieces_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public Builder addPieces(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePiecesIsMutable();
+        pieces_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public Builder addAllPieces(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePiecesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, pieces_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public Builder clearPieces() {
+        pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string pieces = 3;</code>
+       */
+      public Builder addPiecesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensurePiecesIsMutable();
+        pieces_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean singleFileTorrent_ ;
+      /**
+       * <code>bool singleFileTorrent = 4;</code>
+       */
+      public boolean getSingleFileTorrent() {
+        return singleFileTorrent_;
+      }
+      /**
+       * <code>bool singleFileTorrent = 4;</code>
+       */
+      public Builder setSingleFileTorrent(boolean value) {
+        
+        singleFileTorrent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool singleFileTorrent = 4;</code>
+       */
+      public Builder clearSingleFileTorrent() {
+        
+        singleFileTorrent_ = false;
+        onChanged();
+        return this;
+      }
+
+      private long totalSize_ ;
+      /**
+       * <code>int64 totalSize = 5;</code>
+       */
+      public long getTotalSize() {
+        return totalSize_;
+      }
+      /**
+       * <code>int64 totalSize = 5;</code>
+       */
+      public Builder setTotalSize(long value) {
+        
+        totalSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 totalSize = 5;</code>
+       */
+      public Builder clearTotalSize() {
+        
+        totalSize_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object comment_ = "";
+      /**
+       * <code>string comment = 6;</code>
+       */
+      public java.lang.String getComment() {
+        java.lang.Object ref = comment_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          comment_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string comment = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCommentBytes() {
+        java.lang.Object ref = comment_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          comment_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string comment = 6;</code>
+       */
+      public Builder setComment(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        comment_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string comment = 6;</code>
+       */
+      public Builder clearComment() {
+        
+        comment_ = getDefaultInstance().getComment();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string comment = 6;</code>
+       */
+      public Builder setCommentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        comment_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object createdBy_ = "";
+      /**
+       * <code>string createdBy = 7;</code>
+       */
+      public java.lang.String getCreatedBy() {
+        java.lang.Object ref = createdBy_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          createdBy_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string createdBy = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCreatedByBytes() {
+        java.lang.Object ref = createdBy_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          createdBy_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string createdBy = 7;</code>
+       */
+      public Builder setCreatedBy(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        createdBy_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string createdBy = 7;</code>
+       */
+      public Builder clearCreatedBy() {
+        
+        createdBy_ = getDefaultInstance().getCreatedBy();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string createdBy = 7;</code>
+       */
+      public Builder setCreatedByBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        createdBy_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long creationDate_ ;
+      /**
+       * <code>int64 creationDate = 8;</code>
+       */
+      public long getCreationDate() {
+        return creationDate_;
+      }
+      /**
+       * <code>int64 creationDate = 8;</code>
+       */
+      public Builder setCreationDate(long value) {
+        
+        creationDate_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 creationDate = 8;</code>
+       */
+      public Builder clearCreationDate() {
+        
+        creationDate_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object infoHash_ = "";
+      /**
+       * <code>string infoHash = 9;</code>
+       */
+      public java.lang.String getInfoHash() {
+        java.lang.Object ref = infoHash_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          infoHash_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string infoHash = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getInfoHashBytes() {
+        java.lang.Object ref = infoHash_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          infoHash_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string infoHash = 9;</code>
+       */
+      public Builder setInfoHash(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        infoHash_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string infoHash = 9;</code>
+       */
+      public Builder clearInfoHash() {
+        
+        infoHash_ = getDefaultInstance().getInfoHash();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string infoHash = 9;</code>
+       */
+      public Builder setInfoHashBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        infoHash_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Torrent)
+    }
+
+    // @@protoc_insertion_point(class_scope:Torrent)
+    private static final protos.Proto.Torrent DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new protos.Proto.Torrent();
+    }
+
+    public static protos.Proto.Torrent getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Torrent>
+        PARSER = new com.google.protobuf.AbstractParser<Torrent>() {
+      public Torrent parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Torrent(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Torrent> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Torrent> getParserForType() {
+      return PARSER;
+    }
+
+    public protos.Proto.Torrent getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Request_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Request_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Torrent_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Torrent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -721,10 +2325,15 @@ public final class Proto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024protos/request.proto\"}\n\007Request\022)\n\013req" +
-      "uestType\030\001 \001(\0162\024.Request.RequestType\022\020\n\010" +
-      "filename\030\002 \001(\t\"5\n\013RequestType\022\023\n\017PEER_ME" +
-      "MBERSHIP\020\000\022\021\n\rREQUEST_PEERS\020\001B\017\n\006protosB" +
+      "\n\024protos/request.proto\"\207\001\n\007Request\022)\n\013re" +
+      "questType\030\001 \001(\0162\024.Request.RequestType\022\032\n" +
+      "\010torrents\030\002 \003(\0132\010.Torrent\"5\n\013RequestType" +
+      "\022\023\n\017PEER_MEMBERSHIP\020\000\022\021\n\rREQUEST_PEERS\020\001" +
+      "\"\272\001\n\007Torrent\022\020\n\010filename\030\001 \001(\t\022\023\n\013pieceL" +
+      "ength\030\002 \001(\003\022\016\n\006pieces\030\003 \003(\t\022\031\n\021singleFil" +
+      "eTorrent\030\004 \001(\010\022\021\n\ttotalSize\030\005 \001(\003\022\017\n\007com" +
+      "ment\030\006 \001(\t\022\021\n\tcreatedBy\030\007 \001(\t\022\024\n\014creatio" +
+      "nDate\030\010 \001(\003\022\020\n\010infoHash\030\t \001(\tB\017\n\006protosB" +
       "\005Protob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
@@ -744,7 +2353,13 @@ public final class Proto {
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Request_descriptor,
-        new java.lang.String[] { "RequestType", "Filename", });
+        new java.lang.String[] { "RequestType", "Torrents", });
+    internal_static_Torrent_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_Torrent_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Torrent_descriptor,
+        new java.lang.String[] { "Filename", "PieceLength", "Pieces", "SingleFileTorrent", "TotalSize", "Comment", "CreatedBy", "CreationDate", "InfoHash", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

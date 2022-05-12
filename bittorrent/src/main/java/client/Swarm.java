@@ -21,7 +21,7 @@ public class Swarm {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
 
-        trackerConn.send(createRequest().toByteArray());
+        trackerConn.send(createRequest(torrents).toByteArray());
     }
 
     static List<Torrent> getTorrents() {
@@ -43,9 +43,22 @@ public class Swarm {
         }
     }
 
-    static Proto.Request createRequest() {
+    static Proto.Request createRequest(List<Torrent> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
+                .addAllTorrents(torrents.stream()
+                        .map((t) -> Proto.Torrent.newBuilder()
+                                .setFilename(t.name)
+                                .setPieceLength(t.pieceLength)
+                                .addAllPieces(t.pieces)
+                                .setSingleFileTorrent(t.singleFileTorrent)
+                                .setTotalSize(t.totalSize)
+                                .setComment(t.comment)
+                                .setCreatedBy(t.createdBy)
+                                .setCreationDate(t.creationDate.getTime())
+                                .setInfoHash(t.infoHash)
+                                .build())
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
