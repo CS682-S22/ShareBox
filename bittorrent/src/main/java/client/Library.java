@@ -22,11 +22,12 @@ public class Library {
     public Library() {
     }
 
-    public void add(Torrent torrent) {
+    public File add(Torrent torrent) {
         File file = new File(torrent);
         lock.writeLock().lock();
         try {
             files.put(file.name, file);
+            return file;
         } finally {
             lock.writeLock().unlock();
         }

@@ -6,6 +6,7 @@ import utils.*;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,15 +14,24 @@ import java.util.stream.Collectors;
  * @author Alberto Delgado on 5/11/22
  * @project bittorrent
  */
-public class Swarm {
-    public static void join() throws ConnectionException {
-        List<Torrent> torrents = getTorrents();
-        if (torrents == null) return;
+public class ClientInit {
+    private static List<Library.File> files = new ArrayList<>();
 
+    public static void joinSwarm() throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
 
-        trackerConn.send(createRequest(torrents).toByteArray());
+        trackerConn.send(createRequest(files).toByteArray());
+        files = null; // after initializing, let garbage collector do its jobs
+    }
+
+    public static Library initLibrary() {
+        List<Torrent> torrents = getTorrents();
+        Library library = new Library();
+        for (Torrent t : torrents)
+            files.add(library.add(t));
+
+        return library;
     }
 
     private static List<Torrent> getTorrents() {
@@ -43,7 +53,7 @@ public class Swarm {
         }
     }
 
-    private static Proto.Request createRequest(List<Torrent> torrents) {
+    private static Proto.Request createRequest(List<Library.File> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
                 .addAllTorrents(torrents.stream()

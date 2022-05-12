@@ -9,15 +9,19 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static client.ClientInit.initLibrary;
+
 /**
  * @author Alberto Delgado on 5/9/22
  * @project dsd-final-project-anchitbhatia
  */
 public class Client extends Node {
+    Library library;
 
     public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
         initializeServer(new PeerServer());
+        library = initLibrary();
     }
 
     private class PeerServer implements Runnable {
@@ -30,7 +34,7 @@ public class Client extends Node {
         @Override
         public void run() {
             try {
-                Swarm.join();
+                ClientInit.joinSwarm();
             } catch (ConnectionException ignored) {
                 // ignore for the time being
             }

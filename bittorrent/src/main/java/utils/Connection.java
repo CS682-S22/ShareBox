@@ -56,4 +56,12 @@ public class Connection {
             System.out.println("IO exception while sending message");
         }
     }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException ignored) {
+            // so be it
+        }
+    }
 }
