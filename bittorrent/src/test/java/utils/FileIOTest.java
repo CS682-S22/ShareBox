@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FileIOTest {
     private static final Torrent torrent = MockTorrent.get();
     private static final FileIO fileIO = FileIO.getInstance().testing();
+    private static final byte[] encoded = Codec.encode(torrent);
 
     @Test
     void write() throws IOException {
-        byte[] encoded = Codec.encode(torrent);
         assertDoesNotThrow(() -> fileIO.write(torrent.getName(), encoded));
 
         for (int i = 0; i < encoded.length; i++)
@@ -29,8 +29,6 @@ class FileIOTest {
 
     @Test
     void readFilesInLibrary() throws IOException {
-        byte[] encoded = Codec.encode(torrent);
-
         fileIO.write(torrent.getName(), encoded);
         List<byte[]> files = fileIO.readFilesInLibrary();
 
@@ -42,6 +40,11 @@ class FileIOTest {
     }
 
     @Test
-    void read() {
+    void read() throws IOException {
+        fileIO.write(torrent.getName(), encoded);
+        byte[] readFile = fileIO.read(torrent.getName());
+
+        for (int i = 0; i < encoded.length; i++)
+            assertEquals(encoded[i], readFile[i]);
     }
 }
