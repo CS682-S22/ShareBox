@@ -2,10 +2,10 @@ package tracker;
 
 import utils.Connection;
 
-public class ClientHandler implements Runnable {
+public class ConnectionHandler implements Runnable {
     private final Connection connection;
 
-    public ClientHandler(Connection connection) {
+    public ConnectionHandler(Connection connection) {
         this.connection = connection;
     }
 

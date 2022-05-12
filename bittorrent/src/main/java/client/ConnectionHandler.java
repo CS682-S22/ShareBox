@@ -2,10 +2,10 @@ package client;
 
 import utils.Connection;
 
-public class PeerHandler implements Runnable{
+public class ConnectionHandler implements Runnable{
     private final Connection connection;
 
-    public PeerHandler(Connection connection) {
+    public ConnectionHandler(Connection connection) {
         this.connection = connection;
     }
     @Override

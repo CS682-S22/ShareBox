@@ -39,7 +39,7 @@ public class Client extends Node {
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();
                     Connection connection = new Connection(clientSocket);
-                    this.peerConnectionPool.execute(new PeerHandler(connection));
+                    this.peerConnectionPool.execute(new ConnectionHandler(connection));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

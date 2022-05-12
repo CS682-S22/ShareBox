@@ -32,7 +32,7 @@ public class Tracker extends Node {
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();
                     Connection connection = new Connection(clientSocket);
-                    this.connectionPool.execute(new ClientHandler(connection));
+                    this.connectionPool.execute(new ConnectionHandler(connection));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
