@@ -1,6 +1,7 @@
 package client;
 
 import models.Torrent;
+import protos.Node;
 import protos.Proto;
 import utils.*;
 
@@ -17,11 +18,12 @@ import java.util.stream.Collectors;
 public class ClientInit {
     private static List<Library.File> files = new ArrayList<>();
 
-    public static void joinSwarm() throws ConnectionException {
+    public static void joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
 
-        trackerConn.send(createRequest(files).toByteArray());
+        byte[] requestMessage = createRequest(hostname, ip, port, files).toByteArray();
+        trackerConn.send(requestMessage);
         files = null; // after initializing, let garbage collector do its jobs
     }
 
@@ -53,9 +55,16 @@ public class ClientInit {
         }
     }
 
-    private static Proto.Request createRequest(List<Library.File> torrents) {
+    private static Proto.Request createRequest(String hostname, String ip, int port, List<Library.File> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
+                .setNode(
+                        Node.NodeDetails.newBuilder()
+                                .setHostname(hostname)
+                                .setIp(ip)
+                                .setPort(port)
+                                .build()
+                )
                 .addAllTorrents(torrents.stream()
                         .map((t) -> Proto.Torrent.newBuilder()
                                 .setFilename(t.name)

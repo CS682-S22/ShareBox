@@ -1,8 +1,8 @@
 package tracker;
 
+import protos.Node.NodeDetails;
 import utils.Connection;
 import utils.Node;
-import protos.Node.NodeDetails;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
  * @project dsd-final-project-anchitbhatia
  */
 public class Tracker extends Node {
-    private final SwarmDatabase swarmDatabase;
+    final SwarmDatabase swarmDatabase;
 
     public Tracker(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
@@ -26,6 +26,10 @@ public class Tracker extends Node {
 
     protected Map<Long, List<NodeDetails>> getFileInfo(String fileName) {
         return this.swarmDatabase.getFileInfo(fileName);
+    }
+
+    protected void addPeer(Node node) {
+        this.swarmDatabase.addPeer(node);
     }
 
     private class TrackerServer implements Runnable {

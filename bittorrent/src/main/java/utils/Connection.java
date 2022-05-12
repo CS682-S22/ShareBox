@@ -18,6 +18,24 @@ public class Connection {
         this.outputStream = new DataOutputStream(socket.getOutputStream());
     }
 
+    /**
+     * Method to retrieve remote port number
+     *
+     * @return remote por number
+     */
+    public int getPort() {
+        return socket.getPort();
+    }
+
+    /**
+     * Method to retrieve the remote address
+     *
+     * @return String of the remote address
+     */
+    public String getHostAddress() {
+        return socket.getInetAddress().getHostAddress();
+    }
+
     /***
      * Method to receive bytes
      * @return bytes read

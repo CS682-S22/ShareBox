@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Node {
-    private final String hostname;
-    private final String ip;
-    private final int port;
+    public final String hostname;
+    public final String ip;
+    public final int port;
     protected ServerSocket serverSocket;
     private Thread serverThread;
     protected boolean isServerRunning;

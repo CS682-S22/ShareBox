@@ -34,7 +34,7 @@ public class Client extends Node {
         @Override
         public void run() {
             try {
-                ClientInit.joinSwarm();
+                ClientInit.joinSwarm(hostname, ip, port);
             } catch (ConnectionException ignored) {
                 // ignore for the time being
             }

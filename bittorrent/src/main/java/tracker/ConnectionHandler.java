@@ -1,13 +1,13 @@
 package tracker;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-
 import protos.Node.NodeDetails;
 import protos.Proto.Request;
 import protos.Response;
 import protos.Response.FileInfo;
 import utils.Connection;
 import utils.ConnectionException;
+import utils.Node;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +21,24 @@ public class ConnectionHandler implements Runnable {
         this.connection = connection;
     }
 
+    private Request receiveRequest() {
+        byte[] message = this.connection.receive();
+        if (message == null) return null;
+
+        try {
+            return Request.parseFrom(message);
+        } catch (InvalidProtocolBufferException e) {
+            System.out.println("Invalid packet received");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void serveRequestPeers(Request request) throws ConnectionException {
         String fileName = request.getFileName();
         Map<Long, List<NodeDetails>> fileInfo = this.tracker.getFileInfo(fileName);
         FileInfo.Builder responseBuilder = FileInfo.newBuilder();
-        if (fileInfo!=null) {
+        if (fileInfo != null) {
             for (Map.Entry<Long, List<NodeDetails>> item : fileInfo.entrySet()) {
                 Long pieceNumber = item.getKey();
                 Response.PeersList peersList = Response.PeersList.newBuilder().
@@ -38,24 +51,32 @@ public class ConnectionHandler implements Runnable {
         this.connection.send(response.toByteArray());
     }
 
+    private void addPeer(Request request) {
+        NodeDetails n = request.getNode();
+        Node peer = new Node(n.getHostname(), n.getIp(), n.getPort());
+
+        // missing to add peer torrents information
+        // to swarm database
+
+        this.tracker.addPeer(peer);
+    }
+
     @Override
     public void run() {
         while (!this.connection.isClosed()) {
-            byte[] message = this.connection.receive();
-            if (message!=null) {
+            Request request = receiveRequest();
+            if (request == null) continue;
+
+            Request.RequestType requestType = request.getRequestType();
+            if (requestType.equals(Request.RequestType.REQUEST_PEERS)) {
                 try {
-                    Request request = Request.parseFrom(message);
-                    if (request.getRequestType().equals(Request.RequestType.REQUEST_PEERS)) {
-                        this.serveRequestPeers(request);
-                    }
-                } catch (InvalidProtocolBufferException e) {
-                    System.out.println("Invalid packet received");
-                    e.printStackTrace();
+                    this.serveRequestPeers(request);
                 } catch (ConnectionException e) {
                     e.printStackTrace();
                 }
+            } else if (requestType.equals(Request.RequestType.PEER_MEMBERSHIP)) {
+                this.addPeer(request);
             }
         }
-
     }
 }
