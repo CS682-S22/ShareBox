@@ -1,9 +1,11 @@
 .idea/
 
 ./bittorrent/.idea/
-./bittorrent/torrents/*
-./bittorrent/library/*
-./bittorrent/torrents/*
-./bittorrent/src/test/java/utils/tests_library/*
+./bittorrent/torrents/
+./bittorrent/library/
+./bittorrent/torrents/
+./bittorrent/target/
 ./bittorrent/src/test/java/utils/tests_torrents/*
-./bittorrent/target/*
+./bittorrent/src/test/java/utils/tests_torrents/*
+./bittorrent/src/test/java/utils/tests_library/EmptyFile.txt
+./bittorrent/src/test/java/utils/tests_library/EmptyFile.txt
