@@ -3,7 +3,7 @@ package utils;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public abstract class Node {
+public class Node {
     private final String hostname;
     private final String ip;
     private final int port;

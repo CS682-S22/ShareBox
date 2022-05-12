@@ -15,6 +15,10 @@ public class Helper {
                 build();
     }
 
+    public static Node getNodeObject(NodeDetails nodeDetails) {
+        return new Node(nodeDetails.getHostname(), nodeDetails.getIp(), nodeDetails.getPort());
+    }
+
     public static String getIpFromSocket(Socket socket) {
         return (((InetSocketAddress) socket.getRemoteSocketAddress())
                 .getAddress())

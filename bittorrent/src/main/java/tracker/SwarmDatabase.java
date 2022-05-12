@@ -63,4 +63,12 @@ public class SwarmDatabase {
         }
         return null;
     }
+
+    protected Map<String, Node> getPeersList() {
+        return this.peerList;
+    }
+
+    protected Map<String, Constants.status> getPeerStatus() {
+        return this.peerStatus;
+    }
 }
