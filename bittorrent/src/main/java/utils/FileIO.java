@@ -15,29 +15,44 @@ import java.util.Objects;
  * @project bittorrent
  */
 public class FileIO {
+    private static final String TORRENTS_DIR = "./torrents/";
     private static final String LIBRARY_DIR = "./library/";
     private static final String TEST_DIR = "./tests/";
     private static String DIR = LIBRARY_DIR;
-    private static File folder;
-    private static File library;
-    private static File testing;
+    private static File folderDir;
+    private static File libraryDir;
+    private static File testingDir;
+    private static File torrentsDir;
 
     private FileIO() {
     }
 
     public static synchronized FileIO getInstance() {
         // Make sure library folder exists.
-        library = new File(LIBRARY_DIR);
-        if (!library.exists()) {
-            library.mkdir();
+        libraryDir = new File(LIBRARY_DIR);
+        if (!libraryDir.exists()) {
+            libraryDir.mkdir();
         }
 
-        folder = library;
+        torrentsDir = new File(TORRENTS_DIR);
+        if (!torrentsDir.exists()) {
+            torrentsDir.mkdir();
+        }
+
+        folderDir = libraryDir;
         return Holder.INSTANCE;
     }
 
-    public boolean write(String filename, byte[] data) {
-        try (FileOutputStream writer = new FileOutputStream(DIR + filename)) {
+    public boolean saveFile(String filename, byte[] data) {
+        return write(DIR, filename, data);
+    }
+
+    public boolean saveTorrent(String filename, byte[] data) {
+        return write(TORRENTS_DIR, filename, data);
+    }
+
+    private boolean write(String dir, String filename, byte[] data) {
+        try (FileOutputStream writer = new FileOutputStream(dir + filename)) {
             writer.write(data);
             return true;
         } catch (IOException e) {
@@ -46,29 +61,45 @@ public class FileIO {
     }
 
     public List<byte[]> readFilesInLibrary() throws IOException {
-        List<byte[]> torrents = new ArrayList<>();
-        for (File torrentFile : Objects.requireNonNull(folder.listFiles())) {
-            Path path = Paths.get(DIR + torrentFile.getName());
-            byte[] data = Files.readAllBytes(path);
-            torrents.add(data);
-        }
-
-        return torrents;
+        return readFilesFromDir(folderDir, DIR);
     }
 
-    public byte[] read(String filename) throws IOException {
-        Path path = Paths.get(DIR + filename);
+    public List<byte[]> readTorrents() throws IOException {
+        return readFilesFromDir(torrentsDir, TORRENTS_DIR);
+    }
+
+    private List<byte[]> readFilesFromDir(File file, String dir) throws IOException {
+        List<byte[]> files = new ArrayList<>();
+        for (File torrentFile : Objects.requireNonNull(file.listFiles())) {
+            Path path = Paths.get(dir + torrentFile.getName());
+            byte[] data = Files.readAllBytes(path);
+            files.add(data);
+        }
+
+        return files;
+    }
+
+    public byte[] readFile(String filename) throws IOException {
+        return read(DIR, filename);
+    }
+
+    public byte[] readTorrent(String filename) throws IOException {
+        return read(TORRENTS_DIR, filename);
+    }
+
+    private byte[] read(String dir, String filename) throws IOException {
+        Path path = Paths.get(dir + filename);
         return Files.readAllBytes(path);
     }
 
     public FileIO testing() {
         DIR = TEST_DIR;
-        testing = new File(TEST_DIR);
+        testingDir = new File(TEST_DIR);
 
-        if (!testing.exists())
-            testing.mkdir();
+        if (!testingDir.exists())
+            testingDir.mkdir();
 
-        folder = testing;
+        folderDir = testingDir;
         return this;
     }
 

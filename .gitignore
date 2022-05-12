@@ -2,3 +2,4 @@
 
 ./bittorrent/.idea/
 ./bittorrent/tests/*
+./bittorrent/library/*
