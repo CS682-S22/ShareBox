@@ -2,9 +2,9 @@ package utils;
 
 import models.MockTorrent;
 import models.Torrent;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -16,7 +16,7 @@ class CodecTest {
 
     @Test
     void encode() {
-        Assertions.assertDoesNotThrow(() -> Codec.encode(torrent));
+        assertDoesNotThrow(() -> Codec.encode(torrent));
     }
 
     @Test

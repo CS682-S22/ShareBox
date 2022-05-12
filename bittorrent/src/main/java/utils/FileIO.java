@@ -16,7 +16,11 @@ import java.util.Objects;
  */
 public class FileIO {
     private static final String LIBRARY_DIR = "./library/";
+    private static final String TEST_DIR = "./tests/";
+    private static String DIR = LIBRARY_DIR;
+    private static File folder;
     private static File library;
+    private static File testing;
 
     private FileIO() {
     }
@@ -24,14 +28,16 @@ public class FileIO {
     public static synchronized FileIO getInstance() {
         // Make sure library folder exists.
         library = new File(LIBRARY_DIR);
-        if (!library.exists())
+        if (!library.exists()) {
             library.mkdir();
+            folder = library;
+        }
 
         return Holder.INSTANCE;
     }
 
     public boolean write(String filename, byte[] data) {
-        try (FileOutputStream writer = new FileOutputStream(LIBRARY_DIR + filename)) {
+        try (FileOutputStream writer = new FileOutputStream(DIR + filename)) {
             writer.write(data);
             return true;
         } catch (IOException e) {
@@ -41,8 +47,8 @@ public class FileIO {
 
     public List<byte[]> readFilesInLibrary() throws IOException {
         List<byte[]> torrents = new ArrayList<>();
-        for (File torrentFile : Objects.requireNonNull(library.listFiles())) {
-            Path path = Paths.get(LIBRARY_DIR + torrentFile.getName());
+        for (File torrentFile : Objects.requireNonNull(folder.listFiles())) {
+            Path path = Paths.get(DIR + torrentFile.getName());
             byte[] data = Files.readAllBytes(path);
             torrents.add(data);
         }
@@ -51,8 +57,18 @@ public class FileIO {
     }
 
     public byte[] read(String filename) throws IOException {
-        Path path = Paths.get(LIBRARY_DIR + filename);
+        Path path = Paths.get(DIR + filename);
         return Files.readAllBytes(path);
+    }
+
+    public FileIO testing() {
+        DIR = TEST_DIR;
+        testing = new File(TEST_DIR);
+
+        if (!testing.exists())
+            testing.mkdir();
+
+        return this;
     }
 
     /**

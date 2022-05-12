@@ -67,6 +67,11 @@ public class Torrent {
         }
     }
 
+    public String getName() {
+        int i = name.indexOf('.');
+        return name.substring(0, i) + ".torrent";
+    }
+
     @Override
     public String toString() {
         return "Torrent{" + '\n' +
