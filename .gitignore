@@ -1,5 +1,6 @@
 .idea/
 
+/torrents
 /bittorrent/.idea/
 /bittorrent/torrents/
 /bittorrent/library/
