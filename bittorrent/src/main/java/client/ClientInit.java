@@ -16,15 +16,18 @@ import java.util.stream.Collectors;
  * @project bittorrent
  */
 public class ClientInit {
-    private static List<Library.File> files = new ArrayList<>();
+    private static List<Library.TorrentDetails> torrentDetails = new ArrayList<>();
 
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
 
-        byte[] requestMessage = createRequest(hostname, ip, port, files).toByteArray();
+        byte[] requestMessage = createRequest(hostname, ip, port, torrentDetails).toByteArray();
         trackerConn.send(requestMessage);
-        files = null; // after initializing, let garbage collector do its jobs
+        // "files" are only used on clientInit, so only when the client
+        // is initialized. Therefore, we want garbage collector to get rid
+        // of files to avoid memory leaks.
+        torrentDetails = null;
         return trackerConn;
     }
 
@@ -32,7 +35,7 @@ public class ClientInit {
         List<Torrent> torrents = getTorrents();
         Library library = new Library();
         for (Torrent t : torrents)
-            files.add(library.add(t));
+            torrentDetails.add(library.add(t));
 
         return library;
     }
@@ -56,7 +59,7 @@ public class ClientInit {
         }
     }
 
-    private static Proto.Request createRequest(String hostname, String ip, int port, List<Library.File> torrents) {
+    private static Proto.Request createRequest(String hostname, String ip, int port, List<Library.TorrentDetails> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
                 .setNode(

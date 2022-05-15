@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.TorrentGenerator.getPieceLength;
@@ -18,13 +17,14 @@ import static utils.TorrentGenerator.getPieces;
  */
 class TorrentGeneratorTest {
     private static byte[] data;
-    private static final String filename = "cyberpunk.iso";
+    private static final String filename = "jammy-jellyfish-wallpaper.jpg";
+    private static final String comment = "This is an amazing wallpaper! But low quality";
+    private static final String createdBy = "turutupa";
 
     @BeforeAll
-    static void data() {
-        data = new byte[101];
-        for (int i = 0; i < 101; i++)
-            new Random().nextBytes(data);
+    static void data() throws IOException {
+        FileIO fileIO = FileIO.getInstance();
+        data = fileIO.readFile(filename);
     }
 
     @Test
@@ -46,5 +46,20 @@ class TorrentGeneratorTest {
         long pieceLength = getPieceLength(data);
         List<String> pieces = getPieces(data, totalSize, pieceLength);
         assertEquals((totalSize / pieceLength) + 1, pieces.size());
+    }
+
+    @Test
+    void generateTorrent() throws IOException {
+        Torrent torrent = TorrentGenerator.createTorrent(filename, comment, createdBy, data);
+        String torrentName = Helper.getTorrentName(filename);
+        byte[] data = TCodec.encode(torrent);
+        FileIO.getInstance().saveTorrent(torrentName, data);
+
+        byte[] d = FileIO.getInstance().readTorrent(torrentName);
+        for (int i = 0; i < d.length; i++)
+            assertEquals(d[i], data[i]);
+
+        for (int i = 0; i < data.length; i++)
+            assertEquals(d[i], data[i]);
     }
 }

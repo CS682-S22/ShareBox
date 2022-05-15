@@ -18,20 +18,12 @@ public class TorrentGenerator {
             String createdBy,
             byte[] data) {
         Torrent torrent = createTorrent(filename, comment, createdBy, data);
-        String torrentName = getTorrentName(filename);
+        String torrentName = Helper.getTorrentName(filename);
         FileIO.getInstance().saveTorrent(torrentName, TCodec.encode(torrent));
         return torrent;
     }
 
-    static String getTorrentName(String filename) {
-        int i = filename.indexOf('.');
-        if (i > 0)
-            filename = filename.substring(0, i);
-
-        return filename + ".torrent";
-    }
-
-    static Torrent createTorrent(
+    public static Torrent createTorrent(
             String filename,
             String comment,
             String createdBy,

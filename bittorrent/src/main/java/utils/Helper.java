@@ -25,4 +25,12 @@ public class Helper {
                 .toString()
                 .replace("/", "");
     }
+
+    public static String getTorrentName(String filename) {
+        int i = filename.indexOf('.');
+        if (i > 0)
+            filename = filename.substring(0, i);
+
+        return filename + Constants.TORRENT_EXT;
+    }
 }

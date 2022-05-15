@@ -2,6 +2,7 @@ package tracker;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import protos.Node.NodeDetails;
+import protos.Proto;
 import protos.Proto.Request;
 import protos.Response;
 import protos.Response.FileInfo;
@@ -10,7 +11,6 @@ import utils.ConnectionException;
 import utils.Helper;
 import utils.Node;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +50,7 @@ public class ConnectionHandler implements Runnable {
                         build();
                 responseBuilder.putPiecesInfo(pieceNumber, peersList);
             }
-        }
-        else {
+        } else {
             NodeDetails nullNode = Helper.getNodeDetailsObject(new Node("null", "null", 0));
             Response.PeersList peersList = Response.PeersList.newBuilder().
                     addNodes(nullNode).
@@ -68,6 +67,10 @@ public class ConnectionHandler implements Runnable {
 
         // missing to add peer torrents information
         // to swarm database
+        for (Proto.Torrent t : request.getTorrentsList())
+            System.out.println(t);
+
+        System.out.println(request.getTorrentsList().size());
 
         this.tracker.addPeer(peer);
     }

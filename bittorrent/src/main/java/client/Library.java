@@ -16,18 +16,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * on what pieces it has downloaded
  */
 public class Library {
-    Map<String, File> files = new HashMap<>();
+    Map<String, TorrentDetails> files = new HashMap<>();
     ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public Library() {
     }
 
-    public File add(Torrent torrent) {
-        File file = new File(torrent);
+    public TorrentDetails add(Torrent torrent) {
+        TorrentDetails torrentDetails = new TorrentDetails(torrent);
         lock.writeLock().lock();
         try {
-            files.put(file.name, file);
-            return file;
+            files.put(torrentDetails.name, torrentDetails);
+            return torrentDetails;
         } finally {
             lock.writeLock().unlock();
         }
@@ -51,10 +51,10 @@ public class Library {
         }
     }
 
-    static class File extends Torrent {
+    static class TorrentDetails extends Torrent {
         public final boolean[] downloadedPieces;
 
-        public File(Torrent t) {
+        public TorrentDetails(Torrent t) {
             super(t.announce,
                     t.name,
                     t.pieceLength,
