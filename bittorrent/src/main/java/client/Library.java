@@ -52,7 +52,7 @@ public class Library {
     }
 
     static class TorrentDetails extends Torrent {
-        public final boolean[] downloadedPieces;
+        public final Map<Long, Boolean> downloadedPieces;
 
         public TorrentDetails(Torrent t) {
             super(t.announce,
@@ -68,7 +68,7 @@ public class Library {
                     t.announceList,
                     t.infoHash);
 
-            boolean[] p;
+            Map<Long, Boolean> p;
             try {
                 p = checkDownloadedPieces();
             } catch (IOException e) {
@@ -78,16 +78,16 @@ public class Library {
             downloadedPieces = p;
         }
 
-        private boolean[] checkDownloadedPieces() throws IOException {
+        private Map<Long, Boolean> checkDownloadedPieces() throws IOException {
             byte[] data = FileIO.getInstance().readFile(name);
             int numberOfPieces = (int) (totalSize / pieceLength);
             if (totalSize % pieceLength != 0)
                 numberOfPieces++;
 
-            boolean[] downloadedPieces = new boolean[numberOfPieces];
+            Map<Long, Boolean> downloadedPieces = new HashMap<>();
             int j = 0;
             for (int i = 0; i < totalSize; i += pieceLength) {
-                if (data[i] != 0) downloadedPieces[j++] = true;
+                if (data[i] != 0) downloadedPieces.put((long) i, true);
             }
 
             return downloadedPieces;
