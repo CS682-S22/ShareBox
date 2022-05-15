@@ -12,7 +12,7 @@ import java.util.List;
  * @project bittorrent
  */
 public class TorrentGenerator {
-    public static void fromFile(
+    public static Torrent fromFile(
             String filename,
             String comment,
             String createdBy,
@@ -20,6 +20,7 @@ public class TorrentGenerator {
         Torrent torrent = createTorrent(filename, comment, createdBy, data);
         String torrentName = getTorrentName(filename);
         FileIO.getInstance().saveTorrent(torrentName, TCodec.encode(torrent));
+        return torrent;
     }
 
     static String getTorrentName(String filename) {
@@ -45,7 +46,6 @@ public class TorrentGenerator {
         List<Torrent.TorrentFile> fileList = null;
         Date creationDate = new Date(System.currentTimeMillis());
         List<String> announceList = null;
-
         return new Torrent(
                 Globals.trackerIP + Globals.trackerPort,
                 filename,

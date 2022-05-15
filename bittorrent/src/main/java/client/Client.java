@@ -60,8 +60,9 @@ public class Client extends Node {
 
     public void downloadFile(Torrent torrent) throws ConnectionException {
         String fileName = torrent.getName();
+        System.out.println("Downloading " + fileName);
         Map<Long, Response.PeersList> piecesInfo = getPiecesInformation(fileName);
-        System.out.println(piecesInfo);
+        System.out.println("Response: " + piecesInfo);
     }
 
     private class PeerServer implements Runnable {
@@ -74,6 +75,7 @@ public class Client extends Node {
         @Override
         public void run() {
             try {
+                System.out.println("Starting server on clientNode at " + port);
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();
                     Connection connection = new Connection(clientSocket);

@@ -7,8 +7,10 @@ import protos.Response;
 import protos.Response.FileInfo;
 import utils.Connection;
 import utils.ConnectionException;
+import utils.Helper;
 import utils.Node;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +37,10 @@ public class ConnectionHandler implements Runnable {
     }
 
     private void serveRequestPeers(Request request) throws ConnectionException {
+        System.out.println("Request received: " + request);
         String fileName = request.getFileName();
         Map<Long, List<NodeDetails>> fileInfo = this.tracker.getFileInfo(fileName);
+        System.out.println("fileinfo from database: " + fileInfo);
         FileInfo.Builder responseBuilder = FileInfo.newBuilder();
         if (fileInfo != null) {
             for (Map.Entry<Long, List<NodeDetails>> item : fileInfo.entrySet()) {
@@ -46,6 +50,13 @@ public class ConnectionHandler implements Runnable {
                         build();
                 responseBuilder.putPiecesInfo(pieceNumber, peersList);
             }
+        }
+        else {
+            NodeDetails nullNode = Helper.getNodeDetailsObject(new Node("null", "null", 0));
+            Response.PeersList peersList = Response.PeersList.newBuilder().
+                    addNodes(nullNode).
+                    build();
+            responseBuilder.putPiecesInfo(-1, peersList);
         }
         FileInfo response = responseBuilder.build();
         this.connection.send(response.toByteArray());
@@ -63,6 +74,7 @@ public class ConnectionHandler implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("New connection!");
         while (!this.connection.isClosed()) {
             Request request = receiveRequest();
             if (request == null) continue;

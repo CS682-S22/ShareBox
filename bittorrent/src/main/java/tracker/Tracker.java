@@ -44,6 +44,7 @@ public class Tracker extends Node {
         @Override
         public void run() {
             try {
+                System.out.println("Starting server on trackerNode at " + port);
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();
                     Connection connection = new Connection(clientSocket);
