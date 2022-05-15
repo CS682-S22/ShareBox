@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.FileIO.*;
 import static utils.TorrentGenerator.getPieceLength;
 import static utils.TorrentGenerator.getPieces;
 
@@ -35,7 +36,7 @@ class TorrentGeneratorTest {
                 data
         );
 
-        byte[] encoded = FileIO.getInstance().readTorrent("cyberpunk.torrent");
+        byte[] encoded = FileIO.getInstance().readTorrent(Helper.getTorrentName(filename));
         Torrent t = TCodec.decode(encoded);
         assertEquals(filename, t.name);
     }
