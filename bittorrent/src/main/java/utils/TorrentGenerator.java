@@ -59,6 +59,15 @@ public class TorrentGenerator {
         return Math.min(pieceLength, Globals.PIECE_LENGTH_MAX);
     }
 
+    /**
+     * Calculates the SHA1 value for each of the pieces of a
+     * determined "pieceLength".
+     *
+     * @param data
+     * @param totalSize
+     * @param pieceLength
+     * @return
+     */
     static List<String> getPieces(byte[] data, long totalSize, long pieceLength) {
         List<String> pieces = new ArrayList<>();
         for (int i = 0; i < totalSize; i += pieceLength) {

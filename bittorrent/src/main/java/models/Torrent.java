@@ -12,18 +12,18 @@ import java.util.List;
  * Used this as a template: <a href="https://github.com/m1dnight/torrent-parser/blob/master/src/main/java/be/christophedetroyer/torrent/Torrent.java">https://github.com/m1dnight/torrent-parser/blob/master/src/main/java/be/christophedetroyer/torrent/Torrent.java</a>
  */
 public class Torrent {
-    public final String announce;
-    public final String name;
-    public final Long pieceLength;
-    public final List<String> pieces;
-    public final boolean singleFileTorrent;
-    public final Long totalSize;
-    public final List<TorrentFile> fileList;
-    public final String comment;
-    public final String createdBy;
-    public final Date creationDate;
-    public final List<String> announceList;
-    public final String infoHash;
+    public final String announce;               // tracker announcer
+    public final String name;                   // file name (not torrent name)
+    public final Long pieceLength;              // bytes per piece
+    public final List<String> pieces;           // SHA1 bytes of each piece
+    public final boolean singleFileTorrent;     // is single/multi file
+    public final Long totalSize;                // total size in bytes
+    public final List<TorrentFile> fileList;    // list of files (if multi file torrent)
+    public final String comment;                // optional comment about file
+    public final String createdBy;              // uploader "author"
+    public final Date creationDate;             // creation date
+    public final List<String> announceList;     // list of announcers/trackers
+    public final String infoHash;               // SHA256 of entire file (not torrent)
 
     public Torrent(
             String announce,

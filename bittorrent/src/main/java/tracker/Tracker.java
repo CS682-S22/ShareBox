@@ -1,6 +1,7 @@
 package tracker;
 
 import protos.Node.NodeDetails;
+import protos.Proto;
 import utils.Connection;
 import utils.Node;
 
@@ -28,8 +29,10 @@ public class Tracker extends Node {
         return this.swarmDatabase.getFileInfo(fileName);
     }
 
-    protected void addPeer(Node node) {
-        this.swarmDatabase.addPeer(node);
+    protected void addPeer(Node node, List<Proto.Torrent> torrents) {
+        for (Proto.Torrent t : torrents)
+            for (long i = 0; i < t.getPiecesList().size(); i++)
+                this.swarmDatabase.addPieceInfo(t.getFilename(), i, node);
     }
 
     private class TrackerServer implements Runnable {
