@@ -12,3 +12,10 @@ message PeersList{
 message FileInfo{
   map<uint64, PeersList> piecesInfo = 1;
 }
+
+message PieceInfo{
+  string fileName = 1;
+  uint64 pieceNumber = 2;
+  bytes piece = 3;
+  bytes pieceHash = 4;
+}
