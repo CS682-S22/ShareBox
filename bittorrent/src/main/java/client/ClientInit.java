@@ -21,7 +21,6 @@ public class ClientInit {
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
-
         byte[] requestMessage = createRequest(hostname, ip, port, torrentDetails).toByteArray();
         trackerConn.send(requestMessage);
         // "files" are only used on clientInit, so only when the client
@@ -29,6 +28,10 @@ public class ClientInit {
         // of files to avoid memory leaks.
         torrentDetails = null;
         return trackerConn;
+    }
+
+    public static List<Library.TorrentDetails> getTorrentDetails() {
+        return torrentDetails;
     }
 
     public static Library initLibrary() {
@@ -62,6 +65,7 @@ public class ClientInit {
     }
 
     private static Proto.Request createRequest(String hostname, String ip, int port, List<Library.TorrentDetails> torrents) {
+        System.out.println("Sending request with torrents: " + torrents.size());
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
                 .setNode(
@@ -75,7 +79,7 @@ public class ClientInit {
                         .map((t) -> Proto.Torrent.newBuilder()
                                 .setFilename(t.name)
                                 .setPieceLength(t.pieceLength)
-                                .addAllPieces(t.pieces)
+                                .addAllPieces(t.downloadedPieces)
                                 .setSingleFileTorrent(t.singleFileTorrent)
                                 .setTotalSize(t.totalSize)
                                 .setComment(t.comment)
