@@ -28,11 +28,13 @@ public class Client extends Node {
     Library library;
     Connection trackerConnection;
     HeartbeatManager heartbeatManager;
+    PieceDownloader pieceDownloader;
 
     public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
         initializeServer(new PeerServer());
         library = initLibrary();
+        pieceDownloader = new PieceDownloader();
     }
 
     @Override
@@ -69,7 +71,7 @@ public class Client extends Node {
         }
     }
 
-    public void downloadFile(Torrent torrent) throws ConnectionException {
+    public void downloadFile(Torrent torrent) throws ConnectionException, IOException {
         String fileName = torrent.getName();
         System.out.println("Downloading " + fileName);
         Map<Long, Response.PeersList> piecesInfo = getPiecesInformation(fileName);
@@ -78,22 +80,31 @@ public class Client extends Node {
         }
         else {
             System.out.println("Response: " + piecesInfo);
+            for (Map.Entry<Long, Response.PeersList> item : piecesInfo.entrySet()) {
+                List<protos.Node.NodeDetails> peers = item.getValue().getNodesList();
+                if (peers.size() > 0) {
+                    pieceDownloader.downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
+                }
+
+            }
         }
     }
 
-    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {
-        Proto.Torrent torrentMsg = Proto.Torrent.newBuilder().
-                setFilename(torrent.name).
-                addAllPieces(torrent.pieces).
-                build();
-        Proto.Request request = Proto.Request.newBuilder().
-                setNode(Helper.getNodeDetailsObject(this)).
-                setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP).
-                setFileName(torrent.name).
-                addTorrents(torrentMsg).
-                build();
-        trackerConnection.send(request.toByteArray());
-    }
+//    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {
+//        System.out.println("Sending torrent info: " + torrent.getName());
+//
+//        Proto.Torrent torrentMsg = Proto.Torrent.newBuilder().
+//                setFilename(torrent.name).
+//                addAllPieces(torrent.pieces).
+//                build();
+//        Proto.Request request = Proto.Request.newBuilder().
+//                setNode(Helper.getNodeDetailsObject(this)).
+//                setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP).
+//                setFileName(torrent.name).
+//                addTorrents(torrentMsg).
+//                build();
+//        trackerConnection.send(request.toByteArray());
+//    }
 
     private class PeerServer implements Runnable {
         private final ExecutorService peerConnectionPool;
