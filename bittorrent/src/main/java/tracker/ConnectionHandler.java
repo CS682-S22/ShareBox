@@ -68,8 +68,8 @@ public class ConnectionHandler implements Runnable {
     }
 
     private void addMembership(Request request) {
-        System.out.println("Request: " + request);
         System.out.println("Received peer membership request");
+        System.out.println("Request: " + request);
         NodeDetails nodeDetails = request.getNode();
         Node peer = Helper.getNodeObject(nodeDetails);
 
@@ -78,8 +78,8 @@ public class ConnectionHandler implements Runnable {
         for (Proto.Torrent torrent : request.getTorrentsList()) {
             String fileName = torrent.getFilename();
             System.out.println("Pieces list received: " + torrent.getPiecesList());
-            for (String piece : torrent.getPiecesList()) {
-                this.tracker.addPieceInfo(fileName, Long.valueOf(piece), peer);
+            for (Long piece : torrent.getPiecesList()) {
+                this.tracker.addPieceInfo(fileName, piece, peer);
             }
         }
     }
