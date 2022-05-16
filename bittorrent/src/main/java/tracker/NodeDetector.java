@@ -28,13 +28,14 @@ public class NodeDetector {
     }
 
     private class HeartbeatCheck implements Runnable {
+        private final int msToNano = 1000000;
 
         @Override
         public void run() {
             for (Map.Entry<String, Long> entry : receivedTimes.entrySet()) {
                 long currentTime = System.nanoTime();
                 long delay = currentTime - entry.getValue();
-                if (delay > 3 * HEARTBEAT_INTERVAL_MS)
+                if (delay > (3 * HEARTBEAT_INTERVAL_MS * msToNano))
                     db.removePeer(entry.getKey());
             }
         }

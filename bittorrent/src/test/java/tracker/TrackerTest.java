@@ -90,7 +90,7 @@ class TrackerTest {
 
         // should have peer as OFFLINE
         client.stopServer();
-        Thread.sleep(16001);
+        Thread.sleep(20002);
         assertEquals(0, peerList.size());
         assertEquals(tracker.getPeerStatus().get(peerIP), Constants.Status.OFFLINE);
     }
