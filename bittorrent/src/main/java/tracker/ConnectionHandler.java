@@ -2,6 +2,7 @@ package tracker;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import protos.Node.NodeDetails;
+import protos.Proto;
 import protos.Proto.Request;
 import protos.Proto.Request.RequestType;
 import protos.Response;
@@ -61,16 +62,26 @@ public class ConnectionHandler implements Runnable {
         this.connection.send(response.toByteArray());
     }
 
-    private void addPeer(Request request) {
-        NodeDetails n = request.getNode();
-        Node peer = new Node(n.getHostname(), n.getIp(), n.getPort());
-
-        this.tracker.addPeer(peer, request.getTorrentsList());
-    }
-
     private void handleHeartbeat(Request request) {
         NodeDetails node = request.getNode();
         tracker.heartbeatReceived(node);
+    }
+
+    private void addMembership(Request request) {
+        System.out.println("Request: " + request);
+        System.out.println("Received peer membership request");
+        NodeDetails nodeDetails = request.getNode();
+        Node peer = Helper.getNodeObject(nodeDetails);
+
+        this.tracker.addPeer(peer, request.getTorrentsList());
+
+        for (Proto.Torrent torrent : request.getTorrentsList()) {
+            String fileName = torrent.getFilename();
+            System.out.println("Pieces list received: " + torrent.getPiecesList());
+            for (String piece : torrent.getPiecesList()) {
+                this.tracker.addPieceInfo(fileName, Long.valueOf(piece), peer);
+            }
+        }
     }
 
     @Override
@@ -87,8 +98,8 @@ public class ConnectionHandler implements Runnable {
                 } catch (ConnectionException e) {
                     e.printStackTrace();
                 }
-            } else if (requestType.equals(RequestType.PEER_MEMBERSHIP)) {
-                this.addPeer(request);
+            } else if (requestType.equals(Request.RequestType.PEER_MEMBERSHIP)) {
+                this.addMembership(request);
             } else if (requestType.equals(RequestType.PEER_HEARTBEAT)) {
                 this.handleHeartbeat(request);
             }

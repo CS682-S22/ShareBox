@@ -51,6 +51,10 @@ public class Tracker extends Node {
         nodeDetector.heartbeatReceived(node);
     }
 
+    void addPieceInfo(String fileName, Long pieceNumber, Node node) {
+        this.swarmDatabase.addPieceInfo(fileName, pieceNumber, node);
+    }
+
     private class TrackerServer implements Runnable {
         private final Tracker tracker;
         private final ExecutorService connectionPool;
