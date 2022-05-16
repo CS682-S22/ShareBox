@@ -18,6 +18,7 @@ public class App {
             client.startServer();
             byte[] data = "This is data. just filling it with garbage value".getBytes();
             Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
+            client.sendTorrentInfo(torrent);
             client.downloadFile(torrent);
         } catch (IOException | ConnectionException e) {
             e.printStackTrace();

@@ -11,6 +11,9 @@ import utils.Node;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,7 +73,26 @@ public class Client extends Node {
         String fileName = torrent.getName();
         System.out.println("Downloading " + fileName);
         Map<Long, Response.PeersList> piecesInfo = getPiecesInformation(fileName);
-        System.out.println("Response: " + piecesInfo);
+        if (piecesInfo.containsKey(-1L) && piecesInfo.size()==1) {
+            System.out.println("No seeders currently seeding " + fileName);
+        }
+        else {
+            System.out.println("Response: " + piecesInfo);
+        }
+    }
+
+    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {
+        Proto.Torrent torrentMsg = Proto.Torrent.newBuilder().
+                setFilename(torrent.name).
+                addAllPieces(torrent.pieces).
+                build();
+        Proto.Request request = Proto.Request.newBuilder().
+                setNode(Helper.getNodeDetailsObject(this)).
+                setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP).
+                setFileName(torrent.name).
+                addTorrents(torrentMsg).
+                build();
+        trackerConnection.send(request.toByteArray());
     }
 
     private class PeerServer implements Runnable {
