@@ -4,7 +4,9 @@ import models.Torrent;
 import utils.FileIO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -52,7 +54,7 @@ public class Library {
     }
 
     static class TorrentDetails extends Torrent {
-        public final Map<Long, Boolean> downloadedPieces;
+        public final List<Long> downloadedPieces;
 
         public TorrentDetails(Torrent t) {
             super(t.announce,
@@ -68,7 +70,7 @@ public class Library {
                     t.announceList,
                     t.infoHash);
 
-            Map<Long, Boolean> p;
+            List<Long> p;
             try {
                 p = checkDownloadedPieces();
             } catch (IOException e) {
@@ -78,19 +80,27 @@ public class Library {
             downloadedPieces = p;
         }
 
-        private Map<Long, Boolean> checkDownloadedPieces() throws IOException {
+        private List<Long> checkDownloadedPieces() throws IOException {
             byte[] data = FileIO.getInstance().readFile(name);
             int numberOfPieces = (int) (totalSize / pieceLength);
             if (totalSize % pieceLength != 0)
                 numberOfPieces++;
 
-            Map<Long, Boolean> downloadedPieces = new HashMap<>();
+            List<Long> downloadedPieces = new ArrayList<>();
             int j = 0;
             for (int i = 0; i < totalSize; i += pieceLength) {
-                if (data[i] != 0) downloadedPieces.put((long) i, true);
+                if (data[i] != 0) downloadedPieces.add((long) (i + 1));
             }
 
             return downloadedPieces;
+
+//            Map<Long, Boolean> downloadedPieces = new HashMap<>();
+//            int j = 0;
+//            for (int i = 0; i < totalSize; i += pieceLength) {
+//                if (data[i] != 0) downloadedPieces.put((long) i, true);
+//            }
+//
+//            return downloadedPieces;
         }
     }
 }
