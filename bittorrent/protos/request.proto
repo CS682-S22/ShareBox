@@ -9,7 +9,8 @@ message Request {
   NodeDetails node = 1;
   enum RequestType {
     PEER_MEMBERSHIP = 0;
-    REQUEST_PEERS = 1;
+    PEER_HEARTBEAT = 1;
+    REQUEST_PEERS = 2;
   }
   RequestType requestType = 2;
   repeated Torrent torrents = 3;

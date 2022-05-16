@@ -19,6 +19,7 @@ public class ClientInit {
     private static List<Library.TorrentDetails> torrentDetails = new ArrayList<>();
 
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
+        System.out.println("joining swarm to " + hostname + " -> " + ip + ":" + port);
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
 
@@ -34,6 +35,8 @@ public class ClientInit {
     public static Library initLibrary() {
         List<Torrent> torrents = getTorrents();
         Library library = new Library();
+        if (torrents == null) return library;
+
         for (Torrent t : torrents)
             torrentDetails.add(library.add(t));
 

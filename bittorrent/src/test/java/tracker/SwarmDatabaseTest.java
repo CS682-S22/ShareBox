@@ -8,9 +8,13 @@ import utils.Helper;
 import utils.Node;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SwarmDatabaseTest {
     private static SwarmDatabase databaseObj;
@@ -26,13 +30,13 @@ class SwarmDatabaseTest {
         Node node = new Node("localhost", "1.1.1.1", 1);
         databaseObj.addPeer(node);
         Map<String, Node> peersList = databaseObj.getPeersList();
-        Map<String, Constants.status> peerStatus = databaseObj.getPeerStatus();
+        Map<String, Constants.Status> peerStatus = databaseObj.getPeerStatus();
 
         assertTrue(peersList.containsKey(node.getIp()));
         assertTrue(peerStatus.containsKey(node.getIp()));
 
         assertEquals(node, peersList.get(node.getIp()));
-        assertEquals(Constants.status.ONLINE, peerStatus.get(node.getIp()));
+        assertEquals(Constants.Status.ONLINE, peerStatus.get(node.getIp()));
     }
 
     @Test
@@ -41,13 +45,13 @@ class SwarmDatabaseTest {
         Node node = new Node("localhost", "1.1.1.2", 2);
         databaseObj.addPeer(node);
         Map<String, Node> peersList = databaseObj.getPeersList();
-        Map<String, Constants.status> peerStatus = databaseObj.getPeerStatus();
+        Map<String, Constants.Status> peerStatus = databaseObj.getPeerStatus();
 
         assertTrue(peersList.containsKey(node.getIp()));
         assertTrue(peerStatus.containsKey(node.getIp()));
 
         assertEquals(node, peersList.get(node.getIp()));
-        assertEquals(Constants.status.ONLINE, peerStatus.get(node.getIp()));
+        assertEquals(Constants.Status.ONLINE, peerStatus.get(node.getIp()));
     }
 
     @Test
@@ -56,13 +60,13 @@ class SwarmDatabaseTest {
         Node node = new Node("localhost", "1.1.1.3", 3);
         databaseObj.addPeer(node);
         Map<String, Node> peersList = databaseObj.getPeersList();
-        Map<String, Constants.status> peerStatus = databaseObj.getPeerStatus();
+        Map<String, Constants.Status> peerStatus = databaseObj.getPeerStatus();
 
         assertTrue(peersList.containsKey(node.getIp()));
         assertTrue(peerStatus.containsKey(node.getIp()));
 
         assertEquals(node, peersList.get(node.getIp()));
-        assertEquals(Constants.status.ONLINE, peerStatus.get(node.getIp()));
+        assertEquals(Constants.Status.ONLINE, peerStatus.get(node.getIp()));
     }
 
     @Test
@@ -70,8 +74,8 @@ class SwarmDatabaseTest {
     void changePeerStatus1() {
         Node node = new Node("localhost", "1.1.1.4", 4);
         databaseObj.addPeer(node);
-        databaseObj.changePeerStatus(node, Constants.status.OFFLINE);
-        assertEquals(Constants.status.OFFLINE, databaseObj.getPeerStatus().get(node.getIp()));
+        databaseObj.changePeerStatus(node, Constants.Status.OFFLINE);
+        assertEquals(Constants.Status.OFFLINE, databaseObj.getPeerStatus().get(node.getIp()));
     }
 
     @Test
@@ -79,8 +83,8 @@ class SwarmDatabaseTest {
     void changePeerStatus2() {
         Node node = new Node("localhost", "1.1.1.5", 5);
         databaseObj.addPeer(node);
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
-        assertEquals(Constants.status.ONLINE, databaseObj.getPeerStatus().get(node.getIp()));
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
+        assertEquals(Constants.Status.ONLINE, databaseObj.getPeerStatus().get(node.getIp()));
     }
 
     @Test
@@ -88,10 +92,10 @@ class SwarmDatabaseTest {
     void changePeerStatus3() {
         Node node = new Node("localhost", "1.1.1.6", 6);
         databaseObj.addPeer(node);
-        databaseObj.changePeerStatus(node, Constants.status.OFFLINE);
-        assertEquals(Constants.status.OFFLINE, databaseObj.getPeerStatus().get(node.getIp()));
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
-        assertEquals(Constants.status.ONLINE, databaseObj.getPeerStatus().get(node.getIp()));
+        databaseObj.changePeerStatus(node, Constants.Status.OFFLINE);
+        assertEquals(Constants.Status.OFFLINE, databaseObj.getPeerStatus().get(node.getIp()));
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
+        assertEquals(Constants.Status.ONLINE, databaseObj.getPeerStatus().get(node.getIp()));
     }
 
     @Test
@@ -100,7 +104,7 @@ class SwarmDatabaseTest {
         String fileName = "first";
         Long pieceNumber = 1L;
         Node node = new Node("localhost", "1.1.1.4", 4);
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
         databaseObj.addPieceInfo(fileName, pieceNumber, node);
         Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
         assertTrue(fileInfo.get(pieceNumber).contains(Helper.getNodeDetailsObject(node)));
@@ -112,7 +116,7 @@ class SwarmDatabaseTest {
         String fileName = "first";
         Long pieceNumber = 2L;
         Node node = new Node("localhost", "1.1.1.4", 4);
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
         databaseObj.addPieceInfo(fileName, pieceNumber, node);
         Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
         assertTrue(fileInfo.get(pieceNumber).contains(Helper.getNodeDetailsObject(node)));
@@ -124,7 +128,7 @@ class SwarmDatabaseTest {
         String fileName = "second";
         Long pieceNumber = 1L;
         Node node = new Node("localhost", "1.1.1.4", 4);
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
         databaseObj.addPieceInfo(fileName, pieceNumber, node);
         Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
         assertTrue(fileInfo.get(pieceNumber).contains(Helper.getNodeDetailsObject(node)));
@@ -135,7 +139,7 @@ class SwarmDatabaseTest {
     void getFileInfo1() {
         String fileName = "third";
         Node node = new Node("localhost", "1.1.1.4", 4);
-        databaseObj.changePeerStatus(node, Constants.status.ONLINE);
+        databaseObj.changePeerStatus(node, Constants.Status.ONLINE);
         databaseObj.addPieceInfo(fileName, 1L, node);
         databaseObj.addPieceInfo(fileName, 2L, node);
         Map<Long, List<protos.Node.NodeDetails>> expectedOutput = new HashMap<>();
@@ -153,7 +157,7 @@ class SwarmDatabaseTest {
         String fileName = "third";
         Node node4 = new Node("localhost", "1.1.1.4", 4);
         Node node5 = new Node("localhost", "1.1.1.5", 5);
-        databaseObj.changePeerStatus(node5, Constants.status.ONLINE);
+        databaseObj.changePeerStatus(node5, Constants.Status.ONLINE);
         databaseObj.addPieceInfo(fileName, 1L, node5);
         Map<Long, List<protos.Node.NodeDetails>> expectedOutput = new HashMap<>();
         ArrayList<protos.Node.NodeDetails> nodeList1 = new ArrayList<>();
@@ -174,7 +178,7 @@ class SwarmDatabaseTest {
         String fileName = "third";
         Node node4 = new Node("localhost", "1.1.1.4", 4);
         Node node5 = new Node("localhost", "1.1.1.5", 5);
-        databaseObj.changePeerStatus(node4, Constants.status.OFFLINE);
+        databaseObj.changePeerStatus(node4, Constants.Status.OFFLINE);
         Map<Long, List<protos.Node.NodeDetails>> expectedOutput = new HashMap<>();
         ArrayList<protos.Node.NodeDetails> nodeList1 = new ArrayList<>();
         ArrayList<protos.Node.NodeDetails> nodeList2 = new ArrayList<>();
@@ -184,7 +188,7 @@ class SwarmDatabaseTest {
         Map<Long, List<protos.Node.NodeDetails>> fileInfo = databaseObj.getFileInfo(fileName);
         assertEquals(expectedOutput, fileInfo);
 
-        databaseObj.changePeerStatus(node5, Constants.status.OFFLINE);
+        databaseObj.changePeerStatus(node5, Constants.Status.OFFLINE);
         nodeList1.clear();
         fileInfo = databaseObj.getFileInfo(fileName);
         assertEquals(expectedOutput, fileInfo);

@@ -3,6 +3,7 @@ package tracker;
 import protos.Node.NodeDetails;
 import protos.Proto;
 import utils.Connection;
+import utils.Constants.Status;
 import utils.Node;
 
 import java.io.IOException;
@@ -18,21 +19,36 @@ import java.util.concurrent.Executors;
  */
 public class Tracker extends Node {
     final SwarmDatabase swarmDatabase;
+    final NodeDetector nodeDetector;
 
     public Tracker(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
         initializeServer(new TrackerServer(this));
         this.swarmDatabase = new SwarmDatabase();
+        this.nodeDetector = new NodeDetector(swarmDatabase);
     }
 
     protected Map<Long, List<NodeDetails>> getFileInfo(String fileName) {
         return this.swarmDatabase.getFileInfo(fileName);
     }
 
+    protected Map<String, Node> getPeerList() {
+        return this.swarmDatabase.getPeersList();
+    }
+
+    protected Map<String, Status> getPeerStatus() {
+        return this.swarmDatabase.getPeerStatus();
+    }
+
     protected void addPeer(Node node, List<Proto.Torrent> torrents) {
+        this.swarmDatabase.addPeer(node);
         for (Proto.Torrent t : torrents)
             for (long i = 0; i < t.getPiecesList().size(); i++)
                 this.swarmDatabase.addPieceInfo(t.getFilename(), i, node);
+    }
+
+    public void heartbeatReceived(NodeDetails node) {
+        nodeDetector.heartbeatReceived(node);
     }
 
     private class TrackerServer implements Runnable {

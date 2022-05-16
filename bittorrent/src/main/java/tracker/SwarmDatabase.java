@@ -1,9 +1,9 @@
 package tracker;
 
+import protos.Node.NodeDetails;
 import utils.Constants;
 import utils.Helper;
 import utils.Node;
-import protos.Node.NodeDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class SwarmDatabase {
-    private final ConcurrentHashMap<String, Node> peerList;
-    private final ConcurrentHashMap<String, Constants.status> peerStatus;
-    private final ConcurrentHashMap<String, ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>>> database;
+    private final Map<String, Node> peerList;
+    private final Map<String, Constants.Status> peerStatus;
+    private final Map<String, ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>>> database;
 
     public SwarmDatabase() {
         this.peerList = new ConcurrentHashMap<>();
@@ -26,11 +26,16 @@ public class SwarmDatabase {
     protected void addPeer(Node node) {
         if (!peerList.containsKey(node.getIp())) {
             this.peerList.put(node.getIp(), node);
-            this.peerStatus.put(node.getIp(), Constants.status.ONLINE);
+            this.peerStatus.put(node.getIp(), Constants.Status.ONLINE);
         }
     }
 
-    protected void changePeerStatus(Node node, Constants.status newStatus) {
+    protected void removePeer(String ip) {
+        this.peerList.remove(ip);
+        this.peerStatus.put(ip, Constants.Status.OFFLINE);
+    }
+
+    protected void changePeerStatus(Node node, Constants.Status newStatus) {
         this.peerStatus.put(node.getIp(), newStatus);
     }
 
@@ -48,12 +53,12 @@ public class SwarmDatabase {
         if (this.database.containsKey(fileName)) {
             ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>> piecesMap = this.database.get(fileName);
             Map<Long, List<NodeDetails>> fileInfo = new HashMap<>();
-            for (Map.Entry<Long, ConcurrentLinkedDeque<String>> item: piecesMap.entrySet()) {
+            for (Map.Entry<Long, ConcurrentLinkedDeque<String>> item : piecesMap.entrySet()) {
                 Long piece = item.getKey();
                 ConcurrentLinkedDeque<String> ipList = item.getValue();
                 List<NodeDetails> nodesList = new ArrayList<>();
                 for (String ip : ipList) {
-                    if (peerStatus.getOrDefault(ip, Constants.status.OFFLINE).equals(Constants.status.ONLINE)) {
+                    if (peerStatus.getOrDefault(ip, Constants.Status.OFFLINE).equals(Constants.Status.ONLINE)) {
                         nodesList.add(Helper.getNodeDetailsObject(peerList.get(ip)));
                     }
                 }
@@ -68,7 +73,7 @@ public class SwarmDatabase {
         return this.peerList;
     }
 
-    protected Map<String, Constants.status> getPeerStatus() {
+    protected Map<String, Constants.Status> getPeerStatus() {
         return this.peerStatus;
     }
 }

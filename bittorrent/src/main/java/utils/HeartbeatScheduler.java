@@ -1,4 +1,4 @@
-package client;
+package utils;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -17,12 +17,12 @@ public class HeartbeatScheduler {
     private final Runnable action;
     private ScheduledFuture<?> scheduledTask;
 
-    HeartbeatScheduler(Runnable action, long heartbeatIntervalMs) {
+    public HeartbeatScheduler(Runnable action, long heartbeatIntervalMs) {
         this.action = action;
         this.heartbeatIntervalMs = heartbeatIntervalMs;
     }
 
-    HeartbeatScheduler start() {
+    public HeartbeatScheduler start() {
         scheduledTask = executor.scheduleWithFixedDelay(
                 action,
                 heartbeatIntervalMs,
@@ -31,7 +31,7 @@ public class HeartbeatScheduler {
         return this;
     }
 
-    void cancel() {
+    public void cancel() {
         if (scheduledTask != null)
             scheduledTask.cancel(true);
 

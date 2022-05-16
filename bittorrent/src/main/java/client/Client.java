@@ -24,12 +24,12 @@ import static client.ClientInit.initLibrary;
 public class Client extends Node {
     Library library;
     Connection trackerConnection;
+    HeartbeatManager heartbeatManager;
 
     public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
         initializeServer(new PeerServer());
         library = initLibrary();
-        trackerConnection = null;
     }
 
     @Override
@@ -37,9 +37,17 @@ public class Client extends Node {
         super.startServer();
         try {
             trackerConnection = ClientInit.joinSwarm(hostname, ip, port);
+            heartbeatManager = new HeartbeatManager(hostname, ip, port);
+            heartbeatManager.init(trackerConnection);
         } catch (ConnectionException ignored) {
             // ignore for the time being
         }
+    }
+
+    @Override
+    public void stopServer() {
+        super.stopServer();
+        heartbeatManager.stop();
     }
 
     private Map<Long, Response.PeersList> getPiecesInformation(String fileName) throws ConnectionException {

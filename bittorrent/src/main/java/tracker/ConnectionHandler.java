@@ -3,6 +3,7 @@ package tracker;
 import com.google.protobuf.InvalidProtocolBufferException;
 import protos.Node.NodeDetails;
 import protos.Proto.Request;
+import protos.Proto.Request.RequestType;
 import protos.Response;
 import protos.Response.FileInfo;
 import utils.Connection;
@@ -29,7 +30,7 @@ public class ConnectionHandler implements Runnable {
         try {
             return Request.parseFrom(message);
         } catch (InvalidProtocolBufferException e) {
-            System.out.println("Invalid packet received");
+            System.out.println("[TRACKER] Invalid packet received");
             e.printStackTrace();
             return null;
         }
@@ -67,22 +68,29 @@ public class ConnectionHandler implements Runnable {
         this.tracker.addPeer(peer, request.getTorrentsList());
     }
 
+    private void handleHeartbeat(Request request) {
+        NodeDetails node = request.getNode();
+        tracker.heartbeatReceived(node);
+    }
+
     @Override
     public void run() {
-        System.out.println("New connection!");
+        System.out.println("[TRACKER] New connection!");
         while (!this.connection.isClosed()) {
             Request request = receiveRequest();
             if (request == null) continue;
 
-            Request.RequestType requestType = request.getRequestType();
-            if (requestType.equals(Request.RequestType.REQUEST_PEERS)) {
+            RequestType requestType = request.getRequestType();
+            if (requestType.equals(RequestType.REQUEST_PEERS)) {
                 try {
                     this.serveRequestPeers(request);
                 } catch (ConnectionException e) {
                     e.printStackTrace();
                 }
-            } else if (requestType.equals(Request.RequestType.PEER_MEMBERSHIP)) {
+            } else if (requestType.equals(RequestType.PEER_MEMBERSHIP)) {
                 this.addPeer(request);
+            } else if (requestType.equals(RequestType.PEER_HEARTBEAT)) {
+                this.handleHeartbeat(request);
             }
         }
     }

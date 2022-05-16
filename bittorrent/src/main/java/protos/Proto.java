@@ -20,12 +20,10 @@ public final class Proto {
 
     /**
      * <code>.NodeDetails node = 1;</code>
-     * @return Whether the node field is set.
      */
     boolean hasNode();
     /**
      * <code>.NodeDetails node = 1;</code>
-     * @return The node.
      */
     protos.Node.NodeDetails getNode();
     /**
@@ -35,12 +33,10 @@ public final class Proto {
 
     /**
      * <code>.Request.RequestType requestType = 2;</code>
-     * @return The enum numeric value on the wire for requestType.
      */
     int getRequestTypeValue();
     /**
      * <code>.Request.RequestType requestType = 2;</code>
-     * @return The requestType.
      */
     protos.Proto.Request.RequestType getRequestType();
 
@@ -70,12 +66,10 @@ public final class Proto {
 
     /**
      * <code>string fileName = 4;</code>
-     * @return The fileName.
      */
     java.lang.String getFileName();
     /**
      * <code>string fileName = 4;</code>
-     * @return The bytes for fileName.
      */
     com.google.protobuf.ByteString
         getFileNameBytes();
@@ -83,11 +77,10 @@ public final class Proto {
   /**
    * Protobuf type {@code Request}
    */
-  public static final class Request extends
+  public  static final class Request extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Request)
       RequestOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use Request.newBuilder() to construct.
     private Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -99,28 +92,16 @@ public final class Proto {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Request();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private Request(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -129,6 +110,12 @@ public final class Proto {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               protos.Node.NodeDetails.Builder subBuilder = null;
               if (node_ != null) {
@@ -149,9 +136,9 @@ public final class Proto {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 torrents_ = new java.util.ArrayList<protos.Proto.Torrent>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000004;
               }
               torrents_.add(
                   input.readMessage(protos.Proto.Torrent.parser(), extensionRegistry));
@@ -163,13 +150,6 @@ public final class Proto {
               fileName_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -178,10 +158,9 @@ public final class Proto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           torrents_ = java.util.Collections.unmodifiableList(torrents_);
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -190,7 +169,6 @@ public final class Proto {
       return protos.Proto.internal_static_Request_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return protos.Proto.internal_static_Request_fieldAccessorTable
@@ -208,9 +186,13 @@ public final class Proto {
        */
       PEER_MEMBERSHIP(0),
       /**
-       * <code>REQUEST_PEERS = 1;</code>
+       * <code>PEER_HEARTBEAT = 1;</code>
        */
-      REQUEST_PEERS(1),
+      PEER_HEARTBEAT(1),
+      /**
+       * <code>REQUEST_PEERS = 2;</code>
+       */
+      REQUEST_PEERS(2),
       UNRECOGNIZED(-1),
       ;
 
@@ -219,9 +201,13 @@ public final class Proto {
        */
       public static final int PEER_MEMBERSHIP_VALUE = 0;
       /**
-       * <code>REQUEST_PEERS = 1;</code>
+       * <code>PEER_HEARTBEAT = 1;</code>
        */
-      public static final int REQUEST_PEERS_VALUE = 1;
+      public static final int PEER_HEARTBEAT_VALUE = 1;
+      /**
+       * <code>REQUEST_PEERS = 2;</code>
+       */
+      public static final int REQUEST_PEERS_VALUE = 2;
 
 
       public final int getNumber() {
@@ -233,8 +219,6 @@ public final class Proto {
       }
 
       /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -242,14 +226,11 @@ public final class Proto {
         return forNumber(value);
       }
 
-      /**
-       * @param value The numeric wire value of the corresponding enum entry.
-       * @return The enum associated with the given numeric wire value.
-       */
       public static RequestType forNumber(int value) {
         switch (value) {
           case 0: return PEER_MEMBERSHIP;
-          case 1: return REQUEST_PEERS;
+          case 1: return PEER_HEARTBEAT;
+          case 2: return REQUEST_PEERS;
           default: return null;
         }
       }
@@ -268,10 +249,6 @@ public final class Proto {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalStateException(
-              "Can't get the descriptor of an unrecognized enum value.");
-        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -306,28 +283,24 @@ public final class Proto {
       // @@protoc_insertion_point(enum_scope:Request.RequestType)
     }
 
+    private int bitField0_;
     public static final int NODE_FIELD_NUMBER = 1;
     private protos.Node.NodeDetails node_;
     /**
      * <code>.NodeDetails node = 1;</code>
-     * @return Whether the node field is set.
      */
-    @java.lang.Override
     public boolean hasNode() {
       return node_ != null;
     }
     /**
      * <code>.NodeDetails node = 1;</code>
-     * @return The node.
      */
-    @java.lang.Override
     public protos.Node.NodeDetails getNode() {
       return node_ == null ? protos.Node.NodeDetails.getDefaultInstance() : node_;
     }
     /**
      * <code>.NodeDetails node = 1;</code>
      */
-    @java.lang.Override
     public protos.Node.NodeDetailsOrBuilder getNodeOrBuilder() {
       return getNode();
     }
@@ -336,17 +309,14 @@ public final class Proto {
     private int requestType_;
     /**
      * <code>.Request.RequestType requestType = 2;</code>
-     * @return The enum numeric value on the wire for requestType.
      */
-    @java.lang.Override public int getRequestTypeValue() {
+    public int getRequestTypeValue() {
       return requestType_;
     }
     /**
      * <code>.Request.RequestType requestType = 2;</code>
-     * @return The requestType.
      */
-    @java.lang.Override public protos.Proto.Request.RequestType getRequestType() {
-      @SuppressWarnings("deprecation")
+    public protos.Proto.Request.RequestType getRequestType() {
       protos.Proto.Request.RequestType result = protos.Proto.Request.RequestType.valueOf(requestType_);
       return result == null ? protos.Proto.Request.RequestType.UNRECOGNIZED : result;
     }
@@ -356,14 +326,12 @@ public final class Proto {
     /**
      * <code>repeated .Torrent torrents = 3;</code>
      */
-    @java.lang.Override
     public java.util.List<protos.Proto.Torrent> getTorrentsList() {
       return torrents_;
     }
     /**
      * <code>repeated .Torrent torrents = 3;</code>
      */
-    @java.lang.Override
     public java.util.List<? extends protos.Proto.TorrentOrBuilder> 
         getTorrentsOrBuilderList() {
       return torrents_;
@@ -371,21 +339,18 @@ public final class Proto {
     /**
      * <code>repeated .Torrent torrents = 3;</code>
      */
-    @java.lang.Override
     public int getTorrentsCount() {
       return torrents_.size();
     }
     /**
      * <code>repeated .Torrent torrents = 3;</code>
      */
-    @java.lang.Override
     public protos.Proto.Torrent getTorrents(int index) {
       return torrents_.get(index);
     }
     /**
      * <code>repeated .Torrent torrents = 3;</code>
      */
-    @java.lang.Override
     public protos.Proto.TorrentOrBuilder getTorrentsOrBuilder(
         int index) {
       return torrents_.get(index);
@@ -395,9 +360,7 @@ public final class Proto {
     private volatile java.lang.Object fileName_;
     /**
      * <code>string fileName = 4;</code>
-     * @return The fileName.
      */
-    @java.lang.Override
     public java.lang.String getFileName() {
       java.lang.Object ref = fileName_;
       if (ref instanceof java.lang.String) {
@@ -412,9 +375,7 @@ public final class Proto {
     }
     /**
      * <code>string fileName = 4;</code>
-     * @return The bytes for fileName.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getFileNameBytes() {
       java.lang.Object ref = fileName_;
@@ -430,7 +391,6 @@ public final class Proto {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -440,7 +400,6 @@ public final class Proto {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (node_ != null) {
@@ -452,13 +411,11 @@ public final class Proto {
       for (int i = 0; i < torrents_.size(); i++) {
         output.writeMessage(3, torrents_.get(i));
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fileName_)) {
+      if (!getFileNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, fileName_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -476,14 +433,14 @@ public final class Proto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, torrents_.get(i));
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fileName_)) {
+      if (!getFileNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, fileName_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -494,18 +451,18 @@ public final class Proto {
       }
       protos.Proto.Request other = (protos.Proto.Request) obj;
 
-      if (hasNode() != other.hasNode()) return false;
+      boolean result = true;
+      result = result && (hasNode() == other.hasNode());
       if (hasNode()) {
-        if (!getNode()
-            .equals(other.getNode())) return false;
+        result = result && getNode()
+            .equals(other.getNode());
       }
-      if (requestType_ != other.requestType_) return false;
-      if (!getTorrentsList()
-          .equals(other.getTorrentsList())) return false;
-      if (!getFileName()
-          .equals(other.getFileName())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      result = result && requestType_ == other.requestType_;
+      result = result && getTorrentsList()
+          .equals(other.getTorrentsList());
+      result = result && getFileName()
+          .equals(other.getFileName());
+      return result;
     }
 
     @java.lang.Override
@@ -532,17 +489,6 @@ public final class Proto {
       return hash;
     }
 
-    public static protos.Proto.Request parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.Proto.Request parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static protos.Proto.Request parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -602,7 +548,6 @@ public final class Proto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -610,7 +555,6 @@ public final class Proto {
     public static Builder newBuilder(protos.Proto.Request prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -634,7 +578,6 @@ public final class Proto {
         return protos.Proto.internal_static_Request_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return protos.Proto.internal_static_Request_fieldAccessorTable
@@ -658,7 +601,6 @@ public final class Proto {
           getTorrentsFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (nodeBuilder_ == null) {
@@ -671,7 +613,7 @@ public final class Proto {
 
         if (torrentsBuilder_ == null) {
           torrents_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           torrentsBuilder_.clear();
         }
@@ -680,18 +622,15 @@ public final class Proto {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return protos.Proto.internal_static_Request_descriptor;
       }
 
-      @java.lang.Override
       public protos.Proto.Request getDefaultInstanceForType() {
         return protos.Proto.Request.getDefaultInstance();
       }
 
-      @java.lang.Override
       public protos.Proto.Request build() {
         protos.Proto.Request result = buildPartial();
         if (!result.isInitialized()) {
@@ -700,10 +639,10 @@ public final class Proto {
         return result;
       }
 
-      @java.lang.Override
       public protos.Proto.Request buildPartial() {
         protos.Proto.Request result = new protos.Proto.Request(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (nodeBuilder_ == null) {
           result.node_ = node_;
         } else {
@@ -711,52 +650,46 @@ public final class Proto {
         }
         result.requestType_ = requestType_;
         if (torrentsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             torrents_ = java.util.Collections.unmodifiableList(torrents_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.torrents_ = torrents_;
         } else {
           result.torrents_ = torrentsBuilder_.build();
         }
         result.fileName_ = fileName_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
+          Object value) {
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof protos.Proto.Request) {
           return mergeFrom((protos.Proto.Request)other);
@@ -778,7 +711,7 @@ public final class Proto {
           if (!other.torrents_.isEmpty()) {
             if (torrents_.isEmpty()) {
               torrents_ = other.torrents_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureTorrentsIsMutable();
               torrents_.addAll(other.torrents_);
@@ -791,7 +724,7 @@ public final class Proto {
               torrentsBuilder_.dispose();
               torrentsBuilder_ = null;
               torrents_ = other.torrents_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000004);
               torrentsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTorrentsFieldBuilder() : null;
@@ -804,17 +737,14 @@ public final class Proto {
           fileName_ = other.fileName_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -834,19 +764,17 @@ public final class Proto {
       }
       private int bitField0_;
 
-      private protos.Node.NodeDetails node_;
+      private protos.Node.NodeDetails node_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           protos.Node.NodeDetails, protos.Node.NodeDetails.Builder, protos.Node.NodeDetailsOrBuilder> nodeBuilder_;
       /**
        * <code>.NodeDetails node = 1;</code>
-       * @return Whether the node field is set.
        */
       public boolean hasNode() {
         return nodeBuilder_ != null || node_ != null;
       }
       /**
        * <code>.NodeDetails node = 1;</code>
-       * @return The node.
        */
       public protos.Node.NodeDetails getNode() {
         if (nodeBuilder_ == null) {
@@ -956,36 +884,27 @@ public final class Proto {
       private int requestType_ = 0;
       /**
        * <code>.Request.RequestType requestType = 2;</code>
-       * @return The enum numeric value on the wire for requestType.
        */
-      @java.lang.Override public int getRequestTypeValue() {
+      public int getRequestTypeValue() {
         return requestType_;
       }
       /**
        * <code>.Request.RequestType requestType = 2;</code>
-       * @param value The enum numeric value on the wire for requestType to set.
-       * @return This builder for chaining.
        */
       public Builder setRequestTypeValue(int value) {
-        
         requestType_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Request.RequestType requestType = 2;</code>
-       * @return The requestType.
        */
-      @java.lang.Override
       public protos.Proto.Request.RequestType getRequestType() {
-        @SuppressWarnings("deprecation")
         protos.Proto.Request.RequestType result = protos.Proto.Request.RequestType.valueOf(requestType_);
         return result == null ? protos.Proto.Request.RequestType.UNRECOGNIZED : result;
       }
       /**
        * <code>.Request.RequestType requestType = 2;</code>
-       * @param value The requestType to set.
-       * @return This builder for chaining.
        */
       public Builder setRequestType(protos.Proto.Request.RequestType value) {
         if (value == null) {
@@ -998,7 +917,6 @@ public final class Proto {
       }
       /**
        * <code>.Request.RequestType requestType = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearRequestType() {
         
@@ -1010,9 +928,9 @@ public final class Proto {
       private java.util.List<protos.Proto.Torrent> torrents_ =
         java.util.Collections.emptyList();
       private void ensureTorrentsIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           torrents_ = new java.util.ArrayList<protos.Proto.Torrent>(torrents_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -1162,7 +1080,7 @@ public final class Proto {
       public Builder clearTorrents() {
         if (torrentsBuilder_ == null) {
           torrents_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           torrentsBuilder_.clear();
@@ -1239,7 +1157,7 @@ public final class Proto {
           torrentsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               protos.Proto.Torrent, protos.Proto.Torrent.Builder, protos.Proto.TorrentOrBuilder>(
                   torrents_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           torrents_ = null;
@@ -1250,7 +1168,6 @@ public final class Proto {
       private java.lang.Object fileName_ = "";
       /**
        * <code>string fileName = 4;</code>
-       * @return The fileName.
        */
       public java.lang.String getFileName() {
         java.lang.Object ref = fileName_;
@@ -1266,7 +1183,6 @@ public final class Proto {
       }
       /**
        * <code>string fileName = 4;</code>
-       * @return The bytes for fileName.
        */
       public com.google.protobuf.ByteString
           getFileNameBytes() {
@@ -1283,8 +1199,6 @@ public final class Proto {
       }
       /**
        * <code>string fileName = 4;</code>
-       * @param value The fileName to set.
-       * @return This builder for chaining.
        */
       public Builder setFileName(
           java.lang.String value) {
@@ -1298,7 +1212,6 @@ public final class Proto {
       }
       /**
        * <code>string fileName = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearFileName() {
         
@@ -1308,8 +1221,6 @@ public final class Proto {
       }
       /**
        * <code>string fileName = 4;</code>
-       * @param value The bytes for fileName to set.
-       * @return This builder for chaining.
        */
       public Builder setFileNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1322,16 +1233,14 @@ public final class Proto {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -1350,12 +1259,11 @@ public final class Proto {
 
     private static final com.google.protobuf.Parser<Request>
         PARSER = new com.google.protobuf.AbstractParser<Request>() {
-      @java.lang.Override
       public Request parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Request(input, extensionRegistry);
+          return new Request(input, extensionRegistry);
       }
     };
 
@@ -1368,7 +1276,6 @@ public final class Proto {
       return PARSER;
     }
 
-    @java.lang.Override
     public protos.Proto.Request getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1381,97 +1288,79 @@ public final class Proto {
 
     /**
      * <code>string filename = 1;</code>
-     * @return The filename.
      */
     java.lang.String getFilename();
     /**
      * <code>string filename = 1;</code>
-     * @return The bytes for filename.
      */
     com.google.protobuf.ByteString
         getFilenameBytes();
 
     /**
      * <code>int64 pieceLength = 2;</code>
-     * @return The pieceLength.
      */
     long getPieceLength();
 
     /**
      * <code>repeated string pieces = 3;</code>
-     * @return A list containing the pieces.
      */
     java.util.List<java.lang.String>
         getPiecesList();
     /**
      * <code>repeated string pieces = 3;</code>
-     * @return The count of pieces.
      */
     int getPiecesCount();
     /**
      * <code>repeated string pieces = 3;</code>
-     * @param index The index of the element to return.
-     * @return The pieces at the given index.
      */
     java.lang.String getPieces(int index);
     /**
      * <code>repeated string pieces = 3;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the pieces at the given index.
      */
     com.google.protobuf.ByteString
         getPiecesBytes(int index);
 
     /**
      * <code>bool singleFileTorrent = 4;</code>
-     * @return The singleFileTorrent.
      */
     boolean getSingleFileTorrent();
 
     /**
      * <code>int64 totalSize = 5;</code>
-     * @return The totalSize.
      */
     long getTotalSize();
 
     /**
      * <code>string comment = 6;</code>
-     * @return The comment.
      */
     java.lang.String getComment();
     /**
      * <code>string comment = 6;</code>
-     * @return The bytes for comment.
      */
     com.google.protobuf.ByteString
         getCommentBytes();
 
     /**
      * <code>string createdBy = 7;</code>
-     * @return The createdBy.
      */
     java.lang.String getCreatedBy();
     /**
      * <code>string createdBy = 7;</code>
-     * @return The bytes for createdBy.
      */
     com.google.protobuf.ByteString
         getCreatedByBytes();
 
     /**
      * <code>int64 creationDate = 8;</code>
-     * @return The creationDate.
      */
     long getCreationDate();
 
     /**
      * <code>string infoHash = 9;</code>
-     * @return The infoHash.
      */
     java.lang.String getInfoHash();
     /**
      * <code>string infoHash = 9;</code>
-     * @return The bytes for infoHash.
      */
     com.google.protobuf.ByteString
         getInfoHashBytes();
@@ -1479,46 +1368,37 @@ public final class Proto {
   /**
    * Protobuf type {@code Torrent}
    */
-  public static final class Torrent extends
+  public  static final class Torrent extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Torrent)
       TorrentOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use Torrent.newBuilder() to construct.
     private Torrent(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Torrent() {
       filename_ = "";
+      pieceLength_ = 0L;
       pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      singleFileTorrent_ = false;
+      totalSize_ = 0L;
       comment_ = "";
       createdBy_ = "";
+      creationDate_ = 0L;
       infoHash_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Torrent();
     }
 
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private Torrent(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -1527,6 +1407,12 @@ public final class Proto {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1540,9 +1426,9 @@ public final class Proto {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 pieces_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000004;
               }
               pieces_.add(s);
               break;
@@ -1580,13 +1466,6 @@ public final class Proto {
               infoHash_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1595,10 +1474,9 @@ public final class Proto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           pieces_ = pieces_.getUnmodifiableView();
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -1607,7 +1485,6 @@ public final class Proto {
       return protos.Proto.internal_static_Torrent_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return protos.Proto.internal_static_Torrent_fieldAccessorTable
@@ -1615,13 +1492,12 @@ public final class Proto {
               protos.Proto.Torrent.class, protos.Proto.Torrent.Builder.class);
     }
 
+    private int bitField0_;
     public static final int FILENAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object filename_;
     /**
      * <code>string filename = 1;</code>
-     * @return The filename.
      */
-    @java.lang.Override
     public java.lang.String getFilename() {
       java.lang.Object ref = filename_;
       if (ref instanceof java.lang.String) {
@@ -1636,9 +1512,7 @@ public final class Proto {
     }
     /**
      * <code>string filename = 1;</code>
-     * @return The bytes for filename.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getFilenameBytes() {
       java.lang.Object ref = filename_;
@@ -1657,9 +1531,7 @@ public final class Proto {
     private long pieceLength_;
     /**
      * <code>int64 pieceLength = 2;</code>
-     * @return The pieceLength.
      */
-    @java.lang.Override
     public long getPieceLength() {
       return pieceLength_;
     }
@@ -1668,7 +1540,6 @@ public final class Proto {
     private com.google.protobuf.LazyStringList pieces_;
     /**
      * <code>repeated string pieces = 3;</code>
-     * @return A list containing the pieces.
      */
     public com.google.protobuf.ProtocolStringList
         getPiecesList() {
@@ -1676,23 +1547,18 @@ public final class Proto {
     }
     /**
      * <code>repeated string pieces = 3;</code>
-     * @return The count of pieces.
      */
     public int getPiecesCount() {
       return pieces_.size();
     }
     /**
      * <code>repeated string pieces = 3;</code>
-     * @param index The index of the element to return.
-     * @return The pieces at the given index.
      */
     public java.lang.String getPieces(int index) {
       return pieces_.get(index);
     }
     /**
      * <code>repeated string pieces = 3;</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the pieces at the given index.
      */
     public com.google.protobuf.ByteString
         getPiecesBytes(int index) {
@@ -1703,9 +1569,7 @@ public final class Proto {
     private boolean singleFileTorrent_;
     /**
      * <code>bool singleFileTorrent = 4;</code>
-     * @return The singleFileTorrent.
      */
-    @java.lang.Override
     public boolean getSingleFileTorrent() {
       return singleFileTorrent_;
     }
@@ -1714,9 +1578,7 @@ public final class Proto {
     private long totalSize_;
     /**
      * <code>int64 totalSize = 5;</code>
-     * @return The totalSize.
      */
-    @java.lang.Override
     public long getTotalSize() {
       return totalSize_;
     }
@@ -1725,9 +1587,7 @@ public final class Proto {
     private volatile java.lang.Object comment_;
     /**
      * <code>string comment = 6;</code>
-     * @return The comment.
      */
-    @java.lang.Override
     public java.lang.String getComment() {
       java.lang.Object ref = comment_;
       if (ref instanceof java.lang.String) {
@@ -1742,9 +1602,7 @@ public final class Proto {
     }
     /**
      * <code>string comment = 6;</code>
-     * @return The bytes for comment.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCommentBytes() {
       java.lang.Object ref = comment_;
@@ -1763,9 +1621,7 @@ public final class Proto {
     private volatile java.lang.Object createdBy_;
     /**
      * <code>string createdBy = 7;</code>
-     * @return The createdBy.
      */
-    @java.lang.Override
     public java.lang.String getCreatedBy() {
       java.lang.Object ref = createdBy_;
       if (ref instanceof java.lang.String) {
@@ -1780,9 +1636,7 @@ public final class Proto {
     }
     /**
      * <code>string createdBy = 7;</code>
-     * @return The bytes for createdBy.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreatedByBytes() {
       java.lang.Object ref = createdBy_;
@@ -1801,9 +1655,7 @@ public final class Proto {
     private long creationDate_;
     /**
      * <code>int64 creationDate = 8;</code>
-     * @return The creationDate.
      */
-    @java.lang.Override
     public long getCreationDate() {
       return creationDate_;
     }
@@ -1812,9 +1664,7 @@ public final class Proto {
     private volatile java.lang.Object infoHash_;
     /**
      * <code>string infoHash = 9;</code>
-     * @return The infoHash.
      */
-    @java.lang.Override
     public java.lang.String getInfoHash() {
       java.lang.Object ref = infoHash_;
       if (ref instanceof java.lang.String) {
@@ -1829,9 +1679,7 @@ public final class Proto {
     }
     /**
      * <code>string infoHash = 9;</code>
-     * @return The bytes for infoHash.
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getInfoHashBytes() {
       java.lang.Object ref = infoHash_;
@@ -1847,7 +1695,6 @@ public final class Proto {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1857,10 +1704,9 @@ public final class Proto {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(filename_)) {
+      if (!getFilenameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, filename_);
       }
       if (pieceLength_ != 0L) {
@@ -1875,28 +1721,26 @@ public final class Proto {
       if (totalSize_ != 0L) {
         output.writeInt64(5, totalSize_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(comment_)) {
+      if (!getCommentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, comment_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(createdBy_)) {
+      if (!getCreatedByBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, createdBy_);
       }
       if (creationDate_ != 0L) {
         output.writeInt64(8, creationDate_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(infoHash_)) {
+      if (!getInfoHashBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, infoHash_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(filename_)) {
+      if (!getFilenameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, filename_);
       }
       if (pieceLength_ != 0L) {
@@ -1919,24 +1763,24 @@ public final class Proto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, totalSize_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(comment_)) {
+      if (!getCommentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, comment_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(createdBy_)) {
+      if (!getCreatedByBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, createdBy_);
       }
       if (creationDate_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(8, creationDate_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(infoHash_)) {
+      if (!getInfoHashBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, infoHash_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1947,26 +1791,26 @@ public final class Proto {
       }
       protos.Proto.Torrent other = (protos.Proto.Torrent) obj;
 
-      if (!getFilename()
-          .equals(other.getFilename())) return false;
-      if (getPieceLength()
-          != other.getPieceLength()) return false;
-      if (!getPiecesList()
-          .equals(other.getPiecesList())) return false;
-      if (getSingleFileTorrent()
-          != other.getSingleFileTorrent()) return false;
-      if (getTotalSize()
-          != other.getTotalSize()) return false;
-      if (!getComment()
-          .equals(other.getComment())) return false;
-      if (!getCreatedBy()
-          .equals(other.getCreatedBy())) return false;
-      if (getCreationDate()
-          != other.getCreationDate()) return false;
-      if (!getInfoHash()
-          .equals(other.getInfoHash())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
+      boolean result = true;
+      result = result && getFilename()
+          .equals(other.getFilename());
+      result = result && (getPieceLength()
+          == other.getPieceLength());
+      result = result && getPiecesList()
+          .equals(other.getPiecesList());
+      result = result && (getSingleFileTorrent()
+          == other.getSingleFileTorrent());
+      result = result && (getTotalSize()
+          == other.getTotalSize());
+      result = result && getComment()
+          .equals(other.getComment());
+      result = result && getCreatedBy()
+          .equals(other.getCreatedBy());
+      result = result && (getCreationDate()
+          == other.getCreationDate());
+      result = result && getInfoHash()
+          .equals(other.getInfoHash());
+      return result;
     }
 
     @java.lang.Override
@@ -2005,17 +1849,6 @@ public final class Proto {
       return hash;
     }
 
-    public static protos.Proto.Torrent parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static protos.Proto.Torrent parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static protos.Proto.Torrent parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2075,7 +1908,6 @@ public final class Proto {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2083,7 +1915,6 @@ public final class Proto {
     public static Builder newBuilder(protos.Proto.Torrent prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2107,7 +1938,6 @@ public final class Proto {
         return protos.Proto.internal_static_Torrent_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return protos.Proto.internal_static_Torrent_fieldAccessorTable
@@ -2130,7 +1960,6 @@ public final class Proto {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         filename_ = "";
@@ -2138,7 +1967,7 @@ public final class Proto {
         pieceLength_ = 0L;
 
         pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         singleFileTorrent_ = false;
 
         totalSize_ = 0L;
@@ -2154,18 +1983,15 @@ public final class Proto {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return protos.Proto.internal_static_Torrent_descriptor;
       }
 
-      @java.lang.Override
       public protos.Proto.Torrent getDefaultInstanceForType() {
         return protos.Proto.Torrent.getDefaultInstance();
       }
 
-      @java.lang.Override
       public protos.Proto.Torrent build() {
         protos.Proto.Torrent result = buildPartial();
         if (!result.isInitialized()) {
@@ -2174,15 +2000,15 @@ public final class Proto {
         return result;
       }
 
-      @java.lang.Override
       public protos.Proto.Torrent buildPartial() {
         protos.Proto.Torrent result = new protos.Proto.Torrent(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.filename_ = filename_;
         result.pieceLength_ = pieceLength_;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           pieces_ = pieces_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.pieces_ = pieces_;
         result.singleFileTorrent_ = singleFileTorrent_;
@@ -2191,43 +2017,37 @@ public final class Proto {
         result.createdBy_ = createdBy_;
         result.creationDate_ = creationDate_;
         result.infoHash_ = infoHash_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
-        return super.clone();
+        return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
+          Object value) {
+        return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
+        return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
+        return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof protos.Proto.Torrent) {
           return mergeFrom((protos.Proto.Torrent)other);
@@ -2249,7 +2069,7 @@ public final class Proto {
         if (!other.pieces_.isEmpty()) {
           if (pieces_.isEmpty()) {
             pieces_ = other.pieces_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensurePiecesIsMutable();
             pieces_.addAll(other.pieces_);
@@ -2277,17 +2097,14 @@ public final class Proto {
           infoHash_ = other.infoHash_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2310,7 +2127,6 @@ public final class Proto {
       private java.lang.Object filename_ = "";
       /**
        * <code>string filename = 1;</code>
-       * @return The filename.
        */
       public java.lang.String getFilename() {
         java.lang.Object ref = filename_;
@@ -2326,7 +2142,6 @@ public final class Proto {
       }
       /**
        * <code>string filename = 1;</code>
-       * @return The bytes for filename.
        */
       public com.google.protobuf.ByteString
           getFilenameBytes() {
@@ -2343,8 +2158,6 @@ public final class Proto {
       }
       /**
        * <code>string filename = 1;</code>
-       * @param value The filename to set.
-       * @return This builder for chaining.
        */
       public Builder setFilename(
           java.lang.String value) {
@@ -2358,7 +2171,6 @@ public final class Proto {
       }
       /**
        * <code>string filename = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearFilename() {
         
@@ -2368,8 +2180,6 @@ public final class Proto {
       }
       /**
        * <code>string filename = 1;</code>
-       * @param value The bytes for filename to set.
-       * @return This builder for chaining.
        */
       public Builder setFilenameBytes(
           com.google.protobuf.ByteString value) {
@@ -2386,16 +2196,12 @@ public final class Proto {
       private long pieceLength_ ;
       /**
        * <code>int64 pieceLength = 2;</code>
-       * @return The pieceLength.
        */
-      @java.lang.Override
       public long getPieceLength() {
         return pieceLength_;
       }
       /**
        * <code>int64 pieceLength = 2;</code>
-       * @param value The pieceLength to set.
-       * @return This builder for chaining.
        */
       public Builder setPieceLength(long value) {
         
@@ -2405,7 +2211,6 @@ public final class Proto {
       }
       /**
        * <code>int64 pieceLength = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPieceLength() {
         
@@ -2416,14 +2221,13 @@ public final class Proto {
 
       private com.google.protobuf.LazyStringList pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePiecesIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           pieces_ = new com.google.protobuf.LazyStringArrayList(pieces_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000004;
          }
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @return A list containing the pieces.
        */
       public com.google.protobuf.ProtocolStringList
           getPiecesList() {
@@ -2431,23 +2235,18 @@ public final class Proto {
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @return The count of pieces.
        */
       public int getPiecesCount() {
         return pieces_.size();
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param index The index of the element to return.
-       * @return The pieces at the given index.
        */
       public java.lang.String getPieces(int index) {
         return pieces_.get(index);
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the pieces at the given index.
        */
       public com.google.protobuf.ByteString
           getPiecesBytes(int index) {
@@ -2455,9 +2254,6 @@ public final class Proto {
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param index The index to set the value at.
-       * @param value The pieces to set.
-       * @return This builder for chaining.
        */
       public Builder setPieces(
           int index, java.lang.String value) {
@@ -2471,8 +2267,6 @@ public final class Proto {
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param value The pieces to add.
-       * @return This builder for chaining.
        */
       public Builder addPieces(
           java.lang.String value) {
@@ -2486,8 +2280,6 @@ public final class Proto {
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param values The pieces to add.
-       * @return This builder for chaining.
        */
       public Builder addAllPieces(
           java.lang.Iterable<java.lang.String> values) {
@@ -2499,18 +2291,15 @@ public final class Proto {
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearPieces() {
         pieces_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string pieces = 3;</code>
-       * @param value The bytes of the pieces to add.
-       * @return This builder for chaining.
        */
       public Builder addPiecesBytes(
           com.google.protobuf.ByteString value) {
@@ -2527,16 +2316,12 @@ public final class Proto {
       private boolean singleFileTorrent_ ;
       /**
        * <code>bool singleFileTorrent = 4;</code>
-       * @return The singleFileTorrent.
        */
-      @java.lang.Override
       public boolean getSingleFileTorrent() {
         return singleFileTorrent_;
       }
       /**
        * <code>bool singleFileTorrent = 4;</code>
-       * @param value The singleFileTorrent to set.
-       * @return This builder for chaining.
        */
       public Builder setSingleFileTorrent(boolean value) {
         
@@ -2546,7 +2331,6 @@ public final class Proto {
       }
       /**
        * <code>bool singleFileTorrent = 4;</code>
-       * @return This builder for chaining.
        */
       public Builder clearSingleFileTorrent() {
         
@@ -2558,16 +2342,12 @@ public final class Proto {
       private long totalSize_ ;
       /**
        * <code>int64 totalSize = 5;</code>
-       * @return The totalSize.
        */
-      @java.lang.Override
       public long getTotalSize() {
         return totalSize_;
       }
       /**
        * <code>int64 totalSize = 5;</code>
-       * @param value The totalSize to set.
-       * @return This builder for chaining.
        */
       public Builder setTotalSize(long value) {
         
@@ -2577,7 +2357,6 @@ public final class Proto {
       }
       /**
        * <code>int64 totalSize = 5;</code>
-       * @return This builder for chaining.
        */
       public Builder clearTotalSize() {
         
@@ -2589,7 +2368,6 @@ public final class Proto {
       private java.lang.Object comment_ = "";
       /**
        * <code>string comment = 6;</code>
-       * @return The comment.
        */
       public java.lang.String getComment() {
         java.lang.Object ref = comment_;
@@ -2605,7 +2383,6 @@ public final class Proto {
       }
       /**
        * <code>string comment = 6;</code>
-       * @return The bytes for comment.
        */
       public com.google.protobuf.ByteString
           getCommentBytes() {
@@ -2622,8 +2399,6 @@ public final class Proto {
       }
       /**
        * <code>string comment = 6;</code>
-       * @param value The comment to set.
-       * @return This builder for chaining.
        */
       public Builder setComment(
           java.lang.String value) {
@@ -2637,7 +2412,6 @@ public final class Proto {
       }
       /**
        * <code>string comment = 6;</code>
-       * @return This builder for chaining.
        */
       public Builder clearComment() {
         
@@ -2647,8 +2421,6 @@ public final class Proto {
       }
       /**
        * <code>string comment = 6;</code>
-       * @param value The bytes for comment to set.
-       * @return This builder for chaining.
        */
       public Builder setCommentBytes(
           com.google.protobuf.ByteString value) {
@@ -2665,7 +2437,6 @@ public final class Proto {
       private java.lang.Object createdBy_ = "";
       /**
        * <code>string createdBy = 7;</code>
-       * @return The createdBy.
        */
       public java.lang.String getCreatedBy() {
         java.lang.Object ref = createdBy_;
@@ -2681,7 +2452,6 @@ public final class Proto {
       }
       /**
        * <code>string createdBy = 7;</code>
-       * @return The bytes for createdBy.
        */
       public com.google.protobuf.ByteString
           getCreatedByBytes() {
@@ -2698,8 +2468,6 @@ public final class Proto {
       }
       /**
        * <code>string createdBy = 7;</code>
-       * @param value The createdBy to set.
-       * @return This builder for chaining.
        */
       public Builder setCreatedBy(
           java.lang.String value) {
@@ -2713,7 +2481,6 @@ public final class Proto {
       }
       /**
        * <code>string createdBy = 7;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreatedBy() {
         
@@ -2723,8 +2490,6 @@ public final class Proto {
       }
       /**
        * <code>string createdBy = 7;</code>
-       * @param value The bytes for createdBy to set.
-       * @return This builder for chaining.
        */
       public Builder setCreatedByBytes(
           com.google.protobuf.ByteString value) {
@@ -2741,16 +2506,12 @@ public final class Proto {
       private long creationDate_ ;
       /**
        * <code>int64 creationDate = 8;</code>
-       * @return The creationDate.
        */
-      @java.lang.Override
       public long getCreationDate() {
         return creationDate_;
       }
       /**
        * <code>int64 creationDate = 8;</code>
-       * @param value The creationDate to set.
-       * @return This builder for chaining.
        */
       public Builder setCreationDate(long value) {
         
@@ -2760,7 +2521,6 @@ public final class Proto {
       }
       /**
        * <code>int64 creationDate = 8;</code>
-       * @return This builder for chaining.
        */
       public Builder clearCreationDate() {
         
@@ -2772,7 +2532,6 @@ public final class Proto {
       private java.lang.Object infoHash_ = "";
       /**
        * <code>string infoHash = 9;</code>
-       * @return The infoHash.
        */
       public java.lang.String getInfoHash() {
         java.lang.Object ref = infoHash_;
@@ -2788,7 +2547,6 @@ public final class Proto {
       }
       /**
        * <code>string infoHash = 9;</code>
-       * @return The bytes for infoHash.
        */
       public com.google.protobuf.ByteString
           getInfoHashBytes() {
@@ -2805,8 +2563,6 @@ public final class Proto {
       }
       /**
        * <code>string infoHash = 9;</code>
-       * @param value The infoHash to set.
-       * @return This builder for chaining.
        */
       public Builder setInfoHash(
           java.lang.String value) {
@@ -2820,7 +2576,6 @@ public final class Proto {
       }
       /**
        * <code>string infoHash = 9;</code>
-       * @return This builder for chaining.
        */
       public Builder clearInfoHash() {
         
@@ -2830,8 +2585,6 @@ public final class Proto {
       }
       /**
        * <code>string infoHash = 9;</code>
-       * @param value The bytes for infoHash to set.
-       * @return This builder for chaining.
        */
       public Builder setInfoHashBytes(
           com.google.protobuf.ByteString value) {
@@ -2844,16 +2597,14 @@ public final class Proto {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -2872,12 +2623,11 @@ public final class Proto {
 
     private static final com.google.protobuf.Parser<Torrent>
         PARSER = new com.google.protobuf.AbstractParser<Torrent>() {
-      @java.lang.Override
       public Torrent parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Torrent(input, extensionRegistry);
+          return new Torrent(input, extensionRegistry);
       }
     };
 
@@ -2890,7 +2640,6 @@ public final class Proto {
       return PARSER;
     }
 
-    @java.lang.Override
     public protos.Proto.Torrent getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2917,22 +2666,31 @@ public final class Proto {
   static {
     java.lang.String[] descriptorData = {
       "\n\024protos/request.proto\032\021protos/node.prot" +
-      "o\"\265\001\n\007Request\022\032\n\004node\030\001 \001(\0132\014.NodeDetail" +
+      "o\"\311\001\n\007Request\022\032\n\004node\030\001 \001(\0132\014.NodeDetail" +
       "s\022)\n\013requestType\030\002 \001(\0162\024.Request.Request" +
       "Type\022\032\n\010torrents\030\003 \003(\0132\010.Torrent\022\020\n\010file" +
-      "Name\030\004 \001(\t\"5\n\013RequestType\022\023\n\017PEER_MEMBER" +
-      "SHIP\020\000\022\021\n\rREQUEST_PEERS\020\001\"\272\001\n\007Torrent\022\020\n" +
-      "\010filename\030\001 \001(\t\022\023\n\013pieceLength\030\002 \001(\003\022\016\n\006" +
-      "pieces\030\003 \003(\t\022\031\n\021singleFileTorrent\030\004 \001(\010\022" +
-      "\021\n\ttotalSize\030\005 \001(\003\022\017\n\007comment\030\006 \001(\t\022\021\n\tc" +
-      "reatedBy\030\007 \001(\t\022\024\n\014creationDate\030\010 \001(\003\022\020\n\010" +
-      "infoHash\030\t \001(\tB\017\n\006protosB\005Protob\006proto3"
+      "Name\030\004 \001(\t\"I\n\013RequestType\022\023\n\017PEER_MEMBER" +
+      "SHIP\020\000\022\022\n\016PEER_HEARTBEAT\020\001\022\021\n\rREQUEST_PE" +
+      "ERS\020\002\"\272\001\n\007Torrent\022\020\n\010filename\030\001 \001(\t\022\023\n\013p" +
+      "ieceLength\030\002 \001(\003\022\016\n\006pieces\030\003 \003(\t\022\031\n\021sing" +
+      "leFileTorrent\030\004 \001(\010\022\021\n\ttotalSize\030\005 \001(\003\022\017" +
+      "\n\007comment\030\006 \001(\t\022\021\n\tcreatedBy\030\007 \001(\t\022\024\n\014cr",
+      "eationDate\030\010 \001(\003\022\020\n\010infoHash\030\t \001(\tB\017\n\006pr" +
+      "otosB\005Protob\006proto3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           protos.Node.getDescriptor(),
-        });
+        }, assigner);
     internal_static_Request_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Request_fieldAccessorTable = new
