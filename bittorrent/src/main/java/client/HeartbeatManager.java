@@ -11,6 +11,8 @@ import static utils.Constants.HEARTBEAT_INTERVAL_MS;
 /**
  * @author Alberto Delgado on 5/15/22
  * @project bittorrent
+ * <p>
+ * Handles heartbeat to tracker
  */
 class HeartbeatManager {
     private HeartbeatScheduler heartbeatScheduler;
@@ -34,6 +36,9 @@ class HeartbeatManager {
         heartbeatScheduler.cancel();
     }
 
+    /**
+     * Heartbeat to be sent periodically
+     */
     private class Heartbeat implements Runnable {
         private final Connection conn;
 

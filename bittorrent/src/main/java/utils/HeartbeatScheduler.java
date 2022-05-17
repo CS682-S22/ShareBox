@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
  * @project bittorrent
  * <p>
  * Brought from project3 which at the same time was brought from
- * Martin Fowler's blog
+ * Martin Fowler's blog.
+ * <p>
+ * Schedules a periodic action.
  */
 public class HeartbeatScheduler {
     long heartbeatIntervalMs;
@@ -22,6 +24,11 @@ public class HeartbeatScheduler {
         this.heartbeatIntervalMs = heartbeatIntervalMs;
     }
 
+    /**
+     * Starts the periodic action
+     *
+     * @return
+     */
     public HeartbeatScheduler start() {
         scheduledTask = executor.scheduleWithFixedDelay(
                 action,
@@ -31,6 +38,9 @@ public class HeartbeatScheduler {
         return this;
     }
 
+    /**
+     * Cancels periodic action
+     */
     public void cancel() {
         if (scheduledTask != null)
             scheduledTask.cancel(true);

@@ -9,7 +9,11 @@ import utils.Connection;
 import utils.ConnectionException;
 import utils.FileIO;
 
-public class ConnectionHandler implements Runnable{
+/**
+ * Handles the client server connection. Main task:
+ * - Serve pieces to other nodes
+ */
+public class ConnectionHandler implements Runnable {
     private final Connection connection;
     private final Library library;
 
@@ -18,6 +22,11 @@ public class ConnectionHandler implements Runnable{
         this.connection = connection;
     }
 
+    /**
+     * Helper to receive message
+     *
+     * @return
+     */
     private Proto.Request receiveRequest() {
         byte[] message = this.connection.receive();
         if (message == null) return null;
@@ -31,17 +40,22 @@ public class ConnectionHandler implements Runnable{
         }
     }
 
+    /**
+     * Send requested piece
+     *
+     * @param request
+     * @throws ConnectionException
+     */
     private void serveRequestPiece(Proto.Request request) throws ConnectionException {
         String fileName = request.getFileName();
         long pieceNumber = request.getPieceNumber();
-        System.out.println("\nPiece Request received: filename: " + fileName + ", pieceNumber: " + pieceNumber );
+        System.out.println("\nPiece Request received: filename: " + fileName + ", pieceNumber: " + pieceNumber);
         Response.PieceInfo.Builder responseBuilder = Response.PieceInfo.newBuilder();
         Torrent torrent = this.library.getTorrent(fileName);
         if (torrent == null) {
             System.out.println("Torrent not found");
             pieceNumber = -1;
-        }
-        else {
+        } else {
             byte[] piece = FileIO.getInstance().readPiece(torrent, pieceNumber);
             responseBuilder.setPiece(ByteString.copyFrom(piece));
             responseBuilder.setPieceHash(ByteString.copyFromUtf8(torrent.pieces.get(pieceNumber)));
@@ -54,6 +68,9 @@ public class ConnectionHandler implements Runnable{
         this.connection.send(response.toByteArray());
     }
 
+    /**
+     * Connection handler main logic
+     */
     @Override
     public void run() {
         System.out.println("\n[PEER] New connection!");

@@ -12,6 +12,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+/**
+ * Swarm Database!
+ * <p>
+ * Stores information of online peers as well as information on the currently shared torrents
+ * including what node has what piece
+ */
 public class SwarmDatabase {
     final Map<String, Node> peerList;
     final Map<String, Constants.Status> peerStatus;
@@ -23,6 +29,11 @@ public class SwarmDatabase {
         this.database = new ConcurrentHashMap<>();
     }
 
+    /**
+     * Adds peer
+     *
+     * @param node
+     */
     protected void addPeer(Node node) {
         String peerId = Helper.getPeerId(node);
         if (!peerList.containsKey(peerId)) {
@@ -31,15 +42,33 @@ public class SwarmDatabase {
         }
     }
 
+    /**
+     * Removes peer
+     *
+     * @param id
+     */
     protected void removePeer(String id) {
         this.peerList.remove(id);
         this.peerStatus.put(id, Constants.Status.OFFLINE);
     }
 
+    /**
+     * Updates peer status ONLINE/OFFLINE
+     *
+     * @param node
+     * @param newStatus
+     */
     protected void changePeerStatus(Node node, Constants.Status newStatus) {
         this.peerStatus.put(Helper.getPeerId(node), newStatus);
     }
 
+    /**
+     * Adds information about a file piece
+     *
+     * @param fileName
+     * @param pieceNumber
+     * @param node
+     */
     protected void addPieceInfo(String fileName, Long pieceNumber, Node node) {
         ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>> piecesMap = this.database.getOrDefault(fileName, new ConcurrentHashMap<>());
         ConcurrentLinkedDeque<String> ipList = piecesMap.getOrDefault(pieceNumber, new ConcurrentLinkedDeque<>());
@@ -51,6 +80,12 @@ public class SwarmDatabase {
         this.database.put(fileName, piecesMap);
     }
 
+    /**
+     * Gets all file information
+     *
+     * @param fileName
+     * @return
+     */
     protected Map<Long, List<NodeDetails>> getFileInfo(String fileName) {
         if (this.database.containsKey(fileName)) {
             ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>> piecesMap = this.database.get(fileName);
@@ -71,10 +106,20 @@ public class SwarmDatabase {
         return null;
     }
 
+    /**
+     * Peer list getter
+     *
+     * @return
+     */
     protected Map<String, Node> getPeersList() {
         return this.peerList;
     }
 
+    /**
+     * Peer status getter
+     *
+     * @return
+     */
     protected Map<String, Constants.Status> getPeerStatus() {
         return this.peerStatus;
     }

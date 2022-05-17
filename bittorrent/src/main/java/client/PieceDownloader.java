@@ -13,6 +13,10 @@ import java.util.*;
 
 import static utils.Constants.MAX_CONCURRENT_DOWNLOADS;
 
+/**
+ * Handles logic to download a piece. Handles piece download concurrency
+ * from different peers at the same time.
+ */
 public class PieceDownloader {
     private final Map<Node, Connection> connectionsMap;
 
@@ -20,6 +24,14 @@ public class PieceDownloader {
         this.connectionsMap = new HashMap<>();
     }
 
+    /**
+     * Downloads up to MAX_CONCURRENT_DOWNLOADS of pieces at once
+     *
+     * @param client
+     * @param torrent
+     * @param pieces
+     * @return
+     */
     public Map<Long, byte[]> downloadPieces(Client client, Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
         Map<Long, byte[]> data = new HashMap<>();
 
@@ -54,6 +66,15 @@ public class PieceDownloader {
         return data;
     }
 
+    /**
+     * Request a piece to a remote peer
+     *
+     * @param torrent
+     * @param pieceNumber
+     * @param node
+     * @return
+     * @throws IOException
+     */
     private byte[] downloadPiece(Torrent torrent, Long pieceNumber, Node node) throws IOException {
         Connection connection = this.connectionsMap.getOrDefault(node, new Connection(new Socket(node.getIp(), node.getPort())));
         this.connectionsMap.put(node, connection);

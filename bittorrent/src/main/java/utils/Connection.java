@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * Connection object helper class to establish connection to remote node,
+ * send and receive messages
+ */
 public class Connection {
     private final Socket socket;
     private final DataInputStream inputStream;

@@ -3,6 +3,14 @@ package utils;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * @author alberto delgado
+ * @author anchit bhatia
+ * <p>
+ * Node:
+ * - Can host a server
+ * - Has hostname, ip, port
+ */
 public class Node {
     public final String hostname;
     public final String ip;

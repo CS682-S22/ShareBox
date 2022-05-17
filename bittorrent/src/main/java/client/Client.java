@@ -20,6 +20,10 @@ import static client.ClientInit.initLibrary;
 /**
  * @author Alberto Delgado on 5/9/22
  * @project dsd-final-project-anchitbhatia
+ * <p>
+ * Main client node. Can act as a seeder or leecher or both. Will
+ * join "swarm" on boot up and send heartbeats to tracker to let it
+ * know it is alive.
  */
 public class Client extends Node {
     Library library;
@@ -34,6 +38,9 @@ public class Client extends Node {
         library = initLibrary();
     }
 
+    /**
+     * Initiates local server plus joins swarm and inits heartbeats
+     */
     @Override
     public void startServer() {
         super.startServer();
@@ -46,12 +53,21 @@ public class Client extends Node {
         }
     }
 
+    /**
+     * Stop server and heartbeats
+     */
     @Override
     public void stopServer() {
         super.stopServer();
         heartbeatManager.stop();
     }
 
+    /**
+     * Starts downloading a file following
+     * torrent details
+     *
+     * @param torrent
+     */
     public void downloadFile(Torrent torrent) {
         FileDownloader downloader = new FileDownloader(this, torrent);
         if (testing) downloader.testing();
@@ -59,6 +75,13 @@ public class Client extends Node {
         new Thread(downloader).start();
     }
 
+    /**
+     * Notifies tracker of new pieces availability
+     *
+     * @param torrent      torrent
+     * @param pieceNumbers piece numbers available
+     * @throws ConnectionException if it cannot connect
+     */
     public void notifyTracker(Torrent torrent, List<Long> pieceNumbers) throws ConnectionException {
         Proto.Request request = Proto.Request.newBuilder().
                 setNode(Helper.getNodeDetailsObject(this)).
@@ -69,12 +92,20 @@ public class Client extends Node {
         trackerConnection.send(request.toByteArray());
     }
 
+    /**
+     * For testing purposes. Sets the client in testing mode
+     *
+     * @return return client
+     */
     public Client testing() {
         testing = true;
         library = initLibrary(true);
         return this;
     }
 
+    /**
+     * Handles pool connections
+     */
     private class PeerServer implements Runnable {
         private final ExecutorService peerConnectionPool;
 
@@ -82,6 +113,9 @@ public class Client extends Node {
             this.peerConnectionPool = Executors.newCachedThreadPool();
         }
 
+        /**
+         * Run Server
+         */
         @Override
         public void run() {
             try {

@@ -12,6 +12,8 @@ import static utils.Constants.HEARTBEAT_INTERVAL_MS;
 /**
  * @author Alberto Delgado on 5/15/22
  * @project bittorrent
+ * <p>
+ * Detects if a node has gone offline
  */
 public class NodeDetector {
     final SwarmDatabase db;
@@ -24,10 +26,18 @@ public class NodeDetector {
         this.heartbeatScheduler = new HeartbeatScheduler(heartbeatCheck, HEARTBEAT_INTERVAL_MS).start();
     }
 
+    /**
+     * Updates received heartbeat
+     *
+     * @param node
+     */
     void heartbeatReceived(Node.NodeDetails node) {
         receivedTimes.put(Helper.getPeerId(Helper.getNodeObject(node)), System.nanoTime());
     }
 
+    /**
+     * Checks if peer has timed out
+     */
     private class HeartbeatCheck implements Runnable {
         private final int msToNano = 1000000;
 

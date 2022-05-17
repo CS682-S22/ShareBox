@@ -11,8 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author Alberto Delgado on 5/11/22
  * @project bittorrent
  * <p>
- * Same information as torrent file, but additionally it has information
- * on what pieces it has downloaded
+ * Contains information of all the local files.
  */
 public class Library {
     Map<String, Torrent> files = new HashMap<>();
@@ -21,10 +20,22 @@ public class Library {
     public Library() {
     }
 
+    /**
+     * Torrent getter
+     *
+     * @param fileName
+     * @return
+     */
     public Torrent getTorrent(String fileName) {
         return this.files.getOrDefault(fileName, null);
     }
 
+    /**
+     * Torrent setter
+     *
+     * @param torrent
+     * @return
+     */
     public Torrent add(Torrent torrent) {
         lock.writeLock().lock();
         try {
@@ -38,6 +49,11 @@ public class Library {
         return torrent;
     }
 
+    /**
+     * Torrent remove
+     *
+     * @param filename
+     */
     public void remove(String filename) {
         lock.writeLock().lock();
         try {
@@ -47,30 +63,17 @@ public class Library {
         }
     }
 
+    /**
+     * Torrent remove
+     *
+     * @param torrent
+     */
     public void remove(Torrent torrent) {
         lock.writeLock().lock();
         try {
             files.remove(torrent.name);
         } finally {
             lock.writeLock().unlock();
-        }
-    }
-
-    static class TorrentDetails extends Torrent {
-
-        public TorrentDetails(Torrent t) {
-            super(t.announce,
-                    t.name,
-                    t.pieceLength,
-                    t.pieces,
-                    t.singleFileTorrent,
-                    t.totalSize,
-                    t.fileList,
-                    t.comment,
-                    t.createdBy,
-                    t.creationDate,
-                    t.announceList,
-                    t.infoHash);
         }
     }
 }

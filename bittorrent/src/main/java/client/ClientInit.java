@@ -14,11 +14,23 @@ import java.util.stream.Collectors;
 /**
  * @author Alberto Delgado on 5/11/22
  * @project bittorrent
+ * <p>
+ * Logic to be performed on Client boot up. This is expected to be run
+ * only once.
  */
 public class ClientInit {
     private static List<Torrent> localTorrents = new ArrayList<>();
     private static final FileIO fileIO = FileIO.getInstance();
 
+    /**
+     * Joins the bittorrent swarm
+     *
+     * @param hostname hostname
+     * @param ip       ip
+     * @param port     port
+     * @return void
+     * @throws ConnectionException exception
+     */
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
@@ -37,6 +49,12 @@ public class ClientInit {
         return trackerConn;
     }
 
+    /**
+     * Scans local torrents and checks what pieces user has of
+     * those files. Can range from none to all of them
+     *
+     * @return
+     */
     public static Library initLibrary() {
         List<Torrent> torrents = getTorrents();
         Library library = new Library();
@@ -48,11 +66,22 @@ public class ClientInit {
         return library;
     }
 
+    /**
+     * Added for testing purposes
+     *
+     * @param testing
+     * @return
+     */
     public static Library initLibrary(boolean testing) {
         fileIO.testing();
         return initLibrary();
     }
 
+    /**
+     * Gets local torrents
+     *
+     * @return
+     */
     private static List<Torrent> getTorrents() {
         try {
             List<byte[]> torrents = fileIO.readTorrents();
@@ -64,6 +93,11 @@ public class ClientInit {
         }
     }
 
+    /**
+     * Connects to remote tracker
+     *
+     * @return
+     */
     private static Connection getTrackerConnection() {
         try {
             return new Connection(new Socket(Globals.trackerIP, Globals.trackerPort));
@@ -72,6 +106,15 @@ public class ClientInit {
         }
     }
 
+    /**
+     * Membership request: Creates the request to be sent to tracker to join swarm.
+     *
+     * @param hostname
+     * @param ip
+     * @param port
+     * @param torrents
+     * @return
+     */
     private static Proto.Request createRequest(String hostname, String ip, int port, List<Torrent> torrents) {
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)

@@ -16,6 +16,10 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author Alberto Delgado on 5/16/22
  * @project bittorrent
+ * <p>
+ * Logic to download a file from other peers. It will ask the tracker initially
+ * for the information of what peers own what pieces. After that it will apply
+ * rarest first to retrieve the rarest pieces first.
  */
 public class FileDownloader implements Runnable {
     private final FileIO fileIO = FileIO.getInstance();
@@ -32,6 +36,15 @@ public class FileDownloader implements Runnable {
         this.pieceDownloader = new PieceDownloader();
     }
 
+    /**
+     * Downloads the file from remote peers using rarest first
+     *
+     * @return
+     * @throws ConnectionException
+     * @throws IOException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
         String filename = torrent.name;
         System.out.println("===============================================");
@@ -95,6 +108,12 @@ public class FileDownloader implements Runnable {
         return torrent.piecesCache;
     }
 
+    /**
+     * Sorts the downloaded pieces into an array
+     *
+     * @param data
+     * @return
+     */
     private byte[] createBlobArray(Map<Long, byte[]> data) {
         if (data == null) return null;
         List<Map.Entry<Long, byte[]>> sortedData = new ArrayList<>(data.entrySet());
@@ -114,6 +133,13 @@ public class FileDownloader implements Runnable {
         return file;
     }
 
+    /**
+     * Retrieves the information of a file: what peers have what pieces
+     *
+     * @param fileName
+     * @return
+     * @throws ConnectionException
+     */
     private Map<Long, PeersList> getPiecesInformation(String fileName) throws ConnectionException {
         Proto.Request request = Proto.Request.newBuilder().
                 setNode(Helper.getNodeDetailsObject(client)).
@@ -131,10 +157,12 @@ public class FileDownloader implements Runnable {
         }
     }
 
-    public boolean isDone() {
-        return isDone;
-    }
-
+    /**
+     * Runs main logic:
+     * - Download pieces
+     * - Sort pieces
+     * - Persist file locally
+     */
     @Override
     public void run() {
         try {
@@ -154,6 +182,9 @@ public class FileDownloader implements Runnable {
         System.out.println("\nFile downloaded successfully!");
     }
 
+    /**
+     * Sets the FileDownloader to testing mode
+     */
     public void testing() {
         testing = true;
         fileIO.testing();

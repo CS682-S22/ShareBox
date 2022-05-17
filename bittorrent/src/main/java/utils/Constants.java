@@ -1,5 +1,8 @@
 package utils;
 
+/**
+ * Global constants
+ */
 public class Constants {
     public static enum Status {
         ONLINE,

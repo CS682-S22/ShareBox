@@ -2,6 +2,7 @@ import client.Client;
 import models.Torrent;
 import tracker.Tracker;
 import utils.FileIO;
+import utils.Globals;
 import utils.TCodec;
 import utils.TorrentGenerator;
 
@@ -11,9 +12,18 @@ import java.util.Objects;
 
 /**
  * @author Alberto Delgado on 5/9/22
+ * @author anchit bhatia
  * @project dsd-final-project-anchitbhatia
+ * <p>
+ * Example app. Has:
+ * - Client (leecher)
+ * - Client (seeder)
+ * - Tracker (announcer)
  */
 public class App {
+    /**
+     * Creates an example client seed node
+     */
     private static void clientNode() {
         try {
             Client client = new Client("localhost", "127.0.0.1", 5001);
@@ -24,16 +34,16 @@ public class App {
                 Torrent torrent = TCodec.decode(torrentBytes);
                 System.out.println("Name: " + torrent.name);
             }
-//            byte[] data = "This is data. just filling it with garbage value".getBytes();
-//            Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
-
-//            client.sendTorrentInfo(torrent);
-//            client.downloadFile(torrent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Creates a client leecher node
+     *
+     * @param fileName
+     */
     private static void clientNode(String fileName) {
         try {
             Client client = new Client("localhost", "127.0.0.1", 5002);
@@ -47,16 +57,17 @@ public class App {
 
             byte[] data = FileIO.getInstance().readFile(fileName);
             Torrent torrent = TorrentGenerator.createTorrent(fileName, "Test", "anchitbhatia", data);
-//            byte[] data = "This is data. just filling it with garbage value".getBytes();
-//            Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
-
-//            client.sendTorrentInfo(torrent);
             client.downloadFile(torrent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Creates a client leecher node
+     *
+     * @param fileName
+     */
     private static void clientNode3(String fileName) {
         try {
             Client client = new Client("localhost", "127.0.0.1", 5003);
@@ -70,19 +81,18 @@ public class App {
 
             byte[] data = FileIO.getInstance().readFile(fileName);
             Torrent torrent = TorrentGenerator.createTorrent(fileName, "Test", "anchitbhatia", data);
-//            byte[] data = "This is data. just filling it with garbage value".getBytes();
-//            Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
-
-//            client.sendTorrentInfo(torrent);
             client.downloadFile(torrent);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Creates a tracker node
+     */
     private static void trackerNode() {
         try {
-            Tracker tracker = new Tracker("localhost", "127.0.0.1", 5000);
+            Tracker tracker = new Tracker(Globals.trackerName, Globals.trackerIP, Globals.trackerPort);
             tracker.startServer();
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,6 +100,13 @@ public class App {
 
     }
 
+    /**
+     * Generate torrent file for a file
+     *
+     * @param filename  name of the file
+     * @param comment   comment about the file
+     * @param createdBy author
+     */
     private static void generateTorrent(String filename, String comment, String createdBy) {
         try {
             byte[] data = FileIO.getInstance().readFile(filename);
@@ -101,6 +118,11 @@ public class App {
         }
     }
 
+    /**
+     * Main program. Will run one type of node
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         if (args.length == 0 || args.length > 4) {
             System.out.println("What do you want to run?");

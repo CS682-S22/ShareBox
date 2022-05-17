@@ -6,9 +6,21 @@ import java.util.*;
 
 /**
  * @author Alberto Delgado on 5/11/22
+ * @author anchit bhatia
  * @project bittorrent
+ * <p>
+ * Creates a torrent object from given data
  */
 public class TorrentGenerator {
+    /**
+     * Creates torrent object and persist to torrent folder
+     *
+     * @param filename
+     * @param comment
+     * @param createdBy
+     * @param data
+     * @return
+     */
     public static Torrent fromFile(
             String filename,
             String comment,
@@ -20,6 +32,15 @@ public class TorrentGenerator {
         return torrent;
     }
 
+    /**
+     * Creates torrent object from a file
+     *
+     * @param filename
+     * @param comment
+     * @param createdBy
+     * @param data
+     * @return
+     */
     public static Torrent createTorrent(
             String filename,
             String comment,
@@ -52,6 +73,12 @@ public class TorrentGenerator {
         );
     }
 
+    /**
+     * Calculates piece length
+     *
+     * @param data
+     * @return
+     */
     static Long getPieceLength(byte[] data) {
         long pieceLength = (long) (data.length * 0.05);
         return Math.min(pieceLength, Globals.PIECE_LENGTH_MAX);

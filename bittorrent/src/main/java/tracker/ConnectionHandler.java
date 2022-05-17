@@ -15,6 +15,13 @@ import utils.Node;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Handles the logic for each connection in the tracker
+ * - Returns peers information on a file
+ * - Handles membership
+ * - Handles received heartbeat
+ * - Handles give piece information
+ */
 public class ConnectionHandler implements Runnable {
     private final Connection connection;
     private final Tracker tracker;
@@ -24,6 +31,11 @@ public class ConnectionHandler implements Runnable {
         this.connection = connection;
     }
 
+    /**
+     * Parses received request
+     *
+     * @return
+     */
     private Request receiveRequest() {
         byte[] message = this.connection.receive();
         if (message == null) return null;
@@ -37,6 +49,12 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    /**
+     * Serves peers information
+     *
+     * @param request
+     * @throws ConnectionException
+     */
     private void serveRequestPeers(Request request) throws ConnectionException {
         System.out.println("Request received: " + request);
         String fileName = request.getFileName();
@@ -64,11 +82,21 @@ public class ConnectionHandler implements Runnable {
         this.connection.send(response.toByteArray());
     }
 
+    /**
+     * Handles received heartbeat
+     *
+     * @param request
+     */
     private void handleHeartbeat(Request request) {
         NodeDetails node = request.getNode();
         tracker.heartbeatReceived(node);
     }
 
+    /**
+     * Handles new peer membership
+     *
+     * @param request
+     */
     private void addMembership(Request request) {
         System.out.println("Received peer membership request");
         NodeDetails nodeDetails = request.getNode();
@@ -86,6 +114,11 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    /**
+     * Retrieves piece information
+     *
+     * @param request
+     */
     private void serveRequestSeedPiece(Request request) {
         System.out.println("Received seed piece request");
         Node node = Helper.getNodeObject(request.getNode());
@@ -96,6 +129,9 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    /**
+     * Run main program logic for connection
+     */
     @Override
     public void run() {
         System.out.println("[TRACKER] New connection!");

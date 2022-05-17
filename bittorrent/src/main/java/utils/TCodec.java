@@ -11,11 +11,20 @@ import java.util.Map;
 
 /**
  * @author Alberto Delgado on 5/9/22
+ * @author anchit bhatia
  * @project dsd-final-project-anchitbhatia
+ * <p>
+ * Torrent Codec - encoder/decoder
  */
 public class TCodec {
     private static Bencode bencode = new Bencode();
 
+    /**
+     * Encodes data to bencode
+     *
+     * @param torrent
+     * @return
+     */
     public static byte[] encode(Torrent torrent) {
         HashMap<String, Object> data = new HashMap<>() {{
             put("announce", torrent.announce);
@@ -39,6 +48,12 @@ public class TCodec {
         return bencode.encode(data);
     }
 
+    /**
+     * Decodes data from bencode
+     *
+     * @param encoded
+     * @return
+     */
     public static Torrent decode(byte[] encoded) {
         Map<String, Object> decoded = bencode.decode(encoded, Type.DICTIONARY);
 
