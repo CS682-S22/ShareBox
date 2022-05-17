@@ -1,8 +1,11 @@
 package client;
 
+import models.Torrent;
 import org.junit.jupiter.api.Test;
 import tracker.Tracker;
+import utils.FileIO;
 import utils.Globals;
+import utils.TCodec;
 
 import java.io.IOException;
 
@@ -22,6 +25,7 @@ class ClientTest {
     private static final String cip2 = "127.0.0.1";
     private static final int pport2 = 7001;
 
+    private static final String filename = "jammy-jellyfish-wallpaper.jpg";
 
     static {
         try {
@@ -43,11 +47,21 @@ class ClientTest {
     }
 
     @Test
-    void downloadTest() throws InterruptedException {
+    void downloadTest() throws InterruptedException, IOException {
         tracker.startServer();
         client1.startServer();
         client2.startServer();
 
         Thread.sleep(500);
+
+        Torrent torrent = TCodec.decode(
+                FileIO
+                        .getInstance()
+                        .testing()
+                        .readTorrent(filename));
+
+        client1.downloadFile(torrent);
+
+        Thread.sleep(5000);
     }
 }
