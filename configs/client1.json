@@ -3,5 +3,10 @@
     "hostname": "localhost",
     "ip": "127.0.0.1",
     "port": 5001
+  },
+  "tracker": {
+    "hostname": "localhost",
+    "ip": "127.0.0.1",
+    "port": 5000
   }
 }

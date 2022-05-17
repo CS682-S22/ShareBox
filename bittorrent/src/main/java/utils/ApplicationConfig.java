@@ -2,6 +2,7 @@ package utils;
 
 public class ApplicationConfig {
     NodeConfig config;
+
     String type;
     TorrentMetadata torrentMetadata;
 

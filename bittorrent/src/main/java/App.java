@@ -26,6 +26,9 @@ public class App {
      */
     private static void clientNode(NodeConfig config) {
         try {
+            Globals.trackerIP = config.getTrackerIp();
+            Globals.trackerPort = config.getTrackerPort();
+            Globals.trackerName = config.getTrackerHostname();
             Client client = new Client(config.getHostname(), config.getIp(), config.getPort());
             client.startServer();
             List<byte[]> allTorrents = FileIO.getInstance().readTorrents();

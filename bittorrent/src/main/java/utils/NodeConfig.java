@@ -4,6 +4,7 @@ import java.util.List;
 
 public class NodeConfig {
     public Node node;
+    public Node tracker;
     public List<String> downloadFiles;
 
     public Node getNode() {
@@ -24,6 +25,18 @@ public class NodeConfig {
 
     public int getPort() {
         return node.port;
+    }
+
+    public String getTrackerHostname() {
+        return tracker.hostname;
+    }
+
+    public String getTrackerIp() {
+        return tracker.ip;
+    }
+
+    public int getTrackerPort() {
+        return tracker.port;
     }
 
     public static class Node {

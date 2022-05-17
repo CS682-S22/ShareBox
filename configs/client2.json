@@ -4,6 +4,11 @@
     "ip": "127.0.0.1",
     "port": 5002
   },
+  "tracker": {
+    "hostname": "localhost",
+    "ip": "127.0.0.1",
+    "port": 5000
+  },
   "downloadFiles" : [
     "jammy-jellyfish-wallpaper.torrent"
   ]
