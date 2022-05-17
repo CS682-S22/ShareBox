@@ -6,6 +6,9 @@ public class Constants {
         OFFLINE
     }
 
+    public final static String TYPE_CLIENT = "--client";
+    public final static String TYPE_TRACKER = "--tracker";
+    public final static String TYPE_NEW_TORRENT = "--new-torrent";
     public final static String KEY_NODE = "key_node";
     public final static String KEY_STATUS = "key_status";
     public final static String TORRENT_EXT = ".torrent";
