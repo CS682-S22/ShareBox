@@ -22,6 +22,7 @@ public class FileDownloader implements Runnable {
     private final Client client;
     private final Torrent torrent;
     private final PieceDownloader pieceDownloader;
+    private final byte[] file;
     private Map<Long, PeersList> peers;
     private boolean isDone = false;
     private boolean testing = false;
@@ -30,6 +31,7 @@ public class FileDownloader implements Runnable {
         this.client = client;
         this.torrent = torrent;
         this.pieceDownloader = new PieceDownloader();
+        this.file = new byte[Math.toIntExact(torrent.totalSize)];
     }
 
     public Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
