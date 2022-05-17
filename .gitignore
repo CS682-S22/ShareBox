@@ -1,6 +1,5 @@
 .idea/
 
-/torrents
 /bittorrent/.idea/
 /bittorrent/target/
 /bittorrent/src/test/java/utils/tests_torrents/
