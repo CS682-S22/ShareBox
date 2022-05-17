@@ -1,19 +1,13 @@
 package client;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import models.Torrent;
-import protos.Proto;
-import protos.Response;
 import utils.Connection;
 import utils.ConnectionException;
-import utils.Helper;
 import utils.Node;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,13 +22,12 @@ public class Client extends Node {
     Library library;
     Connection trackerConnection;
     HeartbeatManager heartbeatManager;
-    PieceDownloader pieceDownloader;
+    Map<String, FileDownloader> downloads = new HashMap<>();
 
     public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
         initializeServer(new PeerServer());
         library = initLibrary();
-        pieceDownloader = new PieceDownloader();
     }
 
     @Override
@@ -55,56 +48,11 @@ public class Client extends Node {
         heartbeatManager.stop();
     }
 
-    private Map<Long, Response.PeersList> getPiecesInformation(String fileName) throws ConnectionException {
-        Proto.Request request = Proto.Request.newBuilder().
-                setNode(Helper.getNodeDetailsObject(this)).
-                setRequestType(Proto.Request.RequestType.REQUEST_PEERS).
-                setFileName(fileName)
-                .build();
-        trackerConnection.send(request.toByteArray());
-        byte[] response = trackerConnection.receive();
-        try {
-            Response.FileInfo fileInfo = Response.FileInfo.parseFrom(response);
-            return fileInfo.getPiecesInfoMap();
-        } catch (InvalidProtocolBufferException e) {
-            return null;
-        }
+    public void downloadFile(Torrent torrent) {
+        FileDownloader downloader = new FileDownloader(this, torrent);
+        downloads.put(torrent.name, downloader);
+        new Thread(downloader).start();
     }
-
-    public void downloadFile(Torrent torrent) throws ConnectionException, IOException {
-        String fileName = torrent.name;
-        System.out.println("Downloading " + fileName);
-        Map<Long, Response.PeersList> piecesInfo = getPiecesInformation(fileName);
-        if (piecesInfo.containsKey(-1L) && piecesInfo.size()==1) {
-            System.out.println("No seeders currently seeding " + fileName);
-        }
-        else {
-            System.out.println("Response: " + piecesInfo);
-            for (Map.Entry<Long, Response.PeersList> item : piecesInfo.entrySet()) {
-                List<protos.Node.NodeDetails> peers = item.getValue().getNodesList();
-                if (peers.size() > 0) {
-                    pieceDownloader.downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
-                }
-
-            }
-        }
-    }
-
-//    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {
-//        System.out.println("Sending torrent info: " + torrent.getName());
-//
-//        Proto.Torrent torrentMsg = Proto.Torrent.newBuilder().
-//                setFilename(torrent.name).
-//                addAllPieces(torrent.pieces).
-//                build();
-//        Proto.Request request = Proto.Request.newBuilder().
-//                setNode(Helper.getNodeDetailsObject(this)).
-//                setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP).
-//                setFileName(torrent.name).
-//                addTorrents(torrentMsg).
-//                build();
-//        trackerConnection.send(request.toByteArray());
-//    }
 
     private class PeerServer implements Runnable {
         private final ExecutorService peerConnectionPool;
