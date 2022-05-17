@@ -8,12 +8,8 @@ import java.util.List;
 
 /**
  * @author Alberto Delgado on 5/9/22
-<<<<<<< HEAD
  * @author anchit bhatia
 
-=======
- * @author Anchit Bhatia
->>>>>>> 5c38cc4d9d033ec332df214a6a0207a0f208a493
  * @project dsd-final-project-anchitbhatia
  * <p>
  * Example app. Has:
@@ -22,22 +18,12 @@ import java.util.List;
  * - Tracker (announcer)
  */
 public class App {
-<<<<<<< HEAD
 
     /**
      * Creates a client node
      *
      * @param config
      */
-    private static void clientNode(NodeConfig config) {
-        try {
-            Client client = new Client(config.getHostname(), config.getIp(), config.getPort());
-            client.startServer();
-            List<byte[]> allTorrents = FileIO.getInstance().readTorrents();
-            for (byte[] torrentBytes : allTorrents) {
-                Torrent torrent = TCodec.decode(torrentBytes);
-                System.out.println("Name: " + torrent.name);
-=======
     private static void clientNode(NodeConfig config) {
         try {
             Client client = new Client(config.getHostname(), config.getIp(), config.getPort());
@@ -56,20 +42,16 @@ public class App {
                     Torrent torrent = TCodec.decode(torrentBytes);
                     client.downloadFile(torrent);
                 }
->>>>>>> 5c38cc4d9d033ec332df214a6a0207a0f208a493
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-<<<<<<< HEAD
 
     /**
      * Creates a tracker node
      */
-=======
->>>>>>> 5c38cc4d9d033ec332df214a6a0207a0f208a493
     private static void trackerNode(NodeConfig config) {
         try {
             Tracker tracker = new Tracker(config.getHostname(), config.getIp(), config.getPort());
