@@ -35,6 +35,7 @@ public class TorrentGenerator {
         List<Torrent.TorrentFile> fileList = null;
         Date creationDate = new Date(System.currentTimeMillis());
         List<String> announceList = null;
+
         return new Torrent(
                 Globals.trackerIP + Globals.trackerPort,
                 filename,

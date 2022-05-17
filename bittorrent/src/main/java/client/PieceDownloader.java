@@ -54,6 +54,7 @@ public class PieceDownloader {
     private byte[] downloadPiece(Torrent torrent, Long pieceNumber, Node node) throws IOException {
         Connection connection = this.connectionsMap.getOrDefault(node, new Connection(new Socket(node.getIp(), node.getPort())));
         this.connectionsMap.put(node, connection);
+
         Proto.Request request = Proto.Request.newBuilder().
                 setRequestType(Proto.Request.RequestType.REQUEST_PIECE).
                 setFileName(torrent.name).

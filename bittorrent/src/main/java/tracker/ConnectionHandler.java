@@ -41,7 +41,9 @@ public class ConnectionHandler implements Runnable {
         System.out.println("Request received: " + request);
         String fileName = request.getFileName();
         Map<Long, List<NodeDetails>> fileInfo = this.tracker.getFileInfo(fileName);
+
         System.out.println("fileinfo from database: " + fileInfo);
+
         FileInfo.Builder responseBuilder = FileInfo.newBuilder();
         if (fileInfo != null) {
             for (Map.Entry<Long, List<NodeDetails>> item : fileInfo.entrySet()) {

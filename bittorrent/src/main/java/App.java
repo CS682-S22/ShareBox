@@ -1,10 +1,8 @@
 import client.Client;
 import models.Torrent;
 import tracker.Tracker;
-import utils.ConnectionException;
 import utils.FileIO;
 import utils.TCodec;
-import utils.TorrentGenerator;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +21,7 @@ public class App {
             System.out.println("Torrents read: " + allTorrents.size());
             for (byte[] torrentBytes : allTorrents) {
                 Torrent torrent = TCodec.decode(torrentBytes);
-                System.out.println("Name: " + torrent.getName());
+                System.out.println("Name: " + torrent.name);
             }
 //            byte[] data = "This is data. just filling it with garbage value".getBytes();
 //            Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
@@ -67,14 +65,13 @@ public class App {
         }
 
     }
+
     public static void main(String[] args) {
         if (Objects.equals(args[1], "--client")) {
             clientNode();
-        }
-        else if (Objects.equals(args[1], "--client2")) {
+        } else if (Objects.equals(args[1], "--client2")) {
             clientNode(args[2]);
-        }
-        else {
+        } else {
             trackerNode();
         }
     }

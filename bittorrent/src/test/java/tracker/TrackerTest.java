@@ -78,7 +78,7 @@ class TrackerTest {
     }
 
     @Test
-    void heartbeat() throws IOException, InterruptedException {
+    void heartbeat() throws InterruptedException {
         tracker.startServer();
         client.startServer();
         Map<String, Node> peerList = tracker.getPeerList();
