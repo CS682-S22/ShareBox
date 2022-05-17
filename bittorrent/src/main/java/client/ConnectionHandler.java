@@ -76,7 +76,6 @@ public class ConnectionHandler implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("\n[PEER] New connection!");
         while (!this.connection.isClosed()) {
             Proto.Request request = receiveRequest();
             if (request == null) continue;
