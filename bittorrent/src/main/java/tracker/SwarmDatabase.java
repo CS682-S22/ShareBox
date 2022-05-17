@@ -24,8 +24,8 @@ public class SwarmDatabase {
     }
 
     protected void addPeer(Node node) {
-        if (!peerList.containsKey(node.getIp())) {
-            String peerId = Helper.getPeerId(node);
+        String peerId = Helper.getPeerId(node);
+        if (!peerList.containsKey(peerId)) {
             this.peerList.put(peerId, node);
             this.peerStatus.put(peerId, Constants.Status.ONLINE);
         }
@@ -37,14 +37,15 @@ public class SwarmDatabase {
     }
 
     protected void changePeerStatus(Node node, Constants.Status newStatus) {
-        this.peerStatus.put(node.getIp(), newStatus);
+        this.peerStatus.put(Helper.getPeerId(node), newStatus);
     }
 
     protected void addPieceInfo(String fileName, Long pieceNumber, Node node) {
         ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>> piecesMap = this.database.getOrDefault(fileName, new ConcurrentHashMap<>());
         ConcurrentLinkedDeque<String> ipList = piecesMap.getOrDefault(pieceNumber, new ConcurrentLinkedDeque<>());
-        if (!ipList.contains(node.getIp())) {
-            ipList.add(node.getIp());
+        String peerId = Helper.getPeerId(node);
+        if (!ipList.contains(peerId)) {
+            ipList.add(peerId);
         }
         piecesMap.put(pieceNumber, ipList);
         this.database.put(fileName, piecesMap);
