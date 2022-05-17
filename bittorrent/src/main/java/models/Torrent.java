@@ -84,9 +84,9 @@ public class Torrent {
 
     public void checkDownloadedPieces() throws IOException {
         byte[] data = FileIO.getInstance().readFile(name);
-        int numberOfPieces = (int) Math.ceil((float) totalSize/pieceLength);
+        int numberOfPieces = (int) Math.ceil((float) totalSize / pieceLength);
         List<Long> downloadedPieces = new ArrayList<>();
-        for (long i = 0; i < numberOfPieces ; i += 1) {
+        for (long i = 0; i < numberOfPieces; i += 1) {
             downloadedPieces.add(i);
         }
         this.downloadedPieces = downloadedPieces;

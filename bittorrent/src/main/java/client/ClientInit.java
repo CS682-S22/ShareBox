@@ -16,12 +16,13 @@ import java.util.stream.Collectors;
  * @project bittorrent
  */
 public class ClientInit {
-    private static List<Torrent> torrentDetails = new ArrayList<>();
+    private static List<Torrent> localTorrents = new ArrayList<>();
+    private static final FileIO fileIO = FileIO.getInstance();
 
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
-        Proto.Request request = createRequest(hostname, ip, port, torrentDetails);
+        Proto.Request request = createRequest(hostname, ip, port, localTorrents);
         List<Proto.Torrent> torrents = request.getTorrentsList();
         for (Proto.Torrent torrent : torrents) {
             System.out.println("Name: " + torrent.getFilename());
@@ -32,12 +33,8 @@ public class ClientInit {
         // "files" are only used on clientInit, so only when the client
         // is initialized. Therefore, we want garbage collector to get rid
         // of files to avoid memory leaks.
-        torrentDetails = null;
+        localTorrents = null;
         return trackerConn;
-    }
-
-    public static List<Torrent> getTorrentDetails() {
-        return torrentDetails;
     }
 
     public static Library initLibrary() {
@@ -46,14 +43,19 @@ public class ClientInit {
         if (torrents == null) return library;
 
         for (Torrent t : torrents)
-            torrentDetails.add(library.add(t));
+            localTorrents.add(library.add(t));
 
         return library;
     }
 
+    public static Library initLibrary(boolean testing) {
+        fileIO.testing();
+        return initLibrary();
+    }
+
     private static List<Torrent> getTorrents() {
         try {
-            List<byte[]> torrents = FileIO.getInstance().readTorrents();
+            List<byte[]> torrents = fileIO.readTorrents();
             return torrents.stream()
                     .map(TCodec::decode)
                     .collect(Collectors.toList());
@@ -80,7 +82,7 @@ public class ClientInit {
                                 .setPort(port)
                                 .build()
                 )
-                .addAllTorrents(torrents.stream()
+                .addAllTorrents(torrents != null ? torrents.stream()
                         .map((t) -> Proto.Torrent.newBuilder()
                                 .setFilename(t.name)
                                 .setPieceLength(t.pieceLength)
@@ -92,7 +94,7 @@ public class ClientInit {
                                 .setCreationDate(t.creationDate.getTime())
                                 .setInfoHash(t.infoHash)
                                 .build())
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList()) : new ArrayList<>())
                 .build();
     }
 }
