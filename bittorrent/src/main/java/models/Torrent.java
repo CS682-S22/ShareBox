@@ -1,12 +1,11 @@
 package models;
 
+import utils.Encryption;
 import utils.FileIO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Alberto Delgado on 5/9/22
@@ -30,6 +29,7 @@ public class Torrent {
     public final List<String> announceList;     // list of announcers/trackers
     public final String infoHash;               // SHA256 of entire file (not torrent)
     public List<Long> downloadedPieces = new ArrayList<>(); // Local "owned" pieces
+    public final Map<Long, byte[]> piecesCache = new ConcurrentHashMap<>();
 
     public Torrent(
             String announce,
@@ -90,6 +90,11 @@ public class Torrent {
             downloadedPieces.add(i);
         }
         this.downloadedPieces = downloadedPieces;
+    }
+
+    public void addPieceInCache(Long pieceNumber, byte[] piece) {
+        this.piecesCache.put(pieceNumber, piece);
+        this.pieces.put(pieceNumber, Arrays.toString(Encryption.encodeSHA256(piece)));
     }
 
     @Override

@@ -1,13 +1,16 @@
 package client;
 
 import models.Torrent;
+import protos.Proto;
 import utils.Connection;
 import utils.ConnectionException;
+import utils.Helper;
 import utils.Node;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,6 +57,16 @@ public class Client extends Node {
         if (testing) downloader.testing();
         downloads.put(torrent.name, downloader);
         new Thread(downloader).start();
+    }
+
+    public void notifyTracker(Torrent torrent, List<Long> pieceNumbers) throws ConnectionException {
+        Proto.Request request = Proto.Request.newBuilder().
+                setNode(Helper.getNodeDetailsObject(this)).
+                setRequestType(Proto.Request.RequestType.SEED_PIECE).
+                setFileName(torrent.name).
+                addAllPieceNumbers(pieceNumbers).
+                build();
+        trackerConnection.send(request.toByteArray());
     }
 
     public Client testing() {

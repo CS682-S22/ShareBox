@@ -1,15 +1,13 @@
 package utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import models.Torrent;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Alberto Delgado on 5/11/22
@@ -56,27 +54,52 @@ public class FileIO {
     private boolean write(String dir, String filename, byte[] data) {
         try (FileOutputStream writer = new FileOutputStream(dir + filename)) {
             writer.write(data);
+            writer.close();
             return true;
         } catch (IOException e) {
             return false;
         }
     }
 
-    public byte[] readPiece(String filename, long pieceLength, long pieceNumber) {
-        if (pieceLength == 0) return null;
-        String mode = "r";
-        try (RandomAccessFile raf = new RandomAccessFile(DIR + filename, mode)) {
-            byte[] b = new byte[(int) pieceLength];
-            int offset = (int) (pieceNumber * pieceLength);
-            raf.readFully(b, offset, (int) pieceLength);
-            return b;
-        } catch (IndexOutOfBoundsException e) {
-            // this is SLOW, but we needed a way to ensure to get
-            // the last bytes
-            return readPiece(filename, pieceLength - 1, pieceNumber);
-        } catch (Exception ignored) {
-            return null;
+    public Map<Long, byte[]> readFile(Torrent torrent) {
+        String filename = torrent.name;
+        long pieceLength = torrent.pieceLength;
+        Map<Long, byte[]> pieces = new HashMap<>();
+        System.out.println("Cache before: " + torrent.piecesCache.size());
+        try {
+            InputStream inputStream = new FileInputStream(DIR + filename);
+            boolean running = true;
+            long i = 0L;
+            while(running) {
+                byte[] bytes = new byte[Math.toIntExact(pieceLength)];
+                int bytesRead = inputStream.read(bytes, 0, Math.toIntExact(pieceLength));
+                if (bytesRead!=-1){
+                    torrent.piecesCache.put(i, bytes);
+                    torrent.pieces.put(i, Arrays.toString(Encryption.encodeSHA256(bytes)));
+                    i++;
+                }
+                else {
+                    running = false;
+                }
+            }
+            System.out.println("Cache after: " + torrent.piecesCache.size());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return pieces;
+    }
+
+    public byte[] readPiece(Torrent torrent, long pieceNumber) {
+        String filename = torrent.name;
+        long pieceLength = torrent.pieceLength;
+        System.out.println("Piece requested, fileName: " + filename + ", pieceNumber: " + pieceNumber + ", pieceLength: " + pieceLength);
+        byte[] piece = torrent.piecesCache.getOrDefault(pieceNumber, null);
+        if (piece==null) {
+            System.out.println("Does not contain piece");
+            readFile(torrent);
+        }
+        piece = torrent.piecesCache.get(pieceNumber);
+        return piece;
     }
 
     public List<byte[]> readFilesInLibrary() throws IOException {

@@ -67,7 +67,7 @@ public class PieceDownloader {
             connection.send(request.toByteArray());
             byte[] response = connection.receive();
             Response.PieceInfo pieceInfo = Response.PieceInfo.parseFrom(response);
-            System.out.println("Response received - filename: " + pieceInfo.getFileName() + ", pieceNumber: " + pieceInfo.getPieceNumber());
+            System.out.println("\nResponse received - filename: " + pieceInfo.getFileName() + ", pieceNumber: " + pieceInfo.getPieceNumber());
 
             if (pieceInfo.getPieceNumber() == -1) {
                 System.out.println("Seeder does not have the requested piece");
@@ -75,7 +75,7 @@ public class PieceDownloader {
             }
 
             byte[] pieceHash = Encryption.encodeSHA1(pieceInfo.getPiece().toByteArray());
-            if (!Arrays.toString(pieceHash).equals(torrent.pieces.get(pieceNumber))) {
+            if (pieceHash == pieceInfo.getPieceHash().toByteArray()) {
                 System.out.println("Hash does not match");
                 System.out.println("Piece download unsuccessful");
                 return null;

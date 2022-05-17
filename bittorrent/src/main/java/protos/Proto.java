@@ -85,6 +85,23 @@ public final class Proto {
      * @return The pieceNumber.
      */
     long getPieceNumber();
+
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @return A list containing the pieceNumbers.
+     */
+    java.util.List<java.lang.Long> getPieceNumbersList();
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @return The count of pieceNumbers.
+     */
+    int getPieceNumbersCount();
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @param index The index of the element to return.
+     * @return The pieceNumbers at the given index.
+     */
+    long getPieceNumbers(int index);
   }
   /**
    * Protobuf type {@code Request}
@@ -102,6 +119,7 @@ public final class Proto {
       requestType_ = 0;
       torrents_ = java.util.Collections.emptyList();
       fileName_ = "";
+      pieceNumbers_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -174,6 +192,27 @@ public final class Proto {
               pieceNumber_ = input.readInt64();
               break;
             }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                pieceNumbers_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              pieceNumbers_.addLong(input.readInt64());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                pieceNumbers_ = newLongList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                pieceNumbers_.addLong(input.readInt64());
+              }
+              input.popLimit(limit);
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -191,6 +230,9 @@ public final class Proto {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           torrents_ = java.util.Collections.unmodifiableList(torrents_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          pieceNumbers_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -230,6 +272,10 @@ public final class Proto {
        * <code>REQUEST_PIECE = 3;</code>
        */
       REQUEST_PIECE(3),
+      /**
+       * <code>SEED_PIECE = 4;</code>
+       */
+      SEED_PIECE(4),
       UNRECOGNIZED(-1),
       ;
 
@@ -249,6 +295,10 @@ public final class Proto {
        * <code>REQUEST_PIECE = 3;</code>
        */
       public static final int REQUEST_PIECE_VALUE = 3;
+      /**
+       * <code>SEED_PIECE = 4;</code>
+       */
+      public static final int SEED_PIECE_VALUE = 4;
 
 
       public final int getNumber() {
@@ -279,6 +329,7 @@ public final class Proto {
           case 1: return PEER_HEARTBEAT;
           case 2: return REQUEST_PEERS;
           case 3: return REQUEST_PIECE;
+          case 4: return SEED_PIECE;
           default: return null;
         }
       }
@@ -469,6 +520,34 @@ public final class Proto {
       return pieceNumber_;
     }
 
+    public static final int PIECENUMBERS_FIELD_NUMBER = 6;
+    private com.google.protobuf.Internal.LongList pieceNumbers_;
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @return A list containing the pieceNumbers.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Long>
+        getPieceNumbersList() {
+      return pieceNumbers_;
+    }
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @return The count of pieceNumbers.
+     */
+    public int getPieceNumbersCount() {
+      return pieceNumbers_.size();
+    }
+    /**
+     * <code>repeated int64 pieceNumbers = 6;</code>
+     * @param index The index of the element to return.
+     * @return The pieceNumbers at the given index.
+     */
+    public long getPieceNumbers(int index) {
+      return pieceNumbers_.getLong(index);
+    }
+    private int pieceNumbersMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -483,6 +562,7 @@ public final class Proto {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (node_ != null) {
         output.writeMessage(1, getNode());
       }
@@ -497,6 +577,13 @@ public final class Proto {
       }
       if (pieceNumber_ != 0L) {
         output.writeInt64(5, pieceNumber_);
+      }
+      if (getPieceNumbersList().size() > 0) {
+        output.writeUInt32NoTag(50);
+        output.writeUInt32NoTag(pieceNumbersMemoizedSerializedSize);
+      }
+      for (int i = 0; i < pieceNumbers_.size(); i++) {
+        output.writeInt64NoTag(pieceNumbers_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
@@ -526,6 +613,20 @@ public final class Proto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, pieceNumber_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < pieceNumbers_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(pieceNumbers_.getLong(i));
+        }
+        size += dataSize;
+        if (!getPieceNumbersList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        pieceNumbersMemoizedSerializedSize = dataSize;
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -553,6 +654,8 @@ public final class Proto {
           .equals(other.getFileName())) return false;
       if (getPieceNumber()
           != other.getPieceNumber()) return false;
+      if (!getPieceNumbersList()
+          .equals(other.getPieceNumbersList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -579,6 +682,10 @@ public final class Proto {
       hash = (37 * hash) + PIECENUMBER_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getPieceNumber());
+      if (getPieceNumbersCount() > 0) {
+        hash = (37 * hash) + PIECENUMBERS_FIELD_NUMBER;
+        hash = (53 * hash) + getPieceNumbersList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -731,6 +838,8 @@ public final class Proto {
 
         pieceNumber_ = 0L;
 
+        pieceNumbers_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -775,6 +884,11 @@ public final class Proto {
         }
         result.fileName_ = fileName_;
         result.pieceNumber_ = pieceNumber_;
+        if (((bitField0_ & 0x00000002) != 0)) {
+          pieceNumbers_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.pieceNumbers_ = pieceNumbers_;
         onBuilt();
         return result;
       }
@@ -861,6 +975,16 @@ public final class Proto {
         }
         if (other.getPieceNumber() != 0L) {
           setPieceNumber(other.getPieceNumber());
+        }
+        if (!other.pieceNumbers_.isEmpty()) {
+          if (pieceNumbers_.isEmpty()) {
+            pieceNumbers_ = other.pieceNumbers_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePieceNumbersIsMutable();
+            pieceNumbers_.addAll(other.pieceNumbers_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1408,6 +1532,85 @@ public final class Proto {
       public Builder clearPieceNumber() {
         
         pieceNumber_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Internal.LongList pieceNumbers_ = emptyLongList();
+      private void ensurePieceNumbersIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          pieceNumbers_ = mutableCopy(pieceNumbers_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @return A list containing the pieceNumbers.
+       */
+      public java.util.List<java.lang.Long>
+          getPieceNumbersList() {
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(pieceNumbers_) : pieceNumbers_;
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @return The count of pieceNumbers.
+       */
+      public int getPieceNumbersCount() {
+        return pieceNumbers_.size();
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @param index The index of the element to return.
+       * @return The pieceNumbers at the given index.
+       */
+      public long getPieceNumbers(int index) {
+        return pieceNumbers_.getLong(index);
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @param index The index to set the value at.
+       * @param value The pieceNumbers to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPieceNumbers(
+          int index, long value) {
+        ensurePieceNumbersIsMutable();
+        pieceNumbers_.setLong(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @param value The pieceNumbers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addPieceNumbers(long value) {
+        ensurePieceNumbersIsMutable();
+        pieceNumbers_.addLong(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @param values The pieceNumbers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllPieceNumbers(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensurePieceNumbersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, pieceNumbers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 pieceNumbers = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPieceNumbers() {
+        pieceNumbers_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -2983,18 +3186,19 @@ public final class Proto {
   static {
     java.lang.String[] descriptorData = {
       "\n\024protos/request.proto\032\021protos/node.prot" +
-      "o\"\361\001\n\007Request\022\032\n\004node\030\001 \001(\0132\014.NodeDetail" +
+      "o\"\227\002\n\007Request\022\032\n\004node\030\001 \001(\0132\014.NodeDetail" +
       "s\022)\n\013requestType\030\002 \001(\0162\024.Request.Request" +
       "Type\022\032\n\010torrents\030\003 \003(\0132\010.Torrent\022\020\n\010file" +
-      "Name\030\004 \001(\t\022\023\n\013pieceNumber\030\005 \001(\003\"\\\n\013Reque" +
-      "stType\022\023\n\017PEER_MEMBERSHIP\020\000\022\022\n\016PEER_HEAR" +
-      "TBEAT\020\001\022\021\n\rREQUEST_PEERS\020\002\022\021\n\rREQUEST_PI" +
-      "ECE\020\003\"\272\001\n\007Torrent\022\020\n\010filename\030\001 \001(\t\022\023\n\013p" +
-      "ieceLength\030\002 \001(\003\022\016\n\006pieces\030\003 \003(\003\022\031\n\021sing" +
-      "leFileTorrent\030\004 \001(\010\022\021\n\ttotalSize\030\005 \001(\003\022\017" +
-      "\n\007comment\030\006 \001(\t\022\021\n\tcreatedBy\030\007 \001(\t\022\024\n\014cr" +
-      "eationDate\030\010 \001(\003\022\020\n\010infoHash\030\t \001(\tB\017\n\006pr" +
-      "otosB\005Protob\006proto3"
+      "Name\030\004 \001(\t\022\023\n\013pieceNumber\030\005 \001(\003\022\024\n\014piece" +
+      "Numbers\030\006 \003(\003\"l\n\013RequestType\022\023\n\017PEER_MEM" +
+      "BERSHIP\020\000\022\022\n\016PEER_HEARTBEAT\020\001\022\021\n\rREQUEST" +
+      "_PEERS\020\002\022\021\n\rREQUEST_PIECE\020\003\022\016\n\nSEED_PIEC" +
+      "E\020\004\"\272\001\n\007Torrent\022\020\n\010filename\030\001 \001(\t\022\023\n\013pie" +
+      "ceLength\030\002 \001(\003\022\016\n\006pieces\030\003 \003(\003\022\031\n\021single" +
+      "FileTorrent\030\004 \001(\010\022\021\n\ttotalSize\030\005 \001(\003\022\017\n\007" +
+      "comment\030\006 \001(\t\022\021\n\tcreatedBy\030\007 \001(\t\022\024\n\014crea" +
+      "tionDate\030\010 \001(\003\022\020\n\010infoHash\030\t \001(\tB\017\n\006prot" +
+      "osB\005Protob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3006,7 +3210,7 @@ public final class Proto {
     internal_static_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Request_descriptor,
-        new java.lang.String[] { "Node", "RequestType", "Torrents", "FileName", "PieceNumber", });
+        new java.lang.String[] { "Node", "RequestType", "Torrents", "FileName", "PieceNumber", "PieceNumbers", });
     internal_static_Torrent_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Torrent_fieldAccessorTable = new

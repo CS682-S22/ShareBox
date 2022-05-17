@@ -32,7 +32,7 @@ public class FileDownloader implements Runnable {
         this.pieceDownloader = new PieceDownloader();
     }
 
-    public Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
+    private Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
         String filename = torrent.name;
         System.out.println("===============================================");
         System.out.println("    Initiating download for " + torrent.name);
@@ -52,7 +52,6 @@ public class FileDownloader implements Runnable {
             return null;
         }
 
-        System.out.println("Response: " + piecesInfo);
         Set<Map.Entry<Long, PeersList>> piecesEntrySets = piecesInfo.entrySet();
 
         // do not download already downloaded pieces.
@@ -71,24 +70,29 @@ public class FileDownloader implements Runnable {
             return sizeA - sizeB;
         });
 
-        Map<Long, byte[]> data = new HashMap<>();
+
         while (!rarestFirst.isEmpty()) {
             Map<Long, byte[]> downloaded = pieceDownloader.downloadPieces(client, torrent, rarestFirst);
-            data.putAll(download());
+            torrent.piecesCache.putAll(downloaded);
 
             // remove downloaded pieces from rarest first list
             // update torrent information
             for (Map.Entry<Long, byte[]> piece : downloaded.entrySet()) {
+                System.out.println("I have " + piece.getKey());
                 for (Map.Entry<Long, PeersList> item : rarestFirst)
                     if (Objects.equals(item.getKey(), piece.getKey())) {
+                        System.out.println("Removing from rarest first " + piece.getKey());
                         rarestFirst.remove(item);
                         torrent.addDownloadedPiece(piece.getKey());
+                        break;
                     }
             }
+            client.notifyTracker(torrent, new ArrayList<>(downloaded.keySet()));
         }
 
+        System.out.println("Torrent size: " + torrent.totalSize);
         isDone = true;
-        return data;
+        return torrent.piecesCache;
     }
 
     private byte[] createBlobArray(Map<Long, byte[]> data) {
@@ -99,9 +103,13 @@ public class FileDownloader implements Runnable {
 
         int j = 0;
         for (Map.Entry<Long, byte[]> item : sortedData) {
-            for (int i = 0; i < item.getValue().length; i++) {
-                file[j++] = item.getValue()[i];
+            int bytesLength = item.getValue().length;
+            int bytesToRead = Math.min((int) (torrent.totalSize - j), bytesLength);
+            for (int i = 0; i < bytesToRead; i++) {
+                file[j] = item.getValue()[i];
+                j++;
             }
+            System.out.println(Math.toIntExact(torrent.totalSize) + " : " + j);
         }
 
         return file;
@@ -140,6 +148,7 @@ public class FileDownloader implements Runnable {
                 fileIO.saveFile(torrent.name, file);
             else
                 fileIO.saveFile(torrent.name + "-test", file);
+//            torrent.piecesCache.clear();
         } catch (ConnectionException | IOException | InterruptedException | ExecutionException ignored) {
             // ignored
         }

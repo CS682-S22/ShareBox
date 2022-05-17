@@ -12,11 +12,13 @@ message Request {
     PEER_HEARTBEAT = 1;
     REQUEST_PEERS = 2;
     REQUEST_PIECE = 3;
+    SEED_PIECE = 4;
   }
   RequestType requestType = 2;
   repeated Torrent torrents = 3;
   string fileName = 4;
   int64 pieceNumber = 5;
+  repeated int64 pieceNumbers = 6;
 }
 
 message Torrent {
