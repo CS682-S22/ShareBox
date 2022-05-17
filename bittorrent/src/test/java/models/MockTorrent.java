@@ -1,8 +1,6 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Alberto Delgado on 5/11/22
@@ -12,7 +10,7 @@ public class MockTorrent {
     private static final String announce = "https://test-announce.com";
     private static final String name = "skyrim.iso";
     private static final Long pieceLength = 10000L;
-    private static final List<String> pieces = mockList();
+    private static final Map<Long, String> pieces = mockMap();
     private static final boolean singleFileTorrent = true;
     private static final Long totalSize = 13123123123L;
     private static final List<Torrent.TorrentFile> fileList = null;
@@ -36,9 +34,9 @@ public class MockTorrent {
             infoHash
     );
 
-    private static List<String> mockList() {
-        List<String> l = new ArrayList<>();
-        for (int i = 0; i < 10; i++) l.add(i, String.valueOf(i));
+    private static Map<Long, String> mockMap() {
+        Map<Long, String> l = new HashMap<>();
+        for (int i = 1; i < 10; i++) l.put((long) i, String.valueOf(i));
         return l;
     }
 

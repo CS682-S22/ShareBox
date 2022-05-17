@@ -26,8 +26,8 @@ class TCodecTest {
         assertEquals(torrent.announce, copy.announce);
         assertEquals(torrent.name, copy.name);
         assertEquals(torrent.pieceLength, copy.pieceLength);
-        for (int i = 0; i < 10; i++)
-            assertEquals(torrent.pieces, copy.pieces);
+        for (long i = 1; i < 10; i++)
+            assertEquals(torrent.pieces.get(i), copy.pieces.get(i));
         assertEquals(torrent.singleFileTorrent, copy.singleFileTorrent);
         assertEquals(torrent.totalSize, copy.totalSize);
         assertEquals(torrent.fileList, copy.fileList);

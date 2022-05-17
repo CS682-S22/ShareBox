@@ -2,10 +2,7 @@ package utils;
 
 import models.Torrent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Alberto Delgado on 5/11/22
@@ -33,7 +30,7 @@ public class TorrentGenerator {
         long totalSize = data.length;
         long pieceLength = getPieceLength(data);
         String hash = Arrays.toString(Encryption.encodeSHA256(data));
-        List<String> pieces = getPieces(data, totalSize, pieceLength);
+        Map<Long, String> pieces = getPieces(data, totalSize, pieceLength);
         boolean singleFileTorrent = true;
         List<Torrent.TorrentFile> fileList = null;
         Date creationDate = new Date(System.currentTimeMillis());
@@ -68,8 +65,8 @@ public class TorrentGenerator {
      * @param pieceLength
      * @return
      */
-    static List<String> getPieces(byte[] data, long totalSize, long pieceLength) {
-        List<String> pieces = new ArrayList<>();
+    static Map<Long, String> getPieces(byte[] data, long totalSize, long pieceLength) {
+        Map<Long, String> pieces = new HashMap<>();
         for (int i = 0; i < totalSize; i += pieceLength) {
             int z = 0;
             byte[] piece = new byte[(int) pieceLength];
@@ -79,7 +76,7 @@ public class TorrentGenerator {
             }
 
             byte[] sha = Encryption.encodeSHA1(piece);
-            pieces.add(Arrays.toString(sha));
+            pieces.put((long) i, Arrays.toString(sha));
         }
         return pieces;
     }

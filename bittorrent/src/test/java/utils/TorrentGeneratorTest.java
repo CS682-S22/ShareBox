@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static utils.FileIO.*;
@@ -45,7 +46,7 @@ class TorrentGeneratorTest {
     void getPiecesTest() {
         long totalSize = data.length;
         long pieceLength = getPieceLength(data);
-        List<String> pieces = getPieces(data, totalSize, pieceLength);
+        Map<Long, String> pieces = getPieces(data, totalSize, pieceLength);
         assertEquals((totalSize / pieceLength) + 1, pieces.size());
     }
 

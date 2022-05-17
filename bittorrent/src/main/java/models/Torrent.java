@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alberto Delgado on 5/9/22
@@ -19,7 +20,7 @@ public class Torrent {
     public final String announce;               // tracker announcer
     public final String name;                   // file name (not torrent name)
     public final Long pieceLength;              // bytes per piece
-    public final List<String> pieces;           // SHA1 bytes of each piece
+    public final Map<Long, String> pieces;           // SHA1 bytes of each piece
     public final boolean singleFileTorrent;     // is single/multi file
     public final Long totalSize;                // total size in bytes
     public final List<TorrentFile> fileList;    // list of files (if multi file torrent)
@@ -34,7 +35,7 @@ public class Torrent {
             String announce,
             String name,
             Long pieceLength,
-            List<String> pieces,
+            Map<Long, String> pieces,
             boolean singleFileTorrent,
             Long totalSize,
             List<TorrentFile> fileList,
