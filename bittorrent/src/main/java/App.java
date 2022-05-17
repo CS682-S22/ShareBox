@@ -3,6 +3,7 @@ import models.Torrent;
 import tracker.Tracker;
 import utils.FileIO;
 import utils.TCodec;
+import utils.TorrentGenerator;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +42,7 @@ public class App {
             System.out.println("Torrents read: " + allTorrents.size());
             for (byte[] torrentBytes : allTorrents) {
                 Torrent torrent = TCodec.decode(torrentBytes);
-                System.out.println("Name: " + torrent.getName());
+                System.out.println("Name: " + torrent.name);
             }
 
             byte[] data = FileIO.getInstance().readFile(fileName);
@@ -51,7 +52,7 @@ public class App {
 
 //            client.sendTorrentInfo(torrent);
             client.downloadFile(torrent);
-        } catch (IOException | ConnectionException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
