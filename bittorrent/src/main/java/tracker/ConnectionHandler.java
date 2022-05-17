@@ -86,6 +86,16 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    private void serveRequestSeedPiece(Request request) {
+        System.out.println("Received seed piece request");
+        Node node = Helper.getNodeObject(request.getNode());
+        String fileName = request.getFileName();
+        List<Long> pieceNumbers = request.getPieceNumbersList();
+        for (long pieceNumber : pieceNumbers) {
+            this.tracker.addPieceInfo(fileName, pieceNumber, node);
+        }
+    }
+
     @Override
     public void run() {
         System.out.println("[TRACKER] New connection!");
@@ -102,6 +112,8 @@ public class ConnectionHandler implements Runnable {
                 }
             } else if (requestType.equals(Request.RequestType.PEER_MEMBERSHIP)) {
                 this.addMembership(request);
+            } else if (requestType.equals(RequestType.SEED_PIECE)) {
+                this.serveRequestSeedPiece(request);
             } else if (requestType.equals(RequestType.PEER_HEARTBEAT)) {
                 this.handleHeartbeat(request);
             }

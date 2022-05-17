@@ -52,6 +52,7 @@ public class Tracker extends Node {
     }
 
     void addPieceInfo(String fileName, Long pieceNumber, Node node) {
+        this.swarmDatabase.addPeer(node);
         this.swarmDatabase.addPieceInfo(fileName, pieceNumber, node);
     }
 

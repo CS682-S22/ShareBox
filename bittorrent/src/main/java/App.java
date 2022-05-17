@@ -57,6 +57,29 @@ public class App {
         }
     }
 
+    private static void clientNode3(String fileName) {
+        try {
+            Client client = new Client("localhost", "127.0.0.1", 5003);
+            client.startServer();
+            List<byte[]> allTorrents = FileIO.getInstance().readTorrents();
+            System.out.println("Torrents read: " + allTorrents.size());
+            for (byte[] torrentBytes : allTorrents) {
+                Torrent torrent = TCodec.decode(torrentBytes);
+                System.out.println("Name: " + torrent.name);
+            }
+
+            byte[] data = FileIO.getInstance().readFile(fileName);
+            Torrent torrent = TorrentGenerator.createTorrent(fileName, "Test", "anchitbhatia", data);
+//            byte[] data = "This is data. just filling it with garbage value".getBytes();
+//            Torrent torrent = TorrentGenerator.fromFile("test.meta", "this is comment", "anchitbhatia", data);
+
+//            client.sendTorrentInfo(torrent);
+            client.downloadFile(torrent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void trackerNode() {
         try {
             Tracker tracker = new Tracker("localhost", "127.0.0.1", 5000);
@@ -88,6 +111,8 @@ public class App {
             clientNode();
         } else if (Objects.equals(args[0], "--client2")) {
             clientNode(args[1]);
+        } else if (Objects.equals(args[0], "--client3")) {
+            clientNode3(args[1]);
         } else if (Objects.equals(args[0], "--new-torrent")) {
             generateTorrent(args[1], args[2], args[3]);
         } else if (Objects.equals(args[0], "--tracker")) {
