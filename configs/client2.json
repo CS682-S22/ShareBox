@@ -1,0 +1,10 @@
+{
+  "node": {
+    "hostname": "localhost",
+    "ip": "127.0.0.1",
+    "port": 5002
+  },
+  "downloadFiles" : [
+    "jammy-jellyfish-wallpaper.torrent"
+  ]
+}
