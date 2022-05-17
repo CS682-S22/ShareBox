@@ -42,7 +42,7 @@ public class ConnectionHandler implements Runnable{
             pieceNumber = -1;
         }
         else {
-            byte[] piece = FileIO.getInstance().readPiece(fileName, torrent.pieceLength, pieceNumber);
+            byte[] piece = FileIO.getInstance().readPiece(torrent, pieceNumber);
             responseBuilder.setPiece(ByteString.copyFrom(piece));
             responseBuilder.setPieceHash(ByteString.copyFromUtf8(torrent.pieces.get(pieceNumber)));
         }

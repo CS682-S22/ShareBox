@@ -66,7 +66,7 @@ class FileIOTest {
         System.out.println("length: " + data.length);
 
         for (int i = 0; i < data.length; i += pieceLength) {
-            byte[] piece = fileIO.readPiece(filename, pieceLength, i);
+            byte[] piece = fileIO.readPiece(torrent, i);
             int z = 0;
             for (int j = i; j < pieceLength; j++) {
                 if (j == data.length) return;
