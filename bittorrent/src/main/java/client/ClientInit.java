@@ -47,8 +47,8 @@ public class ClientInit {
 
     private static List<Torrent> getTorrents() {
         try {
-            List<byte[]> files = FileIO.getInstance().readTorrents();
-            return files.stream()
+            List<byte[]> torrents = FileIO.getInstance().readTorrents();
+            return torrents.stream()
                     .map(TCodec::decode)
                     .collect(Collectors.toList());
         } catch (IOException e) {
