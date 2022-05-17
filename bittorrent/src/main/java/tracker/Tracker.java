@@ -42,9 +42,9 @@ public class Tracker extends Node {
 
     protected void addPeer(Node node, List<Proto.Torrent> torrents) {
         this.swarmDatabase.addPeer(node);
-        for (Proto.Torrent t : torrents)
-            for (long i = 0; i < t.getPiecesList().size(); i++)
-                this.swarmDatabase.addPieceInfo(t.getFilename(), i, node);
+//        for (Proto.Torrent t : torrents)
+//            for (long i = 0; i < t.getPiecesList().size(); i++)
+//                this.swarmDatabase.addPieceInfo(t.getFilename(), i, node);
     }
 
     public void heartbeatReceived(NodeDetails node) {

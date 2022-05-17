@@ -10,6 +10,7 @@ import utils.Node;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class PieceDownloader {
                 return;
             }
             byte[] pieceHash = Encryption.encodeSHA1(pieceInfo.getPiece().toByteArray());
-            if ( pieceHash != pieceInfo.getPieceHash().toByteArray()) {
+            if (!Arrays.toString(pieceHash).equals(torrent.pieces.get(pieceNumber))) {
                 System.out.println("Hash does not match");
                 System.out.println("Piece download unsuccessful");
                 return;

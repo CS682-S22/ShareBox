@@ -45,7 +45,7 @@ public class TCodec {
         String announce = (String) decoded.get("announce");
         String name = (String) decoded.get("name");
         long pieceLength = (Long) decoded.get("pieceLength");
-        List<String> pieces = (List<String>) decoded.get("pieces");
+        Map<String, String> decodedPieces = (Map<String, String>) decoded.get("pieces");
         boolean singleFileTorrent = Boolean.valueOf((String) decoded.get("singleFileTorrent"));
         long totalSize = (Long) decoded.get("totalSize");
         List<Torrent.TorrentFile> fileList = (List<Torrent.TorrentFile>) decoded.get("fileList");
@@ -54,6 +54,11 @@ public class TCodec {
         Date creationDate = new Date((Long) decoded.get("creationDate"));
         List<String> announceList = (List<String>) decoded.get("announceList");
         String infoHash = (String) decoded.get("infoHash");
+        Map<Long, String> pieces = new HashMap<>();
+        for (Map.Entry<String, String> decodedPiece: decodedPieces.entrySet()) {
+            long pieceNumber = Long.decode(decodedPiece.getKey());
+            pieces.put(pieceNumber, decodedPiece.getValue());
+        }
 
         return new Torrent(
                 announce,
