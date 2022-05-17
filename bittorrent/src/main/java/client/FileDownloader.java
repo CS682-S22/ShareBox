@@ -35,7 +35,7 @@ public class FileDownloader implements Runnable {
     public Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
         String filename = torrent.name;
         System.out.println("===============================================");
-        System.out.println("Initiating download for " + torrent.name);
+        System.out.println("    Initiating download for " + torrent.name);
         System.out.println("===============================================");
 
 
@@ -73,7 +73,7 @@ public class FileDownloader implements Runnable {
 
         Map<Long, byte[]> data = new HashMap<>();
         while (!rarestFirst.isEmpty()) {
-            Map<Long, byte[]> downloaded = pieceDownloader.downloadPieces(torrent, rarestFirst);
+            Map<Long, byte[]> downloaded = pieceDownloader.downloadPieces(client, torrent, rarestFirst);
             data.putAll(download());
 
             // remove downloaded pieces from rarest first list
