@@ -1,17 +1,17 @@
 package client;
 
 import models.Torrent;
+import protos.Node.NodeDetails;
 import protos.Proto;
 import protos.Response;
-import utils.Connection;
-import utils.ConnectionException;
-import utils.Encryption;
-import utils.Node;
+import protos.Response.PeersList;
+import utils.*;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PieceDownloader {
@@ -19,6 +19,15 @@ public class PieceDownloader {
 
     public PieceDownloader() {
         this.connectionsMap = new HashMap<>();
+    }
+
+    public void downloadPieces(Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
+        for (Map.Entry<Long, Response.PeersList> item : pieces) {
+            List<NodeDetails> peers = item.getValue().getNodesList();
+            if (peers.size() > 0) {
+                downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
+            }
+        }
     }
 
     public void downloadPiece(Torrent torrent, Long pieceNumber, Node node) throws IOException {
