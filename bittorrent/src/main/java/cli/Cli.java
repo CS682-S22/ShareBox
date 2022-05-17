@@ -34,4 +34,11 @@ public class Cli {
         System.out.println("hello there " + name);
     }
 
+    void selectAction() {
+        System.out.println("What do you want to do?");
+        System.out.println("[1] View library");
+        System.out.println("[2] View torrents");
+        System.out.println("[3] Start new download");
+        System.out.println("[4] Host new file");
+    }
 }
