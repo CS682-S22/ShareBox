@@ -54,7 +54,7 @@ public class PieceDownloader {
                         continue;
                     if (!assignedPeers.contains(node)) {
                         assignedPeers.add(node);
-                        peer = Helper.getNodeObject(peers.get(0));
+                        peer = Helper.getNodeObject(node);
                         break;
                     }
                 }
