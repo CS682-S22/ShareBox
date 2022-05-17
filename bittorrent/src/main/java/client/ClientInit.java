@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @project bittorrent
  */
 public class ClientInit {
-    private static List<Library.TorrentDetails> torrentDetails = new ArrayList<>();
+    private static List<Torrent> torrentDetails = new ArrayList<>();
 
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
@@ -30,7 +30,7 @@ public class ClientInit {
         return trackerConn;
     }
 
-    public static List<Library.TorrentDetails> getTorrentDetails() {
+    public static List<Torrent> getTorrentDetails() {
         return torrentDetails;
     }
 
@@ -64,7 +64,7 @@ public class ClientInit {
         }
     }
 
-    private static Proto.Request createRequest(String hostname, String ip, int port, List<Library.TorrentDetails> torrents) {
+    private static Proto.Request createRequest(String hostname, String ip, int port, List<Torrent> torrents) {
         System.out.println("Sending request with torrents: " + torrents.size());
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
