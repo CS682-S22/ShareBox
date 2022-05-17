@@ -25,7 +25,11 @@ public class PieceDownloader {
         for (Map.Entry<Long, Response.PeersList> item : pieces) {
             List<NodeDetails> peers = item.getValue().getNodesList();
             if (peers.size() > 0) {
-                downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
+                try {
+                    downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
+                } catch (IOException e) {
+                    // continue
+                }
             }
         }
     }
