@@ -1,10 +1,7 @@
 import client.Client;
 import models.Torrent;
 import tracker.Tracker;
-import utils.FileIO;
-import utils.Globals;
-import utils.TCodec;
-import utils.TorrentGenerator;
+import utils.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,8 +52,7 @@ public class App {
                 System.out.println("Name: " + torrent.name);
             }
 
-            byte[] data = FileIO.getInstance().readFile(fileName);
-            Torrent torrent = TorrentGenerator.createTorrent(fileName, "Test", "anchitbhatia", data);
+            Torrent torrent = TCodec.decode(FileIO.getInstance().readTorrent(Helper.getTorrentName(fileName)));
             client.downloadFile(torrent);
         } catch (IOException e) {
             e.printStackTrace();
