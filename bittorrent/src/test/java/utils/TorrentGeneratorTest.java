@@ -5,11 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static utils.FileIO.*;
 import static utils.TorrentGenerator.getPieceLength;
 import static utils.TorrentGenerator.getPieces;
 
@@ -25,7 +23,7 @@ class TorrentGeneratorTest {
 
     @BeforeAll
     static void data() throws IOException {
-        FileIO fileIO = FileIO.getInstance();
+        FileIO fileIO = FileIO.getInstance().testing();
         data = fileIO.readFile(filename);
     }
 
@@ -37,7 +35,10 @@ class TorrentGeneratorTest {
                 data
         );
 
-        byte[] encoded = FileIO.getInstance().readTorrent(Helper.getTorrentName(filename));
+        byte[] encoded = FileIO
+                .getInstance()
+                .testing()
+                .readTorrent(Helper.getTorrentName(filename));
         Torrent t = TCodec.decode(encoded);
         assertEquals(filename, t.name);
     }
@@ -55,9 +56,13 @@ class TorrentGeneratorTest {
         Torrent torrent = TorrentGenerator.createTorrent(filename, comment, createdBy, data);
         String torrentName = Helper.getTorrentName(filename);
         byte[] data = TCodec.encode(torrent);
-        FileIO.getInstance().saveTorrent(torrentName, data);
+        FileIO.getInstance()
+                .testing()
+                .saveTorrent(torrentName, data);
 
-        byte[] d = FileIO.getInstance().readTorrent(torrentName);
+        byte[] d = FileIO.getInstance()
+                .testing()
+                .readTorrent(torrentName);
         for (int i = 0; i < d.length; i++)
             assertEquals(d[i], data[i]);
 

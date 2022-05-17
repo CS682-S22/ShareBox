@@ -32,7 +32,7 @@ class FileIOTest {
         fileIO.saveTorrent(torrent.getName(), encoded);
         List<byte[]> files = fileIO.readTorrents();
 
-        assertEquals(1, files.size());
+        assertEquals(2, files.size());
 
         byte[] mock = files.get(0);
         for (int i = 0; i < encoded.length; i++)
@@ -54,5 +54,24 @@ class FileIOTest {
         byte[] b = fileIO.readFile("EmptyFile.txt");
         for (int i = 0; i < b.length; i++)
             assertEquals(0, b[i]);
+    }
+
+    @Test
+    void readPiece() throws IOException {
+        String filename = "jammy-jellyfish-wallpaper.jpg";
+        String torrentname = "jammy-jellyfish-wallpaper.torrent";
+        byte[] data = fileIO.readFile(filename);
+        Torrent torrent = TCodec.decode(fileIO.readTorrent(torrentname));
+        long pieceLength = torrent.pieceLength;
+        System.out.println("length: " + data.length);
+
+        for (int i = 0; i < data.length; i += pieceLength) {
+            byte[] piece = fileIO.readPiece(filename, pieceLength, i);
+            int z = 0;
+            for (int j = i; j < pieceLength; j++) {
+                if (j == data.length) return;
+                assertEquals(data[j], piece[z++]);
+            }
+        }
     }
 }

@@ -3,11 +3,11 @@ package utils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,6 +62,23 @@ public class FileIO {
             return true;
         } catch (IOException e) {
             return false;
+        }
+    }
+
+    public byte[] readPiece(String filename, long pieceLength, long pieceNumber) {
+        if (pieceLength == 0) return null;
+        String mode = "r";
+        try (RandomAccessFile raf = new RandomAccessFile(DIR + filename, mode)) {
+            byte[] b = new byte[(int) pieceLength];
+            int offset = (int) (pieceNumber * pieceLength);
+            raf.readFully(b, offset, (int) pieceLength);
+            return b;
+        } catch (IndexOutOfBoundsException e) {
+            // this is SLOW, but we needed a way to ensure to get
+            // the last bytes
+            return readPiece(filename, pieceLength - 1, pieceNumber);
+        } catch (Exception ignored) {
+            return null;
         }
     }
 
