@@ -67,12 +67,30 @@ public class App {
 
     }
 
+    private static void generateTorrent(String filename, String comment, String createdBy) {
+        try {
+            byte[] data = FileIO.getInstance().readFile(filename);
+            Torrent torrent = TorrentGenerator.createTorrent(filename, comment, createdBy, data);
+            FileIO.getInstance().saveTorrent(torrent.getTorrentName(), TCodec.encode(torrent));
+            System.out.println("Torrent generated.");
+        } catch (IOException e) {
+            System.out.println("File not found. Unable to generate torrent file.");
+        }
+    }
+
     public static void main(String[] args) {
-        if (Objects.equals(args[1], "--client")) {
+        if (args.length == 0 || args.length > 4) {
+            System.out.println("What do you want to run?");
+            System.out.println("Use --client to run a client");
+            System.out.println("Use --tracker to run a tracker server");
+            System.out.println("Use --new-torrent <filename> <comment> <createdBy> to generate a new torrent file");
+        } else if (Objects.equals(args[0], "--client")) {
             clientNode();
-        } else if (Objects.equals(args[1], "--client2")) {
-            clientNode(args[2]);
-        } else {
+        } else if (Objects.equals(args[0], "--client2")) {
+            clientNode(args[1]);
+        } else if (Objects.equals(args[0], "--new-torrent")) {
+            generateTorrent(args[1], args[2], args[3]);
+        } else if (Objects.equals(args[0], "--tracker")) {
             trackerNode();
         }
     }
