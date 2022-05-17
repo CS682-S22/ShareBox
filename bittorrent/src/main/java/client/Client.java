@@ -58,10 +58,7 @@ public class Client extends Node {
 
     public Client testing() {
         testing = true;
-<<<<<<< HEAD
-        library = initLibrary();
-=======
->>>>>>> 5a1cd77373323da5af9b5af2e85e871aaa9b461f
+        library = initLibrary(true);
         return this;
     }
 

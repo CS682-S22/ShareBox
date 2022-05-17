@@ -55,11 +55,7 @@ public class ClientInit {
 
     private static List<Torrent> getTorrents() {
         try {
-<<<<<<< HEAD
             List<byte[]> torrents = fileIO.readTorrents();
-=======
-            List<byte[]> torrents = FileIO.getInstance().readTorrents();
->>>>>>> 5a1cd77373323da5af9b5af2e85e871aaa9b461f
             return torrents.stream()
                     .map(TCodec::decode)
                     .collect(Collectors.toList());
