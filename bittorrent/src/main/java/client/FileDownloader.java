@@ -24,6 +24,7 @@ public class FileDownloader implements Runnable {
     private final PieceDownloader pieceDownloader;
     private Map<Long, PeersList> peers;
     private boolean isDone = false;
+    private boolean testing = false;
 
     public FileDownloader(Client client, Torrent torrent) {
         this.client = client;
@@ -123,13 +124,17 @@ public class FileDownloader implements Runnable {
     public void run() {
         try {
             byte[] file = createBlobArray(download());
-            fileIO.saveFile(torrent.name, file);
+            if (!testing)
+                fileIO.saveFile(torrent.name, file);
+            else
+                fileIO.saveFile(torrent.name + "-test", file);
         } catch (ConnectionException | IOException | InterruptedException | ExecutionException ignored) {
             // ignored
         }
     }
 
     public void testing() {
+        testing = true;
         fileIO.testing();
     }
 }
