@@ -109,7 +109,6 @@ public class FileDownloader implements Runnable {
                 file[j] = item.getValue()[i];
                 j++;
             }
-            System.out.println(Math.toIntExact(torrent.totalSize) + " : " + j);
         }
 
         return file;
@@ -152,6 +151,7 @@ public class FileDownloader implements Runnable {
         } catch (ConnectionException | IOException | InterruptedException | ExecutionException ignored) {
             // ignored
         }
+        System.out.println("\nFile downloaded successfully!");
     }
 
     public void testing() {
