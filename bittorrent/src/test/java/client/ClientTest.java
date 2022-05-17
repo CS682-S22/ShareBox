@@ -26,7 +26,10 @@ class ClientTest {
     private static final int pport2 = 7001;
 
     private static final String filename = "jammy-jellyfish-wallpaper.jpg";
+<<<<<<< HEAD
     private static final String torrentname = "jammy-jellyfish-wallpaper.torrent";
+=======
+>>>>>>> 5a1cd77373323da5af9b5af2e85e871aaa9b461f
 
     static {
         try {
@@ -59,9 +62,15 @@ class ClientTest {
                 FileIO
                         .getInstance()
                         .testing()
+<<<<<<< HEAD
                         .readTorrent(torrentname));
 
 //        client1.downloadFile(torrent);
+=======
+                        .readTorrent(filename));
+
+        client1.downloadFile(torrent);
+>>>>>>> 5a1cd77373323da5af9b5af2e85e871aaa9b461f
 
         Thread.sleep(5000);
     }
