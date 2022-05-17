@@ -23,6 +23,7 @@ public class Client extends Node {
     Connection trackerConnection;
     HeartbeatManager heartbeatManager;
     Map<String, FileDownloader> downloads = new HashMap<>();
+    boolean testing = false;
 
     public Client(String hostname, String ip, int port) throws IOException {
         super(hostname, ip, port);
@@ -50,8 +51,14 @@ public class Client extends Node {
 
     public void downloadFile(Torrent torrent) {
         FileDownloader downloader = new FileDownloader(this, torrent);
+        if (testing) downloader.testing();
         downloads.put(torrent.name, downloader);
         new Thread(downloader).start();
+    }
+
+    public Client testing() {
+        testing = true;
+        return this;
     }
 
     private class PeerServer implements Runnable {

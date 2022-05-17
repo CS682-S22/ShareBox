@@ -6,6 +6,7 @@ import protos.Proto;
 import protos.Response;
 import protos.Response.PeersList;
 import utils.ConnectionException;
+import utils.FileIO;
 import utils.Helper;
 
 import java.io.IOException;
@@ -17,10 +18,10 @@ import java.util.concurrent.ExecutionException;
  * @project bittorrent
  */
 public class FileDownloader implements Runnable {
+    private final FileIO fileIO = FileIO.getInstance();
     private final Client client;
     private final Torrent torrent;
     private final PieceDownloader pieceDownloader;
-    private final byte[] file;
     private Map<Long, PeersList> peers;
     private boolean isDone = false;
 
@@ -28,10 +29,9 @@ public class FileDownloader implements Runnable {
         this.client = client;
         this.torrent = torrent;
         this.pieceDownloader = new PieceDownloader();
-        this.file = new byte[Math.toIntExact(torrent.totalSize)];
     }
 
-    public void download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
+    public Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
         String filename = torrent.getName();
         System.out.println("Downloading " + filename);
 
@@ -39,13 +39,13 @@ public class FileDownloader implements Runnable {
 
         if (piecesInfo == null) {
             System.out.println("No response from Tracker");
-            return;
+            return null;
         } else if (piecesInfo.size() == 0) {
             System.out.println("No seeder currently seeding " + filename);
-            return;
+            return null;
         } else if (piecesInfo.containsKey(-1L) && piecesInfo.size() == 1) {
             System.out.println("No seeders currently seeding " + filename);
-            return;
+            return null;
         }
 
         System.out.println("Response: " + piecesInfo);
@@ -63,8 +63,10 @@ public class FileDownloader implements Runnable {
             return sizeA - sizeB;
         });
 
+        Map<Long, byte[]> data = new HashMap<>();
         while (!rarestFirst.isEmpty()) {
             Map<Long, byte[]> downloaded = pieceDownloader.downloadPieces(torrent, rarestFirst);
+            data.putAll(download());
 
             // remove downloaded pieces from rarest first list
             // update torrent information
@@ -78,6 +80,22 @@ public class FileDownloader implements Runnable {
         }
 
         isDone = true;
+        return data;
+    }
+
+    private byte[] createBlobArray(Map<Long, byte[]> data) {
+        List<Map.Entry<Long, byte[]>> sortedData = new ArrayList<>(data.entrySet());
+        sortedData.sort((a, b) -> (int) (a.getKey() - b.getKey()));
+        byte[] file = new byte[Math.toIntExact(torrent.totalSize)];
+
+        int j = 0;
+        for (Map.Entry<Long, byte[]> item : sortedData) {
+            for (int i = 0; i < item.getValue().length; i++) {
+                file[j++] = item.getValue()[i];
+            }
+        }
+
+        return file;
     }
 
     private Map<Long, PeersList> getPiecesInformation(String fileName) throws ConnectionException {
@@ -104,24 +122,14 @@ public class FileDownloader implements Runnable {
     @Override
     public void run() {
         try {
-            download();
+            byte[] file = createBlobArray(download());
+            fileIO.saveFile(torrent.name, file);
         } catch (ConnectionException | IOException | InterruptedException | ExecutionException ignored) {
             // ignored
         }
     }
-//    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {
-//        System.out.println("Sending torrent info: " + torrent.getName());
-//
-//        Proto.Torrent torrentMsg = Proto.Torrent.newBuilder().
-//                setFilename(torrent.name).
-//                addAllPieces(torrent.pieces).
-//                build();
-//        Proto.Request request = Proto.Request.newBuilder().
-//                setNode(Helper.getNodeDetailsObject(this)).
-//                setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP).
-//                setFileName(torrent.name).
-//                addTorrents(torrentMsg).
-//                build();
-//        trackerConnection.send(request.toByteArray());
-//    }
+
+    public void testing() {
+        fileIO.testing();
+    }
 }
