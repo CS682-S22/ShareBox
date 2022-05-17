@@ -20,7 +20,7 @@ public class PieceDownloader {
         this.connectionsMap = new HashMap<>();
     }
 
-    public Map<Long, byte[]> downloadPieces(Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
+    public Map<Long, byte[]> downloadPieces(Client client, Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
         Map<Long, byte[]> data = new HashMap<>();
 
         Set<NodeDetails> assignedPeers = new HashSet<>();
@@ -34,6 +34,9 @@ public class PieceDownloader {
             try {
                 Node peer = null;
                 for (NodeDetails node : peers) {
+                    if (node.getIp().equals(client.getIp())
+                            && node.getPort() == client.getPort())
+                        continue;
                     if (!assignedPeers.contains(node)) {
                         assignedPeers.add(node);
                         peer = Helper.getNodeObject(peers.get(0));

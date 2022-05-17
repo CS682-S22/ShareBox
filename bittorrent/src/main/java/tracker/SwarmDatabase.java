@@ -31,9 +31,9 @@ public class SwarmDatabase {
         }
     }
 
-    protected void removePeer(String ip) {
-        this.peerList.remove(ip);
-        this.peerStatus.put(ip, Constants.Status.OFFLINE);
+    protected void removePeer(String id) {
+        this.peerList.remove(id);
+        this.peerStatus.put(id, Constants.Status.OFFLINE);
     }
 
     protected void changePeerStatus(Node node, Constants.Status newStatus) {
