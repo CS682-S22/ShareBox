@@ -55,7 +55,7 @@ public class TCodec {
         List<String> announceList = (List<String>) decoded.get("announceList");
         String infoHash = (String) decoded.get("infoHash");
         Map<Long, String> pieces = new HashMap<>();
-        for (Map.Entry<String, String> decodedPiece: decodedPieces.entrySet()) {
+        for (Map.Entry<String, String> decodedPiece : decodedPieces.entrySet()) {
             long pieceNumber = Long.decode(decodedPiece.getKey());
             pieces.put(pieceNumber, decodedPiece.getValue());
         }
