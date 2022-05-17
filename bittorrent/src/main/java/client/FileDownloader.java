@@ -9,10 +9,7 @@ import utils.ConnectionException;
 import utils.Helper;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -66,8 +63,19 @@ public class FileDownloader implements Runnable {
             return sizeA - sizeB;
         });
 
-        while (!rarestFirst.isEmpty())
-            pieceDownloader.downloadPieces(torrent, rarestFirst);
+        while (!rarestFirst.isEmpty()) {
+            Map<Long, byte[]> downloaded = pieceDownloader.downloadPieces(torrent, rarestFirst);
+
+            // remove downloaded pieces from rarest first list
+            // update torrent information
+            for (Map.Entry<Long, byte[]> piece : downloaded.entrySet()) {
+                for (Map.Entry<Long, PeersList> item : rarestFirst)
+                    if (Objects.equals(item.getKey(), piece.getKey())) {
+                        rarestFirst.remove(item);
+                        torrent.addDownloadedPiece(piece.getKey());
+                    }
+            }
+        }
 
         isDone = true;
     }
@@ -93,18 +101,12 @@ public class FileDownloader implements Runnable {
         return isDone;
     }
 
-    public boolean connect() {
-
-    }
-
     @Override
     public void run() {
         try {
             download();
-        } catch (ConnectionException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (ConnectionException | IOException | InterruptedException | ExecutionException ignored) {
+            // ignored
         }
     }
 //    public void sendTorrentInfo(Torrent torrent) throws ConnectionException {

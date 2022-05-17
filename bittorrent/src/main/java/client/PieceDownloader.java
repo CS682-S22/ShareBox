@@ -9,10 +9,9 @@ import utils.*;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static utils.Constants.MAX_CONCURRENT_DOWNLOADS;
 
 public class PieceDownloader {
     private final Map<Node, Connection> connectionsMap;
@@ -21,20 +20,38 @@ public class PieceDownloader {
         this.connectionsMap = new HashMap<>();
     }
 
-    public void downloadPieces(Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
+    public Map<Long, byte[]> downloadPieces(Torrent torrent, List<Map.Entry<Long, PeersList>> pieces) {
+        Map<Long, byte[]> data = new HashMap<>();
+
+        Set<NodeDetails> assignedPeers = new HashSet<>();
         for (Map.Entry<Long, Response.PeersList> item : pieces) {
+            if (assignedPeers.size() >= MAX_CONCURRENT_DOWNLOADS) break;
+
             List<NodeDetails> peers = item.getValue().getNodesList();
-            if (peers.size() > 0) {
-                try {
-                    downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
-                } catch (IOException e) {
-                    // continue
+            long pieceNumber = item.getKey();
+            if (peers.size() == 0) continue;
+
+            try {
+                Node peer = null;
+                for (NodeDetails node : peers) {
+                    if (!assignedPeers.contains(node)) {
+                        assignedPeers.add(node);
+                        peer = Helper.getNodeObject(peers.get(0));
+                        break;
+                    }
                 }
+                if (peer == null) continue;
+                byte[] piece = downloadPiece(torrent, item.getKey(), peer);
+                data.put(pieceNumber, piece);
+            } catch (IOException e) {
+                // continue
             }
         }
+
+        return data;
     }
 
-    public void downloadPiece(Torrent torrent, Long pieceNumber, Node node) throws IOException {
+    private byte[] downloadPiece(Torrent torrent, Long pieceNumber, Node node) throws IOException {
         Connection connection = this.connectionsMap.getOrDefault(node, new Connection(new Socket(node.getIp(), node.getPort())));
         this.connectionsMap.put(node, connection);
         Proto.Request request = Proto.Request.newBuilder().
@@ -47,19 +64,23 @@ public class PieceDownloader {
             byte[] response = connection.receive();
             Response.PieceInfo pieceInfo = Response.PieceInfo.parseFrom(response);
             System.out.println("Response received - filename: " + pieceInfo.getFileName() + ", pieceNumber: " + pieceInfo.getPieceNumber());
+
             if (pieceInfo.getPieceNumber() == -1) {
                 System.out.println("Seeder does not have the requested piece");
-                return;
+                return null;
             }
+
             byte[] pieceHash = Encryption.encodeSHA1(pieceInfo.getPiece().toByteArray());
             if (!Arrays.toString(pieceHash).equals(torrent.pieces.get(pieceNumber))) {
                 System.out.println("Hash does not match");
                 System.out.println("Piece download unsuccessful");
-                return;
+                return null;
             }
             System.out.println("Piece download successful");
+            return pieceInfo.getPiece().toByteArray();
         } catch (ConnectionException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
