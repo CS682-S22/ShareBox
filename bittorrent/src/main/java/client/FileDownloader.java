@@ -33,8 +33,11 @@ public class FileDownloader implements Runnable {
     }
 
     public Map<Long, byte[]> download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
-        String filename = torrent.getName();
-        System.out.println("Downloading " + filename);
+        String filename = torrent.name;
+        System.out.println("===============================================");
+        System.out.println("Initiating download for " + torrent.name);
+        System.out.println("===============================================");
+
 
         Map<Long, PeersList> piecesInfo = getPiecesInformation(filename);
 
@@ -54,10 +57,14 @@ public class FileDownloader implements Runnable {
 
         // do not download already downloaded pieces.
         // this algo has plenty of room for improvement.
-        piecesEntrySets.removeIf(entry -> torrent.hasPiece(entry.getKey()));
+        Set<Map.Entry<Long, PeersList>> missingEntries = new HashSet<>();
+        for (Map.Entry<Long, PeersList> entry : piecesEntrySets) {
+            if (!torrent.hasPiece(entry.getKey()))
+                missingEntries.add(entry);
+        }
 
         // sorted pieces by rarest first
-        List<Map.Entry<Long, PeersList>> rarestFirst = new ArrayList<>(piecesEntrySets);
+        List<Map.Entry<Long, PeersList>> rarestFirst = new ArrayList<>(missingEntries);
         rarestFirst.sort((a, b) -> {
             int sizeA = a.getValue().getSerializedSize();
             int sizeB = b.getValue().getSerializedSize();
@@ -85,6 +92,7 @@ public class FileDownloader implements Runnable {
     }
 
     private byte[] createBlobArray(Map<Long, byte[]> data) {
+        if (data == null) return null;
         List<Map.Entry<Long, byte[]>> sortedData = new ArrayList<>(data.entrySet());
         sortedData.sort((a, b) -> (int) (a.getKey() - b.getKey()));
         byte[] file = new byte[Math.toIntExact(torrent.totalSize)];
@@ -124,6 +132,10 @@ public class FileDownloader implements Runnable {
     public void run() {
         try {
             byte[] file = createBlobArray(download());
+            if (file == null) {
+                System.out.println("Something went wrong downloading file " + torrent.name);
+                return;
+            }
             if (!testing)
                 fileIO.saveFile(torrent.name, file);
             else

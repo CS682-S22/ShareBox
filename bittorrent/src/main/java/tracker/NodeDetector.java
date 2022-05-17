@@ -2,6 +2,7 @@ package tracker;
 
 import protos.Node;
 import utils.HeartbeatScheduler;
+import utils.Helper;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +25,7 @@ public class NodeDetector {
     }
 
     void heartbeatReceived(Node.NodeDetails node) {
-        receivedTimes.put(node.getIp(), System.nanoTime());
+        receivedTimes.put(Helper.getPeerId(Helper.getNodeObject(node)), System.nanoTime());
     }
 
     private class HeartbeatCheck implements Runnable {

@@ -69,7 +69,7 @@ public class Torrent {
         }
     }
 
-    public String getName() {
+    public String getTorrentName() {
         int i = name.indexOf('.');
         return name.substring(0, i) + ".torrent";
     }

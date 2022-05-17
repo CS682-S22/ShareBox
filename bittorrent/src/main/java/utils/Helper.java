@@ -33,4 +33,9 @@ public class Helper {
 
         return filename + Constants.TORRENT_EXT;
     }
+
+    public static String getPeerId(Node node) {
+        return node.getIp() + ":" + node.getPort();
+    }
+
 }

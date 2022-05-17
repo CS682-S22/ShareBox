@@ -16,12 +16,12 @@ import java.io.IOException;
 class ClientTest {
     private static final Tracker tracker;
     private static final Client client1;
-    private static final String cname1 = "peer1";
+    private static final String cname1 = "APPLE";
     private static final String cip1 = "127.0.0.1";
     private static final int pport1 = 6001;
 
     private static final Client client2;
-    private static final String cname2 = "peer1";
+    private static final String cname2 = "BANANA";
     private static final String cip2 = "127.0.0.1";
     private static final int pport2 = 7001;
 

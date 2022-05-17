@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class SwarmDatabase {
-    private final Map<String, Node> peerList;
-    private final Map<String, Constants.Status> peerStatus;
-    private final Map<String, ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>>> database;
+    final Map<String, Node> peerList;
+    final Map<String, Constants.Status> peerStatus;
+    final Map<String, ConcurrentHashMap<Long, ConcurrentLinkedDeque<String>>> database;
 
     public SwarmDatabase() {
         this.peerList = new ConcurrentHashMap<>();
@@ -25,8 +25,9 @@ public class SwarmDatabase {
 
     protected void addPeer(Node node) {
         if (!peerList.containsKey(node.getIp())) {
-            this.peerList.put(node.getIp(), node);
-            this.peerStatus.put(node.getIp(), Constants.Status.ONLINE);
+            String peerId = Helper.getPeerId(node);
+            this.peerList.put(peerId, node);
+            this.peerStatus.put(peerId, Constants.Status.ONLINE);
         }
     }
 

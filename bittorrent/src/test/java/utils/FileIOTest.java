@@ -21,15 +21,15 @@ class FileIOTest {
 
     @Test
     void write() throws IOException {
-        assertDoesNotThrow(() -> fileIO.saveTorrent(torrent.getName(), encoded));
+        assertDoesNotThrow(() -> fileIO.saveTorrent(torrent.getTorrentName(), encoded));
 
         for (int i = 0; i < encoded.length; i++)
-            assertEquals(encoded[i], fileIO.readTorrent(torrent.getName())[i]);
+            assertEquals(encoded[i], fileIO.readTorrent(torrent.getTorrentName())[i]);
     }
 
     @Test
     void readFilesInLibrary() throws IOException {
-        fileIO.saveTorrent(torrent.getName(), encoded);
+        fileIO.saveTorrent(torrent.getTorrentName(), encoded);
         List<byte[]> files = fileIO.readTorrents();
 
         assertEquals(2, files.size());
@@ -41,8 +41,8 @@ class FileIOTest {
 
     @Test
     void read() throws IOException {
-        fileIO.saveTorrent(torrent.getName(), encoded);
-        byte[] readFile = fileIO.readTorrent(torrent.getName());
+        fileIO.saveTorrent(torrent.getTorrentName(), encoded);
+        byte[] readFile = fileIO.readTorrent(torrent.getTorrentName());
 
         for (int i = 0; i < encoded.length; i++)
             assertEquals(encoded[i], readFile[i]);
