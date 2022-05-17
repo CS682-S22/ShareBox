@@ -1,5 +1,9 @@
 package models;
 
+import utils.FileIO;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +28,7 @@ public class Torrent {
     public final Date creationDate;             // creation date
     public final List<String> announceList;     // list of announcers/trackers
     public final String infoHash;               // SHA256 of entire file (not torrent)
+    public final List<Long> downloadedPieces = new ArrayList<>(); // Local "owned" pieces
 
     public Torrent(
             String announce,
@@ -66,6 +71,19 @@ public class Torrent {
     public String getName() {
         int i = name.indexOf('.');
         return name.substring(0, i) + ".torrent";
+    }
+
+    public void checkDownloadedPieces() throws IOException {
+        byte[] data = FileIO.getInstance().readFile(name);
+        int numberOfPieces = (int) (totalSize / pieceLength);
+        if (totalSize % pieceLength != 0)
+            numberOfPieces++;
+
+        List<Long> downloadedPieces = new ArrayList<>();
+        int j = 0;
+        for (int i = 0; i < totalSize; i += pieceLength) {
+            if (data[i] != 0) downloadedPieces.add((long) (i + 1));
+        }
     }
 
     @Override

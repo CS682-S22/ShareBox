@@ -1,12 +1,9 @@
 package client;
 
 import models.Torrent;
-import utils.FileIO;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -18,21 +15,23 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * on what pieces it has downloaded
  */
 public class Library {
-    Map<String, TorrentDetails> files = new HashMap<>();
+    Map<String, Torrent> files = new HashMap<>();
     ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public Library() {
     }
 
-    public TorrentDetails add(Torrent torrent) {
-        TorrentDetails torrentDetails = new TorrentDetails(torrent);
+    public Torrent add(Torrent torrent) {
         lock.writeLock().lock();
         try {
-            files.put(torrentDetails.name, torrentDetails);
-            return torrentDetails;
+            torrent.checkDownloadedPieces();
+            files.put(torrent.name, torrent);
+        } catch (IOException ignored) {
+            // if no file exists means it has no pieces
         } finally {
             lock.writeLock().unlock();
         }
+        return torrent;
     }
 
     public void remove(String filename) {
@@ -54,7 +53,6 @@ public class Library {
     }
 
     static class TorrentDetails extends Torrent {
-        public final List<Long> downloadedPieces;
 
         public TorrentDetails(Torrent t) {
             super(t.announce,
@@ -69,38 +67,6 @@ public class Library {
                     t.creationDate,
                     t.announceList,
                     t.infoHash);
-
-            List<Long> p;
-            try {
-                p = checkDownloadedPieces();
-            } catch (IOException e) {
-                // we don't have the file or corrupted or something
-                p = null;
-            }
-            downloadedPieces = p;
-        }
-
-        private List<Long> checkDownloadedPieces() throws IOException {
-            byte[] data = FileIO.getInstance().readFile(name);
-            int numberOfPieces = (int) (totalSize / pieceLength);
-            if (totalSize % pieceLength != 0)
-                numberOfPieces++;
-
-            List<Long> downloadedPieces = new ArrayList<>();
-            int j = 0;
-            for (int i = 0; i < totalSize; i += pieceLength) {
-                if (data[i] != 0) downloadedPieces.add((long) (i + 1));
-            }
-
-            return downloadedPieces;
-
-//            Map<Long, Boolean> downloadedPieces = new HashMap<>();
-//            int j = 0;
-//            for (int i = 0; i < totalSize; i += pieceLength) {
-//                if (data[i] != 0) downloadedPieces.put((long) i, true);
-//            }
-//
-//            return downloadedPieces;
         }
     }
 }
