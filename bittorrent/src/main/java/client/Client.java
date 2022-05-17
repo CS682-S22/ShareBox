@@ -72,7 +72,7 @@ public class Client extends Node {
     }
 
     public void downloadFile(Torrent torrent) throws ConnectionException, IOException {
-        String fileName = torrent.getName();
+        String fileName = torrent.name;
         System.out.println("Downloading " + fileName);
         Map<Long, Response.PeersList> piecesInfo = getPiecesInformation(fileName);
         if (piecesInfo.containsKey(-1L) && piecesInfo.size()==1) {
@@ -120,7 +120,7 @@ public class Client extends Node {
                 while (isServerRunning) {
                     Socket clientSocket = serverSocket.accept();
                     Connection connection = new Connection(clientSocket);
-                    this.peerConnectionPool.execute(new ConnectionHandler(connection));
+                    this.peerConnectionPool.execute(new ConnectionHandler(library, connection));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

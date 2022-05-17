@@ -21,6 +21,10 @@ public class Library {
     public Library() {
     }
 
+    public Torrent getTorrent(String fileName) {
+        return this.files.getOrDefault(fileName, null);
+    }
+
     public Torrent add(Torrent torrent) {
         lock.writeLock().lock();
         try {
