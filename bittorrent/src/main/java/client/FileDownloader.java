@@ -2,7 +2,6 @@ package client;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import models.Torrent;
-import protos.Node;
 import protos.Proto;
 import protos.Response;
 import protos.Response.PeersList;
@@ -10,8 +9,10 @@ import utils.ConnectionException;
 import utils.Helper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -22,6 +23,7 @@ public class FileDownloader implements Runnable {
     private final Client client;
     private final Torrent torrent;
     private final PieceDownloader pieceDownloader;
+    private final byte[] file;
     private Map<Long, PeersList> peers;
     private boolean isDone = false;
 
@@ -29,6 +31,7 @@ public class FileDownloader implements Runnable {
         this.client = client;
         this.torrent = torrent;
         this.pieceDownloader = new PieceDownloader();
+        this.file = new byte[Math.toIntExact(torrent.totalSize)];
     }
 
     public void download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
@@ -36,21 +39,35 @@ public class FileDownloader implements Runnable {
         System.out.println("Downloading " + filename);
 
         Map<Long, PeersList> piecesInfo = getPiecesInformation(filename);
+
         if (piecesInfo == null) {
             System.out.println("No response from Tracker");
+            return;
         } else if (piecesInfo.size() == 0) {
             System.out.println("No seeder currently seeding " + filename);
+            return;
         } else if (piecesInfo.containsKey(-1L) && piecesInfo.size() == 1) {
             System.out.println("No seeders currently seeding " + filename);
-        } else {
-            System.out.println("Response: " + piecesInfo);
-            for (Map.Entry<Long, PeersList> item : piecesInfo.entrySet()) {
-                List<Node.NodeDetails> peers = item.getValue().getNodesList();
-                if (peers.size() > 0) {
-                    pieceDownloader.downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
-                }
-            }
+            return;
         }
+
+        System.out.println("Response: " + piecesInfo);
+        Set<Map.Entry<Long, PeersList>> piecesEntrySets = piecesInfo.entrySet();
+
+        // do not download already downloaded pieces.
+        // this algo has plenty of room for improvement.
+        piecesEntrySets.removeIf(entry -> torrent.hasPiece(entry.getKey()));
+
+        // sorted pieces by rarest first
+        List<Map.Entry<Long, PeersList>> rarestFirst = new ArrayList<>(piecesEntrySets);
+        rarestFirst.sort((a, b) -> {
+            int sizeA = a.getValue().getSerializedSize();
+            int sizeB = b.getValue().getSerializedSize();
+            return sizeA - sizeB;
+        });
+
+        while (!rarestFirst.isEmpty())
+            pieceDownloader.downloadPieces(torrent, rarestFirst);
 
         isDone = true;
     }

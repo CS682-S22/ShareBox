@@ -74,6 +74,14 @@ public class Torrent {
         return name.substring(0, i) + ".torrent";
     }
 
+    public void addDownloadedPiece(long pieceNumber) {
+        downloadedPieces.add(pieceNumber);
+    }
+
+    public boolean hasPiece(long pieceNumber) {
+        return downloadedPieces.contains(pieceNumber);
+    }
+
     public void checkDownloadedPieces() throws IOException {
         byte[] data = FileIO.getInstance().readFile(name);
         int numberOfPieces = (int) (totalSize / pieceLength);
