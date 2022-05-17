@@ -24,17 +24,14 @@ public class FileIO {
     private static String DIR = LIBRARY_DIR;
     private static String TORRENTS_DIR = TORRENTS_FINAL_DIR;
     private static File folderDir;
-    private static File libraryDir;
-    private static File testingDir;
     private static File torrentsDir;
-    private static File torrentsTestingDir;
 
     private FileIO() {
     }
 
     public static synchronized FileIO getInstance() {
         // Make sure library folder exists.
-        libraryDir = new File(LIBRARY_DIR);
+        File libraryDir = new File(LIBRARY_DIR);
         if (!libraryDir.exists()) {
             libraryDir.mkdir();
         }
@@ -117,8 +114,8 @@ public class FileIO {
     public FileIO testing() {
         DIR = LIBRARY_TEST_DIR;
         TORRENTS_DIR = TORRENTS_TEST_DIR;
-        testingDir = new File(LIBRARY_TEST_DIR);
-        torrentsTestingDir = new File(TORRENTS_TEST_DIR);
+        File testingDir = new File(LIBRARY_TEST_DIR);
+        File torrentsTestingDir = new File(TORRENTS_TEST_DIR);
 
         if (!testingDir.exists())
             testingDir.mkdir();
