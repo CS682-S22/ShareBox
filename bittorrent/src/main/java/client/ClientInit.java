@@ -21,7 +21,13 @@ public class ClientInit {
     public static Connection joinSwarm(String hostname, String ip, int port) throws ConnectionException {
         Connection trackerConn = getTrackerConnection();
         if (trackerConn == null) throw new ConnectionException("Could not connect to Tracker");
-        byte[] requestMessage = createRequest(hostname, ip, port, torrentDetails).toByteArray();
+        Proto.Request request = createRequest(hostname, ip, port, torrentDetails);
+        List<Proto.Torrent> torrents = request.getTorrentsList();
+        for (Proto.Torrent torrent : torrents) {
+            System.out.println("Name: " + torrent.getFilename());
+            System.out.println("Total pieces: " + torrent.getPiecesList().size());
+        }
+        byte[] requestMessage = request.toByteArray();
         trackerConn.send(requestMessage);
         // "files" are only used on clientInit, so only when the client
         // is initialized. Therefore, we want garbage collector to get rid
@@ -65,7 +71,6 @@ public class ClientInit {
     }
 
     private static Proto.Request createRequest(String hostname, String ip, int port, List<Torrent> torrents) {
-        System.out.println("Sending request with torrents: " + torrents.size());
         return Proto.Request.newBuilder()
                 .setRequestType(Proto.Request.RequestType.PEER_MEMBERSHIP)
                 .setNode(

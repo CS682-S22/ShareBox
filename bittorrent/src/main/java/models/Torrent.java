@@ -29,7 +29,7 @@ public class Torrent {
     public final Date creationDate;             // creation date
     public final List<String> announceList;     // list of announcers/trackers
     public final String infoHash;               // SHA256 of entire file (not torrent)
-    public final List<Long> downloadedPieces = new ArrayList<>(); // Local "owned" pieces
+    public List<Long> downloadedPieces = new ArrayList<>(); // Local "owned" pieces
 
     public Torrent(
             String announce,
@@ -76,15 +76,12 @@ public class Torrent {
 
     public void checkDownloadedPieces() throws IOException {
         byte[] data = FileIO.getInstance().readFile(name);
-        int numberOfPieces = (int) (totalSize / pieceLength);
-        if (totalSize % pieceLength != 0)
-            numberOfPieces++;
-
+        int numberOfPieces = (int) Math.ceil((float) totalSize/pieceLength);
         List<Long> downloadedPieces = new ArrayList<>();
-        int j = 0;
-        for (int i = 0; i < totalSize; i += pieceLength) {
-            if (data[i] != 0) downloadedPieces.add((long) (i + 1));
+        for (long i = 0; i < numberOfPieces ; i += 1) {
+            downloadedPieces.add(i);
         }
+        this.downloadedPieces = downloadedPieces;
     }
 
     @Override
