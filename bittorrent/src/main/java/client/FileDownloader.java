@@ -2,7 +2,7 @@ package client;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import models.Torrent;
-import protos.Node.NodeDetails;
+import protos.Node;
 import protos.Proto;
 import protos.Response;
 import protos.Response.PeersList;
@@ -12,6 +12,7 @@ import utils.Helper;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Alberto Delgado on 5/16/22
@@ -30,17 +31,21 @@ public class FileDownloader implements Runnable {
         this.pieceDownloader = new PieceDownloader();
     }
 
-    public void download() throws ConnectionException, IOException {
-        String fileName = torrent.getName();
-        System.out.println("Downloading " + fileName);
+    public void download() throws ConnectionException, IOException, ExecutionException, InterruptedException {
+        String filename = torrent.getName();
+        System.out.println("Downloading " + filename);
 
-        Map<Long, PeersList> piecesInfo = getPiecesInformation(fileName);
-        if (piecesInfo.containsKey(-1L) && piecesInfo.size() == 1) {
-            System.out.println("No seeders currently seeding " + fileName);
+        Map<Long, PeersList> piecesInfo = getPiecesInformation(filename);
+        if (piecesInfo == null) {
+            System.out.println("No response from Tracker");
+        } else if (piecesInfo.size() == 0) {
+            System.out.println("No seeder currently seeding " + filename);
+        } else if (piecesInfo.containsKey(-1L) && piecesInfo.size() == 1) {
+            System.out.println("No seeders currently seeding " + filename);
         } else {
             System.out.println("Response: " + piecesInfo);
             for (Map.Entry<Long, PeersList> item : piecesInfo.entrySet()) {
-                List<NodeDetails> peers = item.getValue().getNodesList();
+                List<Node.NodeDetails> peers = item.getValue().getNodesList();
                 if (peers.size() > 0) {
                     pieceDownloader.downloadPiece(torrent, item.getKey(), Helper.getNodeObject(peers.get(0)));
                 }
@@ -50,7 +55,7 @@ public class FileDownloader implements Runnable {
         isDone = true;
     }
 
-    private Map<Long, Response.PeersList> getPiecesInformation(String fileName) throws ConnectionException {
+    private Map<Long, PeersList> getPiecesInformation(String fileName) throws ConnectionException {
         Proto.Request request = Proto.Request.newBuilder().
                 setNode(Helper.getNodeDetailsObject(client)).
                 setRequestType(Proto.Request.RequestType.REQUEST_PEERS).
