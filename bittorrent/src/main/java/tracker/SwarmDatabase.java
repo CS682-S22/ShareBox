@@ -13,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
+ * @author alberto delgado
+ * @author anchit bhatia
+ * <p>
  * Swarm Database!
  * <p>
  * Stores information of online peers as well as information on the currently shared torrents

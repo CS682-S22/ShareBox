@@ -1,6 +1,9 @@
 package utils;
 
 /**
+ * @author alberto delgado
+ * @author anchit bhatia
+ * <p>
  * Global constants
  */
 public class Constants {

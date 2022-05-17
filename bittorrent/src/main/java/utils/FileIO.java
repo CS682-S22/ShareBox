@@ -10,6 +10,7 @@ import java.util.*;
 
 /**
  * @author Alberto Delgado on 5/11/22
+ * @author anchit bhatia
  * @project bittorrent
  * <p>
  * FS. Class to handle writing and reading files.

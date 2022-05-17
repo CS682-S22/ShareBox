@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author anchit bhatia
+ * @author alberto delgado
+ * <p>
  * Handles the logic for each connection in the tracker
  * - Returns peers information on a file
  * - Handles membership

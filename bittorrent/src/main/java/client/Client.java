@@ -19,6 +19,7 @@ import static client.ClientInit.initLibrary;
 
 /**
  * @author Alberto Delgado on 5/9/22
+ * @author anchit bhatia
  * @project dsd-final-project-anchitbhatia
  * <p>
  * Main client node. Can act as a seeder or leecher or both. Will

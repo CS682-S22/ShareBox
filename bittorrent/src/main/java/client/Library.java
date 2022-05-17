@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author Alberto Delgado on 5/11/22
+ * @author anchit bhatia
  * @project bittorrent
  * <p>
  * Contains information of all the local files.

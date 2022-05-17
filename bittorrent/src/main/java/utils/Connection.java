@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
+ * @author anchit bhatia
+ * @author alberto delgado
+ * <p>
  * Connection object helper class to establish connection to remote node,
  * send and receive messages
  */

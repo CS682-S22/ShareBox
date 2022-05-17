@@ -11,6 +11,7 @@ import static utils.Constants.HEARTBEAT_INTERVAL_MS;
 
 /**
  * @author Alberto Delgado on 5/15/22
+ * @author anchit bhatia
  * @project bittorrent
  * <p>
  * Detects if a node has gone offline

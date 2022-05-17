@@ -14,6 +14,9 @@ import java.util.*;
 import static utils.Constants.MAX_CONCURRENT_DOWNLOADS;
 
 /**
+ * @author alberto delgado
+ * @author anchit bhatia
+ * <p>
  * Handles logic to download a piece. Handles piece download concurrency
  * from different peers at the same time.
  */

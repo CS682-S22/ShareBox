@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * @author Alberto Delgado on 5/16/22
+ * @author anchit bhatia
  * @project bittorrent
  * <p>
  * Logic to download a file from other peers. It will ask the tracker initially

@@ -10,6 +10,9 @@ import utils.ConnectionException;
 import utils.FileIO;
 
 /**
+ * @author alberto delgado
+ * @author anchit bhatia
+ * <p>
  * Handles the client server connection. Main task:
  * - Serve pieces to other nodes
  */

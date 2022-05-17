@@ -1,10 +1,12 @@
 package utils;
 
 /***
- * Custom exception class to raise exception in connection failure
+ * @author alberto delgado
  * @author anchitbhatia
+ *
+ * Custom exception class to raise exception in connection failure
  */
-public class ConnectionException extends Exception{
+public class ConnectionException extends Exception {
     public ConnectionException(String message) {
         super(message);
     }

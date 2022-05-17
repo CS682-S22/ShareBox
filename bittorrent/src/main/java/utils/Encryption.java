@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Alberto Delgado on 5/11/22
+ * @author anchit bhatia
  * @project bittorrent
  * <p>
  * Used to encrypt data, more specific, when sharing files, each

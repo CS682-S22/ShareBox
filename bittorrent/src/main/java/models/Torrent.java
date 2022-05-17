@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Alberto Delgado on 5/9/22
+ * @author anchit bhatia
  * @project dsd-final-project-anchitbhatia
  * <p>
  * Basic torrent data structure.
