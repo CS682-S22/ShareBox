@@ -46,6 +46,7 @@ public class Helper {
         String type = args[0];
         ApplicationConfig appConfig = new ApplicationConfig();
         if (Objects.equals(args[0], Constants.TYPE_NEW_TORRENT)) {
+            appConfig.setType(Constants.TYPE_NEW_TORRENT);
             appConfig.setTorrentMetadata(args[1], args[2], args[3]);
         }
         else {
